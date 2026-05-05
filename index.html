@@ -8,12 +8,14 @@
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    html, body {
-      height: 100%;
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
       background: #080808;
       color: #f0f0f0;
       font-family: 'Syne', sans-serif;
-      overflow: hidden;
     }
 
     body::before {
@@ -36,7 +38,8 @@
       pointer-events: none;
     }
 
-    .container {
+    /* ── HERO ── */
+    .hero {
       position: relative;
       z-index: 10;
       display: flex;
@@ -103,6 +106,35 @@
       50%       { opacity: 0.2; transform: scale(0.6); }
     }
 
+    .scroll-hint {
+      position: absolute;
+      bottom: 2.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: 'Syne Mono', monospace;
+      font-size: 0.6rem;
+      color: #333;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.6rem;
+      opacity: 0;
+      animation: fadeUp 0.6s 1s ease forwards;
+    }
+    .scroll-hint::after {
+      content: '';
+      width: 1px;
+      height: 40px;
+      background: linear-gradient(to bottom, #333, transparent);
+      animation: scrollLine 1.5s ease-in-out infinite;
+    }
+    @keyframes scrollLine {
+      0%, 100% { opacity: 0.3; transform: scaleY(1); }
+      50% { opacity: 1; transform: scaleY(1.2); }
+    }
+
     .corner {
       position: fixed;
       bottom: 2.5rem;
@@ -116,11 +148,101 @@
       text-transform: uppercase;
       opacity: 0;
       animation: fadeUp 0.6s 0.8s ease forwards;
+      z-index: 10;
     }
 
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(16px); }
       to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── SNAKE SECTION ── */
+    .snake-section {
+      position: relative;
+      z-index: 10;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 4rem 2rem;
+      border-top: 1px solid #1a1a1a;
+    }
+
+    .snake-label {
+      font-family: 'Syne Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: #333;
+      margin-bottom: 2rem;
+    }
+
+    .snake-wrapper {
+      position: relative;
+    }
+
+    canvas#snake {
+      display: block;
+      border: 1px solid #1e1e1e;
+      background: #0d0d0d;
+      image-rendering: pixelated;
+    }
+
+    .snake-ui {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 1.2rem;
+      width: 100%;
+    }
+
+    .snake-score {
+      font-family: 'Syne Mono', monospace;
+      font-size: 0.7rem;
+      color: #444;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+    }
+    .snake-score span {
+      color: #f0f0f0;
+      margin-left: 0.4rem;
+    }
+
+    .snake-controls {
+      font-family: 'Syne Mono', monospace;
+      font-size: 0.6rem;
+      color: #2a2a2a;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .snake-overlay {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: rgba(8,8,8,0.85);
+      cursor: pointer;
+      transition: opacity 0.3s;
+    }
+    .snake-overlay.hidden { display: none; }
+
+    .snake-overlay-title {
+      font-size: 1.4rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: #f0f0f0;
+      margin-bottom: 0.5rem;
+    }
+    .snake-overlay-sub {
+      font-family: 'Syne Mono', monospace;
+      font-size: 0.65rem;
+      color: #444;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
     }
   </style>
 </head>
@@ -128,24 +250,143 @@
 
   <div class="grid-lines"></div>
 
-  <div class="container">
+  <!-- HERO -->
+  <section class="hero">
     <span class="tag">✦ En construction</span>
-
     <h1>
       <span class="name-first">Tom</span>
       <span class="name-last">Giles</span>
     </h1>
-
     <div class="status">
       <span class="dot"></span>
       <span>Portfolio en cours de développement</span>
     </div>
-  </div>
+    <div class="scroll-hint">scroll</div>
+  </section>
+
+  <!-- SNAKE -->
+  <section class="snake-section">
+    <p class="snake-label">// En attendant — joue à ça</p>
+    <div class="snake-wrapper">
+      <canvas id="snake" width="480" height="480"></canvas>
+      <div class="snake-overlay" id="overlay">
+        <div class="snake-overlay-title">Snake</div>
+        <div class="snake-overlay-sub">Cliquer ou appuyer sur espace</div>
+      </div>
+    </div>
+    <div class="snake-ui">
+      <div class="snake-score">Score <span id="score">0</span></div>
+      <div class="snake-controls">↑ ↓ ← → ou ZQSD</div>
+    </div>
+  </section>
 
   <div class="corner">
     tom.giles.fr<br/>
     Paris, France
   </div>
 
+  <script>
+    const canvas = document.getElementById('snake');
+    const ctx = canvas.getContext('2d');
+    const overlay = document.getElementById('overlay');
+    const scoreEl = document.getElementById('score');
+
+    const CELL = 20;
+    const COLS = canvas.width / CELL;
+    const ROWS = canvas.height / CELL;
+
+    let snake, dir, nextDir, food, score, loop, running;
+
+    function init() {
+      snake = [{ x: 10, y: 10 }, { x: 9, y: 10 }, { x: 8, y: 10 }];
+      dir = { x: 1, y: 0 };
+      nextDir = { x: 1, y: 0 };
+      score = 0;
+      scoreEl.textContent = 0;
+      running = true;
+      placeFood();
+      overlay.classList.add('hidden');
+      clearInterval(loop);
+      loop = setInterval(tick, 110);
+    }
+
+    function placeFood() {
+      let pos;
+      do {
+        pos = { x: Math.floor(Math.random() * COLS), y: Math.floor(Math.random() * ROWS) };
+      } while (snake.some(s => s.x === pos.x && s.y === pos.y));
+      food = pos;
+    }
+
+    function tick() {
+      dir = nextDir;
+      const head = { x: snake[0].x + dir.x, y: snake[0].y + dir.y };
+
+      // Wall collision
+      if (head.x < 0 || head.x >= COLS || head.y < 0 || head.y >= ROWS) return gameOver();
+      // Self collision
+      if (snake.some(s => s.x === head.x && s.y === head.y)) return gameOver();
+
+      snake.unshift(head);
+
+      if (head.x === food.x && head.y === food.y) {
+        score++;
+        scoreEl.textContent = score;
+        placeFood();
+      } else {
+        snake.pop();
+      }
+
+      draw();
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // Food
+      ctx.fillStyle = '#f0f0f0';
+      ctx.fillRect(food.x * CELL + 4, food.y * CELL + 4, CELL - 8, CELL - 8);
+
+      // Snake
+      snake.forEach((seg, i) => {
+        const alpha = 1 - (i / snake.length) * 0.6;
+        ctx.fillStyle = `rgba(240,240,240,${alpha})`;
+        if (i === 0) {
+          ctx.fillRect(seg.x * CELL + 1, seg.y * CELL + 1, CELL - 2, CELL - 2);
+        } else {
+          ctx.fillRect(seg.x * CELL + 2, seg.y * CELL + 2, CELL - 4, CELL - 4);
+        }
+      });
+    }
+
+    function gameOver() {
+      clearInterval(loop);
+      running = false;
+      overlay.innerHTML = `
+        <div class="snake-overlay-title">Game Over</div>
+        <div class="snake-overlay-sub" style="margin-top:0.4rem;color:#555">Score : ${score}</div>
+        <div class="snake-overlay-sub" style="margin-top:1.2rem">Cliquer pour rejouer</div>
+      `;
+      overlay.classList.remove('hidden');
+    }
+
+    // Controls
+    document.addEventListener('keydown', e => {
+      const keys = {
+        ArrowUp: { x: 0, y: -1 }, z: { x: 0, y: -1 }, Z: { x: 0, y: -1 },
+        ArrowDown: { x: 0, y: 1 }, s: { x: 0, y: 1 }, S: { x: 0, y: 1 },
+        ArrowLeft: { x: -1, y: 0 }, q: { x: -1, y: 0 }, Q: { x: -1, y: 0 },
+        ArrowRight: { x: 1, y: 0 }, d: { x: 1, y: 0 }, D: { x: 1, y: 0 },
+      };
+      if (e.key === ' ') { if (!running) init(); return; }
+      const nd = keys[e.key];
+      if (nd && !(nd.x === -dir.x && nd.y === -dir.y)) {
+        nextDir = nd;
+        e.preventDefault();
+      }
+    });
+
+    overlay.addEventListener('click', init);
+  </script>
 </body>
 </html>
