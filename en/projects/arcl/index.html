@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en" prefix="og: https://ogp.me/ns#">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ARCL — resilient hybrid cloud architecture — Tom Giles</title>
+<meta name="description" content="ARCL: highly available hybrid infrastructure across Azure and OpenStack — WireGuard interconnect, PostgreSQL made redundant with Patroni, fully described in OpenTofu.">
+<link rel="canonical" href="https://tom.giles.fr/en/projects/arcl/">
+<link rel="alternate" hreflang="fr" href="https://tom.giles.fr/projects/arcl/">
+<link rel="alternate" hreflang="en" href="https://tom.giles.fr/en/projects/arcl/">
+<link rel="alternate" hreflang="x-default" href="https://tom.giles.fr/projects/arcl/">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_GB">
+<meta property="og:locale:alternate" content="fr_FR">
+<meta property="og:url" content="https://tom.giles.fr/en/projects/arcl/">
+<meta property="og:site_name" content="Tom Giles">
+<meta property="og:title" content="ARCL — resilient hybrid cloud architecture — Tom Giles">
+<meta property="og:description" content="ARCL: highly available hybrid infrastructure across Azure and OpenStack — WireGuard interconnect, PostgreSQL made redundant with Patroni, fully described in OpenTofu.">
+<meta property="og:image" content="https://tom.giles.fr/assets/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#F5F7F8" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0B1015" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/assets/style.css">
+<script>try{var t=localStorage.getItem("theme");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+</head>
+
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="topbar">
+  <a class="topbar__id" href="/en/">tom giles <span class="dim">/ platform &amp; cloud</span></a>
+  <div class="topbar__tools">
+    <a class="btn-ghost" href="/projects/arcl/" hreflang="fr">FR</a>
+    <a class="btn-ghost" href="/en/projects/arcl/" aria-current="true" hreflang="en">EN</a>
+    <button class="btn-ghost" type="button" data-theme-toggle>Dark</button>
+  </div>
+</header>
+
+<main class="project" id="main">
+  <p class="crumb"><a href="/en/#platform">Back — 01 Platform & Cloud</a></p>
+
+  <h1 class="project__title">ARCL — resilient hybrid cloud architecture</h1>
+  <p class="project__sub">A redundant self-service platform spanning Azure and a private cloud, described entirely as Infrastructure as Code.</p>
+
+  <dl class="meta">
+    <div><dt>Role</dt><dd>Infrastructure design &amp; build</dd></div>
+    <div><dt>Target</dt><dd>Azure × private cloud</dd></div>
+    <div><dt>Approach</dt><dd>100% Infrastructure as Code</dd></div>
+    <div><dt>Driver</dt><dd>High availability</dd></div>
+  </dl>
+
+
+  <h2 data-n="01">Context</h2>
+  <p>The goal: a self-service platform that stays available when either cloud goes down.
+  Not a hybrid architecture on paper — a hybrid architecture that survives losing one side,
+  and can prove it.</p>
+
+  <h2 data-n="02">Architecture</h2>
+  <p>Azure carries the front ends and load balancing; the private cloud, running
+  MicroStack/OpenStack, carries the state. Both sides are joined by an encrypted WireGuard
+  tunnel that acts as the single communication plane between components.</p>
+  <p>Data lives in a PostgreSQL cluster managed by Patroni: leader election, automatic
+  failover, continuous replication. Volumes are provisioned through Cinder on the private
+  side.</p>
+  <p class="kv">Azure · Azure Load Balancer · OpenTofu · MicroStack / OpenStack ·
+  WireGuard · PostgreSQL · Patroni · Cinder</p>
+
+  <h2 data-n="03">What I did</h2>
+  <ul>
+    <li>WireGuard interconnect between Azure and the private cloud, with the matching
+    addressing plan and routes.</li>
+    <li>PostgreSQL cluster made redundant with Patroni: automatic primary failover, no
+    human in the loop.</li>
+    <li>Azure load balancing in front of the front ends, with health probes.</li>
+    <li>Full environment described in OpenTofu — the infrastructure is rebuildable from
+    scratch, not documented in a wiki.</li>
+  </ul>
+
+  <h2 data-n="04">Outcome</h2>
+  <p><span class="todo">[TODO: metric]</span> measured RTO of the Patroni failover, or full rebuild time of the
+  environment from IaC. Those are the only two numbers that prove an architecture is
+  actually resilient; until they are measured, the rest is intent.</p>
+
+  <h2 data-n="05">What I took from it</h2>
+  <p>High availability is not settled at diagram level. It plays out in the details: how
+  the load balancer behaves during a Patroni election, what happens when the tunnel flaps,
+  and whether you can — or cannot — rebuild the whole thing with one command.</p>
+
+
+  <div class="project-nav">
+    <a class="btn btn--primary" href="mailto:tom.giles@epita.fr?subject=6-month%20internship%20%E2%80%94%20from%20February%202027">Get in touch</a>
+    <a class="btn btn--ghost" href="/en/#platform">Back</a>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="site-footer__inner">
+    <span>Tom Giles — EPITA SIGL, class of 2027</span>
+    <span><a href="mailto:tom.giles@epita.fr">tom.giles@epita.fr</a> · <a href="/">Version française</a></span>
+  </div>
+</footer>
+
+<script src="/assets/main.js" defer></script>
+</body>
+</html>

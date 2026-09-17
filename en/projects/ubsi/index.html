@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en" prefix="og: https://ogp.me/ns#">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>UBSI — DevOps leadership across a multi-team IS — Tom Giles</title>
+<meta name="description" content="UBSI: leading the DevOps workstream of a 50-participant enterprise architecture simulation — shared standards, GitLab CI/CD, Prometheus/Grafana/Loki observability, RabbitMQ integration bus.">
+<link rel="canonical" href="https://tom.giles.fr/en/projects/ubsi/">
+<link rel="alternate" hreflang="fr" href="https://tom.giles.fr/projects/ubsi/">
+<link rel="alternate" hreflang="en" href="https://tom.giles.fr/en/projects/ubsi/">
+<link rel="alternate" hreflang="x-default" href="https://tom.giles.fr/projects/ubsi/">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_GB">
+<meta property="og:locale:alternate" content="fr_FR">
+<meta property="og:url" content="https://tom.giles.fr/en/projects/ubsi/">
+<meta property="og:site_name" content="Tom Giles">
+<meta property="og:title" content="UBSI — DevOps leadership across a multi-team IS — Tom Giles">
+<meta property="og:description" content="UBSI: leading the DevOps workstream of a 50-participant enterprise architecture simulation — shared standards, GitLab CI/CD, Prometheus/Grafana/Loki observability, RabbitMQ integration bus.">
+<meta property="og:image" content="https://tom.giles.fr/assets/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#F5F7F8" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0B1015" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/assets/style.css">
+<script>try{var t=localStorage.getItem("theme");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+</head>
+
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="topbar">
+  <a class="topbar__id" href="/en/">tom giles <span class="dim">/ platform &amp; cloud</span></a>
+  <div class="topbar__tools">
+    <a class="btn-ghost" href="/projects/ubsi/" hreflang="fr">FR</a>
+    <a class="btn-ghost" href="/en/projects/ubsi/" aria-current="true" hreflang="en">EN</a>
+    <button class="btn-ghost" type="button" data-theme-toggle>Dark</button>
+  </div>
+</header>
+
+<main class="project" id="main">
+  <p class="crumb"><a href="/en/#platform">Back — 01 Platform & Cloud</a></p>
+
+  <h1 class="project__title">UBSI — DevOps leadership across a multi-team IS</h1>
+  <p class="project__sub">Leading the DevOps workstream of a miniature airline information system built by 50 participants: providing the base everyone else builds on.</p>
+
+  <dl class="meta">
+    <div><dt>Role</dt><dd>DevOps workstream lead</dd></div>
+    <div><dt>Scale</dt><dd>50 participants</dd></div>
+    <div><dt>Subject</dt><dd>Airline information system</dd></div>
+    <div><dt>Deliverable</dt><dd>Shared platform base</dd></div>
+  </dl>
+
+
+  <h2 data-n="01">Context</h2>
+  <p>A 50-participant enterprise architecture simulation: the information system of a
+  miniature airline, split across several application teams that have to integrate with
+  each other. The obvious risk is that every team builds in its own corner and nothing
+  talks to anything by the end.</p>
+
+  <h2 data-n="02">My role</h2>
+  <p>I led the DevOps workstream. I shipped no business feature: I provided the base the
+  other teams build on, and made sure they actually used it. It is a cross-cutting role —
+  adoption is earned, not decreed.</p>
+
+  <h2 data-n="03">What I did</h2>
+  <ul>
+    <li><strong>Shared standards:</strong> API conventions, log format, service boundaries
+    — the common vocabulary that lets separate teams integrate.</li>
+    <li><strong>CI/CD:</strong> a single GitLab CI/CD chain, picked up by every application
+    team.</li>
+    <li><strong>Observability:</strong> Prometheus, Grafana and Loki, so that diagnosis
+    does not depend on who has a console open.</li>
+    <li><strong>Integration:</strong> a RabbitMQ bus between services, with the
+    corresponding message contracts.</li>
+  </ul>
+  <p class="kv">FastAPI · Python · PostgreSQL · RabbitMQ · Docker · Docker Compose ·
+  GitLab CI/CD · Prometheus · Grafana · Loki · Alembic · HTTPX</p>
+
+  <h2 data-n="04">Outcome</h2>
+  <p>A common base mandated and genuinely adopted across a 50-participant simulation.
+  <span class="todo">[TODO: metric]</span> number of teams and services integrated onto the base.</p>
+
+  <h2 data-n="05">What I took from it</h2>
+  <p>At 50 people the bottleneck stops being technical. A standard only gets adopted if
+  following it is faster than working around it, and half the job is walking over to each
+  team rather than writing better documentation.</p>
+
+
+  <div class="project-nav">
+    <a class="btn btn--primary" href="mailto:tom.giles@epita.fr?subject=6-month%20internship%20%E2%80%94%20from%20February%202027">Get in touch</a>
+    <a class="btn btn--ghost" href="/en/#platform">Back</a>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="site-footer__inner">
+    <span>Tom Giles — EPITA SIGL, class of 2027</span>
+    <span><a href="mailto:tom.giles@epita.fr">tom.giles@epita.fr</a> · <a href="/">Version française</a></span>
+  </div>
+</footer>
+
+<script src="/assets/main.js" defer></script>
+</body>
+</html>

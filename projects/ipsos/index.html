@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="fr" prefix="og: https://ogp.me/ns#">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ipsos — refonte du moteur d'export Excel — Tom Giles</title>
+<meta name="description" content="Ipsos Global BI : réécriture du moteur d'export Excel d'un portail financier C#/ASP.NET utilisé dans plus de 90 pays — Open XML SDK en mode SAX, mémoire stable à 100–200 Mo, 1 M de lignes en 2 min.">
+<link rel="canonical" href="https://tom.giles.fr/projects/ipsos/">
+<link rel="alternate" hreflang="fr" href="https://tom.giles.fr/projects/ipsos/">
+<link rel="alternate" hreflang="en" href="https://tom.giles.fr/en/projects/ipsos/">
+<link rel="alternate" hreflang="x-default" href="https://tom.giles.fr/projects/ipsos/">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:locale:alternate" content="en_GB">
+<meta property="og:url" content="https://tom.giles.fr/projects/ipsos/">
+<meta property="og:site_name" content="Tom Giles">
+<meta property="og:title" content="Ipsos — refonte du moteur d'export Excel — Tom Giles">
+<meta property="og:description" content="Ipsos Global BI : réécriture du moteur d'export Excel d'un portail financier C#/ASP.NET utilisé dans plus de 90 pays — Open XML SDK en mode SAX, mémoire stable à 100–200 Mo, 1 M de lignes en 2 min.">
+<meta property="og:image" content="https://tom.giles.fr/assets/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#F5F7F8" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0B1015" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/assets/style.css">
+<script>try{var t=localStorage.getItem("theme");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+</head>
+
+<body>
+<a class="skip-link" href="#main">Aller au contenu</a>
+
+<header class="topbar">
+  <a class="topbar__id" href="/">tom giles <span class="dim">/ platform &amp; cloud</span></a>
+  <div class="topbar__tools">
+    <a class="btn-ghost" href="/projects/ipsos/" aria-current="true" hreflang="fr">FR</a>
+    <a class="btn-ghost" href="/en/projects/ipsos/" hreflang="en">EN</a>
+    <button class="btn-ghost" type="button" data-theme-toggle>Sombre</button>
+  </div>
+</header>
+
+<main class="project" id="main">
+  <p class="crumb"><a href="/#software">Retour — 03 Software Engineering</a></p>
+
+  <h1 class="project__title">Ipsos — refonte du moteur d'export Excel</h1>
+  <p class="project__sub">Un export financier qui crashait au-delà de 50 000 lignes, réécrit en streaming pur : de 3–4 Go de mémoire à 100–200 Mo.</p>
+
+  <dl class="meta">
+    <div><dt>Rôle</dt><dd>Software Developer</dd></div>
+    <div><dt>Équipe</dt><dd>Global Business Intelligence</dd></div>
+    <div><dt>Période</dt><dd>sept. 2025 – janv. 2026</dd></div>
+    <div><dt>Stack</dt><dd>C# / ASP.NET / SQL Server</dd></div>
+  </dl>
+
+
+  <h2 data-n="01">Contexte</h2>
+  <p>Portail financier interne en C# / ASP.NET, hébergé sur IIS avec SQL Server, utilisé
+  par les contrôleurs de gestion de <strong>plus de 90 pays</strong>. Équipe répartie entre
+  l'Europe, l'Amérique du Nord et l'Inde ; travail en anglais, Jira, cadence agile.</p>
+  <p>Le moteur d'export Excel tombait en <code>OutOfMemoryException</code> dès que le
+  rapport dépassait 50 000 lignes. Les utilisateurs contournaient en découpant leurs
+  exports à la main — quand ils y pensaient.</p>
+
+  <h2 data-n="02">Diagnostic</h2>
+  <p>La V1 chargeait l'intégralité du résultat SQL dans une <code>DataTable</code>, puis
+  laissait EPPlus construire le classeur en mémoire. La donnée existait donc deux fois, et
+  les gros tableaux de chaînes partaient directement sur le Large Object Heap, qui se
+  fragmente et ne se compacte pas.</p>
+  <div class="callout">
+    <span class="mono">Mesure avant refonte</span>
+    <p><strong>3 à 4 Go</strong> de mémoire consommés pour <strong>50 Mo</strong> de données
+    réelles. Crash à 45 s sur les plus gros rapports.</p>
+  </div>
+
+  <h2 data-n="03">La refonte</h2>
+  <p>Réécriture en streaming pur : plus aucune matérialisation complète du jeu de données
+  en mémoire.</p>
+  <ul>
+    <li><strong>Open XML SDK en mode SAX</strong> — les lignes sont écrites au fil de
+    l'eau au lieu d'être assemblées dans un arbre.</li>
+    <li><strong><code>IDataReader</code> en <code>SequentialAccess</code></strong> — la
+    donnée est lue colonne par colonne depuis SQL Server, sans buffer intermédiaire.</li>
+    <li><strong>Écriture directe sur <code>FileStream</code></strong> — le fichier se
+    construit sur disque, pas en RAM.</li>
+    <li><strong>Feuille de style unique indexée</strong> — les formats sont déclarés une
+    fois et référencés, au lieu d'être recréés par cellule.</li>
+    <li><strong>Parsers sans allocation</strong> sur les chemins chauds, pour éviter de
+    produire des millions d'objets temporaires.</li>
+    <li><strong>Auto-fit prédictif en deux passes</strong> — la largeur des colonnes est
+    estimée pendant le streaming, sans relire le fichier.</li>
+    <li><strong>Recompression du <code>.xlsx</code></strong> en sortie.</li>
+  </ul>
+
+  <h2 data-n="04">Résultat</h2>
+  <div class="callout">
+    <p><strong>Mémoire stable à 100–200 Mo</strong>, quelle que soit la taille du rapport.</p>
+    <p><strong>1 million de lignes exportées en ~2 minutes</strong>, là où la V1 crashait
+    au bout de 45 secondes.</p>
+    <p><strong>Les incidents OOM ont disparu des logs de production.</strong></p>
+    <p><strong>Fichiers 20 à 30 % plus légers</strong> après recompression.</p>
+  </div>
+
+  <h2 data-n="05">Second chantier</h2>
+  <p>Refactorisation d'un pipeline Python de prévision : robustesse face aux données
+  dégradées, logs structurés exploitables en production, et encapsulation derrière une API
+  pour découpler le pipeline de ses appelants.</p>
+
+  <h2 data-n="06">Ce que j'en retire</h2>
+  <p>Le gain n'est pas venu d'une micro-optimisation mais d'un changement de modèle : cesser
+  de matérialiser. Et travailler en anglais dans une équipe répartie sur trois fuseaux
+  apprend à écrire des tickets et des commits qui se suffisent à eux-mêmes, parce que
+  personne ne sera disponible pour expliquer.</p>
+
+
+  <div class="project-nav">
+    <a class="btn btn--primary" href="mailto:tom.giles@epita.fr?subject=Stage%206%20mois%20%E2%80%94%20f%C3%A9vrier%202027">Me contacter</a>
+    <a class="btn btn--ghost" href="/#software">Retour</a>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="site-footer__inner">
+    <span>Tom Giles — EPITA SIGL 2027</span>
+    <span><a href="mailto:tom.giles@epita.fr">tom.giles@epita.fr</a> · <a href="/en/">English version</a></span>
+  </div>
+</footer>
+
+<script src="/assets/main.js" defer></script>
+</body>
+</html>

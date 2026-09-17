@@ -1,498 +1,673 @@
-<!DOCTYPE html>
-<html lang="fr">
+<!doctype html>
+<html lang="fr" prefix="og: https://ogp.me/ns#">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Tom Giles — Portfolio</title>
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Syne+Mono&display=swap" rel="stylesheet"/>
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
-    body { background: #080808; color: #f0f0f0; font-family: 'Syne', sans-serif; }
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tom Giles — Platform &amp; Cloud / SRE — Stage 6 mois dès février 2027</title>
+<meta name="description" content="Tom Giles, EPITA SIGL 2027. Product Owner d'une équipe SRE opérant un cluster RKE2 de production sur OpenStack : 6 nœuds, ~60 applications ArgoCD, 4 clients hébergés. Recherche un stage de pré-embauche de 6 mois à partir de février 2027.">
+<link rel="canonical" href="https://tom.giles.fr/">
+<link rel="alternate" hreflang="fr" href="https://tom.giles.fr/">
+<link rel="alternate" hreflang="en" href="https://tom.giles.fr/en/">
+<link rel="alternate" hreflang="x-default" href="https://tom.giles.fr/">
 
-    body::before {
-      content: '';
-      position: fixed; inset: 0;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
-      opacity: 0.045; pointer-events: none; z-index: 100;
-    }
+<meta property="og:type" content="profile">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:locale:alternate" content="en_GB">
+<meta property="og:url" content="https://tom.giles.fr/">
+<meta property="og:site_name" content="Tom Giles">
+<meta property="og:title" content="Tom Giles — Platform &amp; Cloud / SRE">
+<meta property="og:description" content="J'opère un cluster Kubernetes de production avec de vrais clients — et je sais le chiffrer, le piloter et le défendre devant eux. Stage 6 mois dès février 2027.">
+<meta property="og:image" content="https://tom.giles.fr/assets/og.png">
+<meta name="twitter:card" content="summary_large_image">
 
-    .grid-lines {
-      position: fixed; inset: 0;
-      background-image: linear-gradient(#141414 1px, transparent 1px), linear-gradient(90deg, #141414 1px, transparent 1px);
-      background-size: 60px 60px; pointer-events: none;
-    }
+<meta name="theme-color" content="#F5F7F8" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0B1015" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/assets/style.css">
+<script>try{var t=localStorage.getItem("theme");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
 
-    /* HERO */
-    .hero {
-      position: relative; z-index: 10;
-      display: flex; flex-direction: column; justify-content: center; align-items: flex-start;
-      height: 100vh; padding: clamp(2rem, 8vw, 8rem);
-    }
-    .tag {
-      font-family: 'Syne Mono', monospace; font-size: 0.72rem; letter-spacing: 0.2em;
-      text-transform: uppercase; color: #888; border: 1px solid #222;
-      padding: 0.35em 0.9em; display: inline-block; margin-bottom: 2.5rem;
-      opacity: 0; animation: fadeUp 0.6s 0.2s ease forwards;
-    }
-    h1 {
-      font-size: clamp(4rem, 11vw, 10rem); font-weight: 800; line-height: 0.9;
-      letter-spacing: -0.04em; margin-bottom: 2.5rem;
-      opacity: 0; animation: fadeUp 0.7s 0.4s ease forwards;
-    }
-    h1 .name-first { display: block; color: #f0f0f0; }
-    h1 .name-last { display: block; color: transparent; -webkit-text-stroke: 1.5px #333; }
-    .status {
-      display: flex; align-items: center; gap: 0.8rem;
-      font-family: 'Syne Mono', monospace; font-size: 0.78rem; color: #444;
-      letter-spacing: 0.12em; text-transform: uppercase;
-      opacity: 0; animation: fadeUp 0.7s 0.6s ease forwards;
-    }
-    .dot {
-      width: 7px; height: 7px; border-radius: 50%; background: #f0f0f0;
-      animation: pulse 2.5s ease-in-out infinite; flex-shrink: 0;
-    }
-    @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.2;transform:scale(0.6)} }
-    .scroll-hint {
-      position: absolute; bottom: 2.5rem; left: 50%; transform: translateX(-50%);
-      font-family: 'Syne Mono', monospace; font-size: 0.6rem; color: #333;
-      letter-spacing: 0.2em; text-transform: uppercase;
-      display: flex; flex-direction: column; align-items: center; gap: 0.6rem;
-      opacity: 0; animation: fadeUp 0.6s 1s ease forwards;
-    }
-    .scroll-hint::after {
-      content: ''; width: 1px; height: 40px;
-      background: linear-gradient(to bottom, #333, transparent);
-      animation: scrollLine 1.5s ease-in-out infinite;
-    }
-    @keyframes scrollLine { 0%,100%{opacity:0.3} 50%{opacity:1} }
-    .corner {
-      position: fixed; bottom: 2.5rem; right: 2.5rem;
-      font-family: 'Syne Mono', monospace; font-size: 0.65rem; color: #333;
-      text-align: right; line-height: 2; letter-spacing: 0.1em; text-transform: uppercase;
-      opacity: 0; animation: fadeUp 0.6s 0.8s ease forwards; z-index: 10;
-    }
-    @keyframes fadeUp { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
-
-    /* GAME SECTIONS */
-    .game-section {
-      position: relative; z-index: 10; min-height: 100vh;
-      display: flex; flex-direction: column; align-items: center; justify-content: center;
-      padding: 4rem 2rem; border-top: 1px solid #1a1a1a;
-    }
-    .game-label {
-      font-family: 'Syne Mono', monospace; font-size: 0.65rem;
-      letter-spacing: 0.25em; text-transform: uppercase; color: #333; margin-bottom: 2rem;
-    }
-    .game-wrapper { position: relative; }
-    canvas { display: block; border: 1px solid #1e1e1e; background: #0d0d0d; image-rendering: pixelated; }
-    .game-ui {
-      display: flex; justify-content: space-between; align-items: center;
-      margin-top: 1.2rem; width: 100%;
-    }
-    .game-score {
-      font-family: 'Syne Mono', monospace; font-size: 0.7rem;
-      color: #444; letter-spacing: 0.15em; text-transform: uppercase;
-    }
-    .game-score span { color: #f0f0f0; margin-left: 0.4rem; }
-    .game-controls {
-      font-family: 'Syne Mono', monospace; font-size: 0.6rem;
-      color: #2a2a2a; letter-spacing: 0.1em; text-transform: uppercase;
-    }
-    .game-overlay {
-      position: absolute; inset: 0; display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      background: rgba(8,8,8,0.88); cursor: pointer;
-    }
-    .game-overlay.hidden { display: none; }
-    .overlay-title { font-size: 1.4rem; font-weight: 800; letter-spacing: -0.03em; color: #f0f0f0; margin-bottom: 0.5rem; }
-    .overlay-sub { font-family: 'Syne Mono', monospace; font-size: 0.65rem; color: #444; letter-spacing: 0.2em; text-transform: uppercase; }
-
-    /* TETRIS */
-    .tetris-layout { display: flex; gap: 1.5rem; align-items: flex-start; }
-    .tetris-side { display: flex; flex-direction: column; gap: 1.5rem; }
-    .tetris-panel { border: 1px solid #1e1e1e; background: #0d0d0d; padding: 1rem; }
-    .tetris-panel-label { font-family:'Syne Mono',monospace; font-size:0.55rem; color:#333; letter-spacing:0.2em; text-transform:uppercase; margin-bottom:0.8rem; }
-    .tetris-panel-value { font-family:'Syne Mono',monospace; font-size:1.1rem; color:#f0f0f0; }
-    canvas#tetris-next { border:none; background:transparent; }
-
-    /* PONG */
-    .pong-diff {
-      display: flex; gap: 0.6rem; margin-bottom: 1.5rem;
-    }
-    .diff-btn {
-      font-family: 'Syne Mono', monospace; font-size: 0.6rem;
-      letter-spacing: 0.15em; text-transform: uppercase;
-      padding: 0.4em 1em; border: 1px solid #222; background: transparent;
-      color: #444; cursor: pointer; transition: all 0.2s;
-    }
-    .diff-btn:hover { border-color: #444; color: #888; }
-    .diff-btn.active { border-color: #f0f0f0; color: #f0f0f0; }
-    .pong-scores {
-      display: flex; justify-content: space-between;
-      width: 100%; margin-bottom: 0.8rem;
-    }
-    .pong-score-side {
-      font-family: 'Syne Mono', monospace; font-size: 0.65rem;
-      color: #444; letter-spacing: 0.15em; text-transform: uppercase;
-      display: flex; flex-direction: column; align-items: center; gap: 0.3rem;
-    }
-    .pong-score-side span { font-size: 1.4rem; color: #f0f0f0; }
-    .pong-overlay-diff {
-      display: flex; gap: 0.5rem; margin-top: 1.2rem;
-    }
-    .pong-diff-overlay-btn {
-      font-family: 'Syne Mono', monospace; font-size: 0.6rem;
-      letter-spacing: 0.12em; text-transform: uppercase;
-      padding: 0.4em 0.8em; border: 1px solid #333; background: transparent;
-      color: #555; cursor: pointer; transition: all 0.15s;
-    }
-    .pong-diff-overlay-btn:hover, .pong-diff-overlay-btn.active { border-color: #f0f0f0; color: #f0f0f0; }
-  </style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Tom Giles",
+  "url": "https://tom.giles.fr/",
+  "email": "mailto:tom.giles@epita.fr",
+  "telephone": "+33695104056",
+  "jobTitle": "Étudiant-ingénieur — Platform & Cloud / SRE",
+  "description": "Product Owner de l'équipe SRE SIOPS, opérant un cluster RKE2 de production sur OpenStack. Recherche un stage de pré-embauche de 6 mois à partir de février 2027.",
+  "knowsLanguage": ["fr", "en"],
+  "address": { "@type": "PostalAddress", "addressCountry": "FR", "addressLocality": "Paris" },
+  "alumniOf": [
+    { "@type": "CollegeOrUniversity", "name": "EPITA — majeure SIGL" },
+    { "@type": "CollegeOrUniversity", "name": "FPT University, Vietnam" }
+  ],
+  "worksFor": { "@type": "Organization", "name": "SIOPS — équipe DevOps/SRE, EPITA SIGL" },
+  "knowsAbout": ["Kubernetes", "RKE2", "OpenStack", "ArgoCD", "GitOps", "HashiCorp Vault",
+                 "Terraform", "OpenTofu", "Prometheus", "Site Reliability Engineering",
+                 "FastAPI", "C#/.NET", "SAP S/4HANA", "EBIOS Risk Manager"]
+}
+</script>
 </head>
+
 <body>
-  <div class="grid-lines"></div>
+<a class="skip-link" href="#main">Aller au contenu</a>
 
-  <!-- HERO -->
-  <section class="hero">
-    <span class="tag">✦ En construction</span>
-    <h1><span class="name-first">Tom</span><span class="name-last">Giles</span></h1>
-    <div class="status"><span class="dot"></span><span>Portfolio en cours de développement</span></div>
-    <div class="scroll-hint">scroll</div>
-  </section>
+<header class="topbar">
+  <a class="topbar__id" href="/">tom giles <span class="dim">/ platform &amp; cloud</span></a>
+  <div class="topbar__tools">
+    <a class="btn-ghost" href="/" aria-current="true" hreflang="fr">FR</a>
+    <a class="btn-ghost" href="/en/" hreflang="en">EN</a>
+    <button class="btn-ghost" type="button" data-theme-toggle>Sombre</button>
+  </div>
+</header>
 
-  <!-- SNAKE -->
-  <section class="game-section">
-    <p class="game-label">// En attendant — Snake</p>
-    <div class="game-wrapper">
-      <canvas id="snake" width="480" height="480"></canvas>
-      <div class="game-overlay" id="snake-overlay">
-        <div class="overlay-title">Snake</div>
-        <div class="overlay-sub">Cliquer ou appuyer sur espace</div>
-      </div>
-    </div>
-    <div class="game-ui">
-      <div class="game-score">Score <span id="snake-score">0</span></div>
-      <div class="game-controls">↑ ↓ ← → ou ZQSD</div>
-    </div>
-  </section>
+<div class="shell">
 
-  <!-- TETRIS -->
-  <section class="game-section">
-    <p class="game-label">// Et aussi — Tetris</p>
-    <div class="tetris-layout">
-      <div class="game-wrapper">
-        <canvas id="tetris" width="240" height="480"></canvas>
-        <div class="game-overlay" id="tetris-overlay">
-          <div class="overlay-title">Tetris</div>
-          <div class="overlay-sub">Cliquer ou appuyer sur espace</div>
+  <nav class="rail" aria-label="Sections du site">
+    <p class="rail__title">Sommaire</p>
+    <ul class="rail__list">
+      <li><a class="rail__link" href="#platform"><span>01</span><span>Platform &amp; Cloud</span></a></li>
+      <li><a class="rail__link" href="#sre"><span>02</span><span>Production &amp; SRE</span></a></li>
+      <li><a class="rail__link" href="#software"><span>03</span><span>Software Engineering</span></a></li>
+      <li><a class="rail__link" href="#consulting"><span>04</span><span>Consulting &amp; SI</span></a></li>
+      <li><a class="rail__link" href="#product"><span>05</span><span>Product</span></a></li>
+      <li><a class="rail__link" href="#parcours"><span>—</span><span>Parcours</span></a></li>
+      <li><a class="rail__link" href="#stack"><span>—</span><span>Stack</span></a></li>
+      <li><a class="rail__link" href="#contact"><span>—</span><span>Contact</span></a></li>
+    </ul>
+  </nav>
+
+  <main id="main">
+
+    <!-- ═══════════ HERO ═══════════ -->
+    <section class="hero" aria-labelledby="hero-name">
+      <p class="hero__eyebrow">EPITA — majeure SIGL — promo 2027 · Paris / Vosges</p>
+      <h1 class="hero__name" id="hero-name">Tom Giles</h1>
+      <p class="hero__pitch">
+        J'opère un cluster Kubernetes de <strong>production</strong> avec de vrais clients.
+        Et je sais le chiffrer, le piloter et le défendre devant eux.
+      </p>
+
+      <p class="status">
+        <span class="status__dot" aria-hidden="true"></span>
+        Stage 6 mois — dès février 2027 — Platform / Cloud / SRE
+      </p>
+
+      <div class="figures">
+        <div class="figure">
+          <span class="figure__value">1 cluster K8s</span>
+          <span class="figure__label">RKE2 v1.32 en production sur OpenStack, opéré à cinq</span>
+        </div>
+        <div class="figure">
+          <span class="figure__value">4 clients</span>
+          <span class="figure__label">hébergés en production et en staging</span>
+        </div>
+        <div class="figure">
+          <span class="figure__value">6 nœuds · ~60 apps</span>
+          <span class="figure__label">réconciliées en continu par ArgoCD</span>
         </div>
       </div>
-      <div class="tetris-side">
-        <div class="tetris-panel"><div class="tetris-panel-label">Score</div><div class="tetris-panel-value" id="tetris-score">0</div></div>
-        <div class="tetris-panel"><div class="tetris-panel-label">Niveau</div><div class="tetris-panel-value" id="tetris-level">1</div></div>
-        <div class="tetris-panel"><div class="tetris-panel-label">Lignes</div><div class="tetris-panel-value" id="tetris-lines">0</div></div>
-        <div class="tetris-panel"><div class="tetris-panel-label">Suivant</div><canvas id="tetris-next" width="80" height="80"></canvas></div>
+
+      <div class="actions">
+        <a class="btn btn--primary" href="mailto:tom.giles@epita.fr?subject=Stage%206%20mois%20%E2%80%94%20f%C3%A9vrier%202027">Me contacter</a>
+        <a class="btn btn--ghost" href="/cv/tom-giles-cv.pdf" download>Télécharger le CV (PDF)</a>
       </div>
-    </div>
-    <div class="game-ui" style="max-width:240px">
-      <div class="game-controls" style="color:#2a2a2a;font-size:0.58rem">← → déplacer · ↑ tourner · ↓ descendre · espace drop</div>
-    </div>
-  </section>
+    </section>
 
-  <!-- PONG -->
-  <section class="game-section">
-    <p class="game-label">// Et pour finir — Pong</p>
-    <div class="pong-diff">
-      <button class="diff-btn active" data-diff="easy">Facile</button>
-      <button class="diff-btn" data-diff="medium">Moyen</button>
-      <button class="diff-btn" data-diff="hard">Difficile</button>
-      <button class="diff-btn" data-diff="insane">Impossible</button>
-    </div>
-    <div class="pong-scores">
-      <div class="pong-score-side">Toi<span id="pong-score-player">0</span></div>
-      <div class="pong-score-side">IA<span id="pong-score-ai">0</span></div>
-    </div>
-    <div class="game-wrapper">
-      <canvas id="pong" width="600" height="360"></canvas>
-      <div class="game-overlay" id="pong-overlay">
-        <div class="overlay-title">Pong</div>
-        <div class="overlay-sub" style="margin-bottom:0.4rem">Choisis ta difficulté</div>
-        <div class="pong-overlay-diff">
-          <button class="pong-diff-overlay-btn active" data-odiff="easy">Facile</button>
-          <button class="pong-diff-overlay-btn" data-odiff="medium">Moyen</button>
-          <button class="pong-diff-overlay-btn" data-odiff="hard">Difficile</button>
-          <button class="pong-diff-overlay-btn" data-odiff="insane">Impossible</button>
-        </div>
-        <div class="overlay-sub" style="margin-top:1rem">Cliquer pour jouer</div>
+    <!-- ═══════════ 01 — PLATFORM & CLOUD ═══════════ -->
+    <section class="section" id="platform" aria-labelledby="platform-title">
+      <div class="section__head">
+        <span class="section__num">01</span>
+        <h2 class="section__title" id="platform-title">Platform &amp; Cloud</h2>
+        <span class="section__kicker">Infrastructure at scale</span>
       </div>
-    </div>
-    <div class="game-ui" style="max-width:600px">
-      <div class="game-controls">↑ ↓ ou W S pour bouger</div>
-      <div class="game-score" id="pong-diff-label">Difficulté : <span>Facile</span></div>
-    </div>
-  </section>
 
-  <div class="corner">tom.giles.fr<br/>Paris, France</div>
+      <p class="section__lede">
+        Construire le socle : réseau, stockage, haute disponibilité, et le chemin qui
+        va du commit au déploiement. Trois projets où l'infrastructure est le produit,
+        pas la plomberie.
+      </p>
 
-  <script>
-  // ═══════════ SNAKE ═══════════
-  (function(){
-    const canvas=document.getElementById('snake'),ctx=canvas.getContext('2d');
-    const overlay=document.getElementById('snake-overlay'),scoreEl=document.getElementById('snake-score');
-    const CELL=20,COLS=canvas.width/CELL,ROWS=canvas.height/CELL;
-    let snake,dir,nextDir,food,score,loop,running=false;
-    function init(){
-      snake=[{x:10,y:10},{x:9,y:10},{x:8,y:10}];
-      dir={x:1,y:0};nextDir={x:1,y:0};score=0;scoreEl.textContent=0;running=true;
-      placeFood();overlay.classList.add('hidden');clearInterval(loop);loop=setInterval(tick,110);
-    }
-    function placeFood(){let p;do{p={x:Math.floor(Math.random()*COLS),y:Math.floor(Math.random()*ROWS)}}while(snake.some(s=>s.x===p.x&&s.y===p.y));food=p;}
-    function tick(){
-      dir=nextDir;const h={x:snake[0].x+dir.x,y:snake[0].y+dir.y};
-      if(h.x<0||h.x>=COLS||h.y<0||h.y>=ROWS)return gameOver();
-      if(snake.some(s=>s.x===h.x&&s.y===h.y))return gameOver();
-      snake.unshift(h);
-      if(h.x===food.x&&h.y===food.y){score++;scoreEl.textContent=score;placeFood();}else snake.pop();
-      draw();
-    }
-    function draw(){
-      ctx.clearRect(0,0,canvas.width,canvas.height);
-      ctx.fillStyle='#f0f0f0';ctx.fillRect(food.x*CELL+4,food.y*CELL+4,CELL-8,CELL-8);
-      snake.forEach((s,i)=>{ctx.fillStyle=`rgba(240,240,240,${1-(i/snake.length)*0.6})`;ctx.fillRect(s.x*CELL+(i?2:1),s.y*CELL+(i?2:1),CELL-(i?4:2),CELL-(i?4:2));});
-    }
-    function gameOver(){
-      clearInterval(loop);running=false;
-      overlay.innerHTML=`<div class="overlay-title">Game Over</div><div class="overlay-sub" style="margin-top:0.4rem;color:#555">Score : ${score}</div><div class="overlay-sub" style="margin-top:1.2rem">Cliquer pour rejouer</div>`;
-      overlay.classList.remove('hidden');
-    }
-    document.addEventListener('keydown',e=>{
-      const m={ArrowUp:{x:0,y:-1},z:{x:0,y:-1},Z:{x:0,y:-1},ArrowDown:{x:0,y:1},s:{x:0,y:1},S:{x:0,y:1},ArrowLeft:{x:-1,y:0},q:{x:-1,y:0},Q:{x:-1,y:0},ArrowRight:{x:1,y:0},d:{x:1,y:0},D:{x:1,y:0}};
-      if(e.key===' '&&!running){init();return;}
-      const nd=m[e.key];if(nd&&!(nd.x===-dir.x&&nd.y===-dir.y)){nextDir=nd;e.preventDefault();}
-    });
-    overlay.addEventListener('click',init);
-  })();
+      <div class="cards">
 
-  // ═══════════ TETRIS ═══════════
-  (function(){
-    const canvas=document.getElementById('tetris'),ctx=canvas.getContext('2d');
-    const nc=document.getElementById('tetris-next'),nCtx=nc.getContext('2d');
-    const overlay=document.getElementById('tetris-overlay');
-    const scoreEl=document.getElementById('tetris-score'),levelEl=document.getElementById('tetris-level'),linesEl=document.getElementById('tetris-lines');
-    const COLS=12,ROWS=24,CELL=canvas.width/COLS;
-    const PIECES=[
-      {shape:[[1,1,1,1]],c:200},{shape:[[1,1],[1,1]],c:160},{shape:[[0,1,0],[1,1,1]],c:220},
-      {shape:[[0,1,1],[1,1,0]],c:180},{shape:[[1,1,0],[0,1,1]],c:140},{shape:[[1,0,0],[1,1,1]],c:200},{shape:[[0,0,1],[1,1,1]],c:170}
-    ];
-    let board,current,next,score,level,lines,running=false,loop;
-    function makeBoard(){return Array.from({length:ROWS},()=>Array(COLS).fill(0));}
-    function randPiece(){const p=PIECES[Math.floor(Math.random()*PIECES.length)];return{shape:p.shape.map(r=>[...r]),color:p.c,x:Math.floor(COLS/2)-Math.floor(p.shape[0].length/2),y:0};}
-    function init(){
-      board=makeBoard();score=0;level=1;lines=0;
-      scoreEl.textContent=0;levelEl.textContent=1;linesEl.textContent=0;
-      current=randPiece();next=randPiece();running=true;
-      overlay.classList.add('hidden');clearInterval(loop);loop=setInterval(tick,getSpeed());draw();
-    }
-    function getSpeed(){return Math.max(80,500-(level-1)*40);}
-    function tick(){if(!move(0,1))place();draw();}
-    function move(dx,dy){const nx=current.x+dx,ny=current.y+dy;if(valid(current.shape,nx,ny)){current.x=nx;current.y=ny;return true;}return false;}
-    function rotate(){const r=current.shape[0].map((_,i)=>current.shape.map(row=>row[i]).reverse());if(valid(r,current.x,current.y))current.shape=r;else if(valid(r,current.x+1,current.y)){current.shape=r;current.x++;}else if(valid(r,current.x-1,current.y)){current.shape=r;current.x--;}}
-    function valid(shape,ox,oy){return shape.every((row,dy)=>row.every((cell,dx)=>!cell||(ox+dx>=0&&ox+dx<COLS&&oy+dy<ROWS&&!(oy+dy>=0&&board[oy+dy]?.[ox+dx]))));}
-    function place(){
-      current.shape.forEach((row,dy)=>row.forEach((cell,dx)=>{if(cell&&current.y+dy>=0)board[current.y+dy][current.x+dx]=current.color;}));
-      clearLines();current=next;next=randPiece();if(!valid(current.shape,current.x,current.y))gameOver();
-    }
-    function clearLines(){
-      let cleared=0;
-      for(let r=ROWS-1;r>=0;r--)if(board[r].every(c=>c)){board.splice(r,1);board.unshift(Array(COLS).fill(0));cleared++;r++;}
-      if(cleared){score+=[0,100,300,500,800][cleared]*level;lines+=cleared;level=Math.floor(lines/10)+1;scoreEl.textContent=score;linesEl.textContent=lines;levelEl.textContent=level;clearInterval(loop);loop=setInterval(tick,getSpeed());}
-    }
-    function gameOver(){clearInterval(loop);running=false;overlay.innerHTML=`<div class="overlay-title">Game Over</div><div class="overlay-sub" style="margin-top:0.4rem;color:#555">Score : ${score}</div><div class="overlay-sub" style="margin-top:1.2rem">Cliquer pour rejouer</div>`;overlay.classList.remove('hidden');}
-    function ghost(){let gy=current.y;while(valid(current.shape,current.x,gy+1))gy++;return gy;}
-    function draw(){
-      ctx.clearRect(0,0,canvas.width,canvas.height);
-      board.forEach((row,y)=>row.forEach((cell,x)=>{if(cell){ctx.fillStyle=`rgb(${cell},${cell},${cell})`;ctx.fillRect(x*CELL+1,y*CELL+1,CELL-2,CELL-2);}}));
-      const gy=ghost();
-      if(gy!==current.y)current.shape.forEach((row,dy)=>row.forEach((cell,dx)=>{if(cell){ctx.fillStyle='rgba(255,255,255,0.06)';ctx.fillRect((current.x+dx)*CELL+1,(gy+dy)*CELL+1,CELL-2,CELL-2);}}));
-      current.shape.forEach((row,dy)=>row.forEach((cell,dx)=>{if(cell){ctx.fillStyle=`rgb(${current.color},${current.color},${current.color})`;ctx.fillRect((current.x+dx)*CELL+1,(current.y+dy)*CELL+1,CELL-2,CELL-2);}}));
-      nCtx.clearRect(0,0,nc.width,nc.height);
-      const ns=next.shape,cs=Math.floor(nc.width/(Math.max(ns.length,ns[0].length)+2));
-      const ox=Math.floor((nc.width/cs-ns[0].length)/2),oy=Math.floor((nc.height/cs-ns.length)/2);
-      ns.forEach((row,dy)=>row.forEach((cell,dx)=>{if(cell){nCtx.fillStyle=`rgb(${next.color},${next.color},${next.color})`;nCtx.fillRect((ox+dx)*cs+1,(oy+dy)*cs+1,cs-2,cs-2);}}));
-    }
-    document.addEventListener('keydown',e=>{
-      if(!running){if(e.key===' ')init();return;}
-      if(e.key==='ArrowLeft'||e.key==='q'||e.key==='Q'){move(-1,0);draw();e.preventDefault();}
-      else if(e.key==='ArrowRight'||e.key==='d'||e.key==='D'){move(1,0);draw();e.preventDefault();}
-      else if(e.key==='ArrowDown'||e.key==='s'||e.key==='S'){move(0,1);draw();e.preventDefault();}
-      else if(e.key==='ArrowUp'||e.key==='z'||e.key==='Z'){rotate();draw();e.preventDefault();}
-      else if(e.key===' '){while(move(0,1));place();draw();e.preventDefault();}
-    });
-    overlay.addEventListener('click',init);
-  })();
+        <!-- ARCL -->
+        <article class="card">
+          <div class="card__head">
+            <h3 class="card__title"><a href="/projects/arcl/">ARCL — Architecture hybride résiliente</a></h3>
+            <span class="card__tag">Azure × cloud privé</span>
+          </div>
+          <div class="spec">
+            <div class="spec__row">
+              <span class="spec__key">Contexte</span>
+              <div class="spec__val"><p>Rendre un socle self-service disponible même quand l'un des deux clouds tombe. Redondance et haute disponibilité de bout en bout.</p></div>
+            </div>
+            <div class="spec__row">
+              <span class="spec__key">Rôle</span>
+              <div class="spec__val"><p>Conception et implémentation de l'infrastructure, intégralement en Infrastructure as Code.</p></div>
+            </div>
+            <div class="spec__row">
+              <span class="spec__key">Stack</span>
+              <div class="spec__val spec__val--stack">Azure · Azure Load Balancer · OpenTofu · MicroStack / OpenStack · WireGuard · PostgreSQL · Patroni · Cinder</div>
+            </div>
+            <div class="spec__row">
+              <span class="spec__key">Ce que j'ai fait</span>
+              <div class="spec__val"><p>Interconnexion chiffrée WireGuard entre Azure et le cloud privé. Cluster PostgreSQL redondé par Patroni : bascule automatique du primaire, sans intervention humaine. Répartition de charge Azure devant les frontaux, volumes Cinder côté privé. L'environnement entier est décrit en OpenTofu et reconstructible depuis zéro.</p></div>
+            </div>
+            <div class="spec__row">
+              <span class="spec__key">Résultat</span>
+              <div class="spec__val spec__val--result"><p><span class="todo">[TODO: métrique]</span> RTO mesuré de la bascule Patroni, ou temps de reconstruction complète de l'environnement depuis l'IaC.</p></div>
+            </div>
+          </div>
+          <a class="card__more" href="/projects/arcl/">Lire le détail</a>
+        </article>
 
-  // ═══════════ PONG ═══════════
-  (function(){
-    const canvas=document.getElementById('pong'),ctx=canvas.getContext('2d');
-    const overlay=document.getElementById('pong-overlay');
-    const playerScoreEl=document.getElementById('pong-score-player'),aiScoreEl=document.getElementById('pong-score-ai');
-    const diffLabel=document.getElementById('pong-diff-label').querySelector('span');
+        <!-- CNP -->
+        <article class="card">
+          <div class="card__head">
+            <h3 class="card__title"><a href="/projects/cnp/">CNP — Internal Developer Platform</a></h3>
+            <span class="card__tag">Repository-first</span>
+          </div>
+          <div class="spec">
+            <div class="spec__row">
+              <span class="spec__key">Contexte</span>
+              <div class="spec__val"><p>Onboarder une application dans un workflow cloud-native prend des jours et dépend de qui accepte d'aider. CNP fait de ce parcours un produit.</p></div>
+            </div>
+            <div class="spec__row">
+              <span class="spec__key">Rôle</span>
+              <div class="spec__val"><p>Développement de la plateforme, de l'API jusqu'à l'intégration GitHub.</p></div>
+            </div>
+            <div class="spec__row">
+              <span class="spec__key">Stack</span>
+              <div class="spec__val spec__val--stack">Python 3.12 · FastAPI · PostgreSQL · SQLAlchemy · Alembic · GitHub App · GitHub Actions · Docker Compose · Kubernetes · Azure AKS · GHCR</div>
+            </div>
+            <div class="spec__row">
+              <span class="spec__key">Ce que j'ai fait</span>
+              <div class="spec__val"><p>Approche repository-first : une GitHub App instrumente le dépôt de l'équipe, génère le pipeline GitHub Actions, publie l'image sur GHCR et déclenche le déploiement sur AKS. L'API FastAPI tient l'état des applications et de leurs environnements, avec migrations Alembic.</p></div>
+            </div>
+            <div class="spec__row">
+              <span class="spec__key">Résultat</span>
+              <div class="spec__val spec__val--result"><p>Une équipe applicative passe du dépôt vide au premier déploiement sans écrire une ligne de pipeline. <span class="todo">[TODO: métrique]</span> time-to-first-deploy mesuré avant / après.</p></div>
+            </div>
+          </div>
+          <a class="card__more" href="/projects/cnp/">Lire le détail</a>
+        </article>
 
-    const W=canvas.width,H=canvas.height;
-    const PAD_W=8,PAD_H=60,BALL_SIZE=8,WIN_SCORE=7;
+        <!-- UBSI -->
+        <article class="card">
+          <div class="card__head">
+            <h3 class="card__title"><a href="/projects/ubsi/">UBSI — Leadership DevOps sur un SI multi-équipes</a></h3>
+            <span class="card__tag">50 participants</span>
+          </div>
+          <div class="spec">
+            <div class="spec__row">
+              <span class="spec__key">Contexte</span>
+              <div class="spec__val"><p>SI d'une compagnie aérienne miniature, simulation d'urbanisation menée par 50 participants répartis en plusieurs équipes applicatives.</p></div>
+            </div>
+            <div class="spec__row">
+              <span class="spec__key">Rôle</span>
+              <div class="spec__val"><p>Pilotage du workstream DevOps. Je fournis le socle ; les autres équipes construisent dessus.</p></div>
+            </div>
+            <div class="spec__row">
+              <span class="spec__key">Stack</span>
+              <div class="spec__val spec__val--stack">FastAPI · Python · PostgreSQL · RabbitMQ · Docker · Docker Compose · GitLab CI/CD · Prometheus · Grafana · Loki · Alembic · HTTPX</div>
+            </div>
+            <div class="spec__row">
+              <span class="spec__key">Ce que j'ai fait</span>
+              <div class="spec__val"><p>Définition des standards partagés — conventions d'API, format de logs, découpage des services. Mise en place de la chaîne CI/CD GitLab, du socle d'observabilité Prometheus / Grafana / Loki et du bus RabbitMQ servant d'intégration entre équipes.</p></div>
+            </div>
+            <div class="spec__row">
+              <span class="spec__key">Résultat</span>
+              <div class="spec__val spec__val--result"><p>Un socle commun imposé et effectivement adopté sur une simulation à 50 participants. <span class="todo">[TODO: métrique]</span> nombre d'équipes et de services intégrés au socle.</p></div>
+            </div>
+          </div>
+          <a class="card__more" href="/projects/ubsi/">Lire le détail</a>
+        </article>
 
-    const DIFFICULTIES={
-      easy:   {aiSpeed:2.5, ballSpeed:4,  label:'Facile'},
-      medium: {aiSpeed:4,   ballSpeed:5.5,label:'Moyen'},
-      hard:   {aiSpeed:6,   ballSpeed:7,  label:'Difficile'},
-      insane: {aiSpeed:9,   ballSpeed:9,  label:'Impossible'},
-    };
+      </div>
+    </section>
 
-    let diff='easy', running=false, animId=null;
-    let player,ai,ball,playerScore,aiScore;
+    <!-- ═══════════ 02 — PRODUCTION & SRE ═══════════ -->
+    <section class="section" id="sre" aria-labelledby="sre-title">
+      <div class="section__head">
+        <span class="section__num">02</span>
+        <h2 class="section__title" id="sre-title">Production &amp; SRE — SIOPS</h2>
+        <span class="section__kicker">Product Owner</span>
+      </div>
 
-    function applyDiff(d){
-      diff=d;
-      diffLabel.textContent=DIFFICULTIES[d].label;
-      // top bar buttons
-      document.querySelectorAll('.diff-btn').forEach(b=>b.classList.toggle('active',b.dataset.diff===d));
-      document.querySelectorAll('.pong-diff-overlay-btn').forEach(b=>b.classList.toggle('active',b.dataset.odiff===d));
-    }
+      <p class="section__lede">
+        L'équipe DevOps/SRE interne de la majeure SIGL. Cinq personnes, un cluster,
+        quatre clients qui attendent que ça marche. J'en suis Product Owner : j'arbitre
+        le backlog et je suis dans les logs.
+      </p>
 
-    function init(){
-      const cfg=DIFFICULTIES[diff];
-      player={x:12,y:H/2-PAD_H/2,w:PAD_W,h:PAD_H,dy:0};
-      ai={x:W-12-PAD_W,y:H/2-PAD_H/2,w:PAD_W,h:PAD_H};
-      const angle=(Math.random()*Math.PI/3)-(Math.PI/6);
-      ball={x:W/2,y:H/2,vx:cfg.ballSpeed,vy:cfg.ballSpeed*Math.sin(angle),size:BALL_SIZE};
-      playerScore=0;aiScore=0;
-      playerScoreEl.textContent=0;aiScoreEl.textContent=0;
-      running=true;overlay.classList.add('hidden');
-      if(animId)cancelAnimationFrame(animId);
-      gameLoop();
-    }
-
-    function resetBall(scoredLeft){
-      const cfg=DIFFICULTIES[diff];
-      const angle=(Math.random()*Math.PI/3)-(Math.PI/6);
-      ball={x:W/2,y:H/2,vx:cfg.ballSpeed,vy:cfg.ballSpeed*Math.sin(angle),size:BALL_SIZE};
-    }
-
-    function gameLoop(){
-      update();draw();
-      if(running)animId=requestAnimationFrame(gameLoop);
-    }
-
-    function update(){
-      const cfg=DIFFICULTIES[diff];
-      // Player input
-      player.y+=player.dy;
-      player.y=Math.max(0,Math.min(H-PAD_H,player.y));
-
-      // AI
-      const aiCenter=ai.y+PAD_H/2;
-      const target=ball.y;
-      const diff_=target-aiCenter;
-      // Add imprecision on easy/medium
-      const imprecision=diff==='easy'?18:diff==='medium'?8:diff==='hard'?3:0;
-      const jitter=(Math.random()-0.5)*imprecision;
-      if(Math.abs(diff_+jitter)>2){
-        ai.y+=Math.sign(diff_+jitter)*Math.min(cfg.aiSpeed,Math.abs(diff_+jitter));
-      }
-      ai.y=Math.max(0,Math.min(H-PAD_H,ai.y));
-
-      // Ball move
-      ball.x+=ball.vx; ball.y+=ball.vy;
-
-      // Top/bottom bounce
-      if(ball.y-ball.size/2<=0){ball.y=ball.size/2;ball.vy=Math.abs(ball.vy);}
-      if(ball.y+ball.size/2>=H){ball.y=H-ball.size/2;ball.vy=-Math.abs(ball.vy);}
-
-      // Player paddle
-      if(ball.vx<0&&ball.x-ball.size/2<=player.x+PAD_W&&ball.x+ball.size/2>=player.x&&ball.y+ball.size/2>=player.y&&ball.y-ball.size/2<=player.y+PAD_H){
-        ball.x=player.x+PAD_W+ball.size/2;
-        const hit=(ball.y-(player.y+PAD_H/2))/(PAD_H/2);
-        const angle=hit*(Math.PI/3.5);
-        const speed=Math.sqrt(ball.vx*ball.vx+ball.vy*ball.vy)*1.04;
-        ball.vx=Math.cos(angle)*speed; ball.vy=Math.sin(angle)*speed;
-      }
-      // AI paddle
-      if(ball.vx>0&&ball.x+ball.size/2>=ai.x&&ball.x-ball.size/2<=ai.x+PAD_W&&ball.y+ball.size/2>=ai.y&&ball.y-ball.size/2<=ai.y+PAD_H){
-        ball.x=ai.x-ball.size/2;
-        const hit=(ball.y-(ai.y+PAD_H/2))/(PAD_H/2);
-        const angle=hit*(Math.PI/3.5);
-        const speed=Math.sqrt(ball.vx*ball.vx+ball.vy*ball.vy)*1.04;
-        ball.vx=-Math.cos(angle)*speed; ball.vy=Math.sin(angle)*speed;
-      }
-
-      // Score
-      if(ball.x<0){aiScore++;aiScoreEl.textContent=aiScore;if(aiScore>=WIN_SCORE)return endGame(false);resetBall(false);}
-      if(ball.x>W){playerScore++;playerScoreEl.textContent=playerScore;if(playerScore>=WIN_SCORE)return endGame(true);resetBall(true);}
-    }
-
-    function endGame(won){
-      running=false;
-      overlay.innerHTML=`
-        <div class="overlay-title">${won?'Victoire !':'Défaite'}</div>
-        <div class="overlay-sub" style="margin-top:0.4rem;color:#555">${playerScore} — ${aiScore}</div>
-        <div class="pong-overlay-diff" style="margin-top:1rem">
-          <button class="pong-diff-overlay-btn${diff==='easy'?' active':''}" data-odiff="easy">Facile</button>
-          <button class="pong-diff-overlay-btn${diff==='medium'?' active':''}" data-odiff="medium">Moyen</button>
-          <button class="pong-diff-overlay-btn${diff==='hard'?' active':''}" data-odiff="hard">Difficile</button>
-          <button class="pong-diff-overlay-btn${diff==='insane'?' active':''}" data-odiff="insane">Impossible</button>
+      <div class="figures">
+        <div class="figure">
+          <span class="figure__value">RKE2 v1.32</span>
+          <span class="figure__label">6 nœuds sur OpenStack · CNI Flannel · stockage Cinder CSI</span>
         </div>
-        <div class="overlay-sub" style="margin-top:1rem">Cliquer pour rejouer</div>`;
-      overlay.classList.remove('hidden');
-      bindOverlayDiffBtns();
-    }
+        <div class="figure">
+          <span class="figure__value">~60 applications</span>
+          <span class="figure__label">gérées par ArgoCD · 4 clients en production et staging</span>
+        </div>
+        <div class="figure">
+          <span class="figure__value">~440 commits</span>
+          <span class="figure__label">sur le semestre · équipe de 5 · Kanban sur Linear</span>
+        </div>
+      </div>
 
-    function draw(){
-      ctx.clearRect(0,0,W,H);
-      // Center line
-      ctx.setLineDash([6,8]);ctx.strokeStyle='#1e1e1e';ctx.lineWidth=1;
-      ctx.beginPath();ctx.moveTo(W/2,0);ctx.lineTo(W/2,H);ctx.stroke();ctx.setLineDash([]);
-      // Paddles
-      ctx.fillStyle='#f0f0f0';
-      ctx.fillRect(player.x,player.y,PAD_W,PAD_H);
-      ctx.fillRect(ai.x,ai.y,PAD_W,PAD_H);
-      // Ball
-      ctx.fillRect(ball.x-ball.size/2,ball.y-ball.size/2,ball.size,ball.size);
-    }
+      <div class="cards">
 
-    // Controls
-    const keys={};
-    document.addEventListener('keydown',e=>{
-      keys[e.key]=true;
-      if((e.key==='ArrowUp'||e.key==='w'||e.key==='W'||e.key==='ArrowDown'||e.key==='s'||e.key==='S')&&running)e.preventDefault();
-    });
-    document.addEventListener('keyup',e=>{keys[e.key]=false;});
+        <!-- Cassiopée -->
+        <article class="card">
+          <div class="card__head">
+            <h3 class="card__title"><a href="/projects/siops/">Cassiopée — portail self-service GitOps</a></h3>
+            <span class="card__tag">Sous-projet SIOPS</span>
+          </div>
+          <div class="spec">
+            <div class="spec__row">
+              <span class="spec__key">Contexte</span>
+              <div class="spec__val"><p>Chaque demande d'environnement passait par un membre de l'équipe plateforme. Cassiopée en fait un portail self-service piloté par Git.</p></div>
+            </div>
+            <div class="spec__row">
+              <span class="spec__key">Rôle</span>
+              <div class="spec__val"><p>Product Owner — cadrage du besoin, découpage du backlog, arbitrage des quotas.</p></div>
+            </div>
+            <div class="spec__row">
+              <span class="spec__key">Stack</span>
+              <div class="spec__val spec__val--stack">FastAPI · ArgoCD · Helm · HashiCorp Vault · Swift / RGW</div>
+            </div>
+            <div class="spec__row">
+              <span class="spec__key">Ce que j'ai fait</span>
+              <div class="spec__val"><p>Un utilisateur demande une application, une base, un bucket S3 ou une ingress. Le portail commite le <code>values.yaml</code> dans le dépôt GitOps, ArgoCD réconcilie. Les credentials sont générés à la volée et stockés dans Vault — jamais dans le dépôt. Quotas appliqués par groupe.</p></div>
+            </div>
+            <div class="spec__row">
+              <span class="spec__key">Résultat</span>
+              <div class="spec__val spec__val--result"><p>Un environnement complet déployé par commit, sans intervention de l'équipe plateforme. <span class="todo">[TODO: métrique]</span> nombre d'environnements provisionnés via le portail.</p></div>
+            </div>
+          </div>
+          <a class="card__more" href="/projects/siops/">Lire le détail SIOPS</a>
+        </article>
 
-    setInterval(()=>{
-      if(!running)return;
-      if(keys['ArrowUp']||keys['w']||keys['W'])player.dy=-6;
-      else if(keys['ArrowDown']||keys['s']||keys['S'])player.dy=6;
-      else player.dy=0;
-    },16);
+        <!-- Mutualisation -->
+        <article class="card">
+          <div class="card__head">
+            <h3 class="card__title">Mutualisation des ressources</h3>
+            <span class="card__tag">Décision produit</span>
+          </div>
+          <div class="spec">
+            <div class="spec__row">
+              <span class="spec__key">Contexte</span>
+              <div class="spec__val"><p>Chaque groupe disposait d'un quota fixe, calibré au plus juste. Résultat : de la capacité réservée et inutilisée d'un côté, des équipes bloquées à livrer des maquettes de l'autre.</p></div>
+            </div>
+            <div class="spec__row">
+              <span class="spec__key">Ce que j'ai fait</span>
+              <div class="spec__val"><p>J'ai porté le passage à un pool commun : la capacité va là où il y a de la demande réelle, au lieu de dormir dans des quotas. Le pari est explicite — accepter un risque de contention pour que les équipes mènent de vrais projets plutôt que des démos.</p></div>
+            </div>
+            <div class="spec__row">
+              <span class="spec__key">Résultat</span>
+              <div class="spec__val spec__val--result"><p><span class="todo">[TODO: métrique]</span> taux d'utilisation du pool avant / après la bascule.</p></div>
+            </div>
+          </div>
+        </article>
 
-    // Difficulty buttons (top bar)
-    document.querySelectorAll('.diff-btn').forEach(btn=>{
-      btn.addEventListener('click',()=>applyDiff(btn.dataset.diff));
-    });
+      </div>
 
-    function bindOverlayDiffBtns(){
-      document.querySelectorAll('.pong-diff-overlay-btn').forEach(btn=>{
-        btn.addEventListener('click',e=>{e.stopPropagation();applyDiff(btn.dataset.odiff);});
-      });
-    }
-    bindOverlayDiffBtns();
+      <h3 class="section__title" style="font-size:1.05rem;margin:2.5rem 0 1rem">Incidents &amp; post-mortems</h3>
 
-    overlay.addEventListener('click',init);
+      <div class="incidents">
 
-    // Initial draw
-    ctx.fillStyle='#1a1a1a';
-    ctx.fillRect(0,0,W,H);
-  })();
-  </script>
+        <article class="incident">
+          <span class="incident__id">INC-01 · Control plane</span>
+          <h4 class="incident__title">Le cluster se bloque lui-même au redémarrage</h4>
+          <dl>
+            <dt>Symptôme</dt>
+            <dd>master-1 injoignable, API server instable, cluster en fonctionnement dégradé.</dd>
+            <dt>Diagnostic</dt>
+            <dd>Nœud sous-dimensionné : l'<strong>OOM killer tue etcd</strong>, le quorum tombe à 2/3. <code>rke2-server</code> attend kubelet, qui attend le static pod etcd, qui ne démarre plus. Interblocage.</dd>
+            <dt>Correctif</dt>
+            <dd><code>rke2-killall</code> pour casser la boucle, redémarrage propre du nœud, puis redimensionnement du master.</dd>
+            <dt>Leçon</dt>
+            <dd>Un control plane ne se dimensionne pas comme un worker. Les ressources d'etcd sont une contrainte de disponibilité, pas une ligne de facture.</dd>
+          </dl>
+        </article>
+
+        <article class="incident">
+          <span class="incident__id">INC-02 · Sauvegardes</span>
+          <h4 class="incident__title">Trois semaines sans sauvegarde, et les jobs étaient verts</h4>
+          <dl>
+            <dt>Symptôme</dt>
+            <dd>Aucun snapshot récent dans le dépôt. Les jobs de sauvegarde remontaient pourtant en succès.</dd>
+            <dt>Diagnostic</dt>
+            <dd>Quota S3 saturé à 500 GiB. Dépôt restic à <strong>486 GiB et 349 snapshots jamais purgés</strong> : le nom de dump contenait la date, donc chaque sauvegarde créait son propre groupe et la politique de rétention ne s'appliquait à rien.</dd>
+            <dt>Correctif</dt>
+            <dd>Montée de version de restic, <code>forget --group-by host</code> puis <code>prune</code> : <strong>486 → 48 GiB</strong>. Script durci avec <code>set -euo pipefail</code> et un nom de dump stable.</dd>
+            <dt>Leçon</dt>
+            <dd>Un job vert ne prouve rien. Ce qu'on surveille, c'est l'âge du dernier snapshot restaurable — pas le code de sortie du cron.</dd>
+          </dl>
+        </article>
+
+        <article class="incident">
+          <span class="incident__id">INC-03 · Vault</span>
+          <h4 class="incident__title">La chaîne de descellement se mord la queue</h4>
+          <dl>
+            <dt>Symptôme</dt>
+            <dd>Audit de la chaîne de démarrage de Vault, mené après un redémarrage de la plateforme.</dd>
+            <dt>Diagnostic</dt>
+            <dd>L'auto-unseal transit du Vault principal dépend d'un <strong>Vault secondaire scellé en Shamir et déployé en réplique unique</strong>. Si le secondaire tombe, plus rien ne se descelle — y compris les secrets nécessaires pour le remonter.</dd>
+            <dt>Correctif</dt>
+            <dd>SPOF identifié, documenté et porté au backlog avec ses options de sortie. <span class="todo">[TODO: statut de la remédiation]</span></dd>
+            <dt>Leçon</dt>
+            <dd>Une dépendance circulaire au démarrage est invisible en régime nominal. Elle se voit le jour où tout redémarre en même temps.</dd>
+          </dl>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- ═══════════ 03 — SOFTWARE ENGINEERING ═══════════ -->
+    <section class="section" id="software" aria-labelledby="software-title">
+      <div class="section__head">
+        <span class="section__num">03</span>
+        <h2 class="section__title" id="software-title">Software Engineering</h2>
+        <span class="section__kicker">Ipsos — Global BI</span>
+      </div>
+
+      <div class="cards">
+        <article class="card">
+          <div class="card__head">
+            <h3 class="card__title"><a href="/projects/ipsos/">Ipsos — Refonte du moteur d'export Excel</a></h3>
+            <span class="card__tag">sept. 2025 – janv. 2026</span>
+          </div>
+          <div class="spec">
+            <div class="spec__row">
+              <span class="spec__key">Contexte</span>
+              <div class="spec__val"><p>Portail financier C# / ASP.NET utilisé par les contrôleurs de gestion de plus de 90 pays. Le moteur d'export Excel tombait en <code>OutOfMemoryException</code> au-delà de 50 000 lignes.</p></div>
+            </div>
+            <div class="spec__row">
+              <span class="spec__key">Rôle</span>
+              <div class="spec__val"><p>Software Developer, Global Business Intelligence. Équipe répartie Europe / Amérique du Nord / Inde, travail en anglais, Jira, agile.</p></div>
+            </div>
+            <div class="spec__row">
+              <span class="spec__key">Stack</span>
+              <div class="spec__val spec__val--stack">C# · ASP.NET · IIS · SQL Server · Open XML SDK (mode SAX) · EPPlus (V1) · Python</div>
+            </div>
+            <div class="spec__row">
+              <span class="spec__key">Ce que j'ai fait</span>
+              <div class="spec__val"><p>Diagnostic : double allocation <code>DataTable</code> + EPPlus et fragmentation du Large Object Heap — 3 à 4 Go de mémoire pour 50 Mo de données. Réécriture en streaming pur : Open XML SDK en mode SAX, <code>IDataReader</code> en <code>SequentialAccess</code>, écriture directe sur <code>FileStream</code>, feuille de style unique indexée, parsers sans allocation, auto-fit prédictif en deux passes, recompression du <code>.xlsx</code>.</p></div>
+            </div>
+            <div class="spec__row">
+              <span class="spec__key">Résultat</span>
+              <div class="spec__val spec__val--result"><p>Mémoire stable à <strong>100–200 Mo</strong>. <strong>1 million de lignes en ~2 min</strong> là où la V1 crashait à 45 s. Les incidents OOM ont disparu des logs de production et les fichiers sont <strong>20 à 30 % plus légers</strong>.</p></div>
+            </div>
+          </div>
+          <a class="card__more" href="/projects/ipsos/">Lire le détail technique</a>
+        </article>
+      </div>
+    </section>
+
+    <!-- ═══════════ 04 — CONSULTING & SI ═══════════ -->
+    <section class="section" id="consulting" aria-labelledby="consulting-title">
+      <div class="section__head">
+        <span class="section__num">04</span>
+        <h2 class="section__title" id="consulting-title">Consulting &amp; SI</h2>
+        <span class="section__kicker">Budget · risque · architecture</span>
+      </div>
+
+      <p class="section__lede">
+        Parler budget, risque et architecture cible avec des interlocuteurs qui ne
+        liront jamais un YAML — et repartir avec une décision.
+      </p>
+
+      <div class="cards">
+
+        <article class="card">
+          <div class="card__head">
+            <h3 class="card__title"><a href="/projects/danone/">Danone — Architecture SAP S/4HANA Finance</a></h3>
+            <span class="card__tag">Architecture cible</span>
+          </div>
+          <div class="spec">
+            <div class="spec__row">
+              <span class="spec__key">Ce que j'ai fait</span>
+              <div class="spec__val"><p>Socle conceptuel du domaine Finance, cartographie des flux et des objets de gestion, deck d'architecture et soutenance devant jury.</p></div>
+            </div>
+            <div class="spec__row">
+              <span class="spec__key">Résultat</span>
+              <div class="spec__val spec__val--result"><p><span class="todo">[TODO: métrique]</span> périmètre couvert ou note de soutenance.</p></div>
+            </div>
+          </div>
+          <a class="card__more" href="/projects/danone/">Lire le détail</a>
+        </article>
+
+        <article class="card">
+          <div class="card__head">
+            <h3 class="card__title"><a href="/projects/beblood/">BeBlood — Transformation SIRH (Oracle HCM)</a></h3>
+            <span class="card__tag">Chiffrage Monte-Carlo</span>
+          </div>
+          <div class="spec">
+            <div class="spec__row">
+              <span class="spec__key">Ce que j'ai fait</span>
+              <div class="spec__val"><p>Chiffrage et estimation de charge par simulation Monte-Carlo au P80, registre des risques associé au workstream.</p></div>
+            </div>
+            <div class="spec__row">
+              <span class="spec__key">Résultat</span>
+              <div class="spec__val spec__val--result"><p>Une fourchette de charge défendable avec son niveau de confiance, plutôt qu'un chiffre unique sorti d'un tableur. <span class="todo">[TODO: métrique]</span> charge estimée et écart P50 / P80.</p></div>
+            </div>
+          </div>
+          <a class="card__more" href="/projects/beblood/">Lire le détail</a>
+        </article>
+
+        <article class="card">
+          <div class="card__head">
+            <h3 class="card__title"><a href="/projects/ebios/">Analyse de risques EBIOS RM</a></h3>
+            <span class="card__tag">Sécurité</span>
+          </div>
+          <div class="spec">
+            <div class="spec__row">
+              <span class="spec__key">Ce que j'ai fait</span>
+              <div class="spec__val"><p>Démarche complète sur un SI cible : cadrage et socle de sécurité, sources de risque, scénarios stratégiques puis opérationnels, traitement du risque.</p></div>
+            </div>
+            <div class="spec__row">
+              <span class="spec__key">Résultat</span>
+              <div class="spec__val spec__val--result"><p><span class="todo">[TODO: métrique]</span> nombre de scénarios opérationnels retenus et de mesures de traitement arbitrées.</p></div>
+            </div>
+          </div>
+          <a class="card__more" href="/projects/ebios/">Lire le détail</a>
+        </article>
+
+        <article class="card">
+          <div class="card__head">
+            <h3 class="card__title"><a href="/projects/decrypt-ia/">Décrypt'IA — littératie IA</a></h3>
+            <span class="card__tag">CNIL / Éducation nationale</span>
+          </div>
+          <div class="spec">
+            <div class="spec__row">
+              <span class="spec__key">Ce que j'ai fait</span>
+              <div class="spec__val"><p>Produit de littératie à l'IA destiné à la CNIL et à l'Éducation nationale, mené du cadrage jusqu'au MVP et à sa soutenance.</p></div>
+            </div>
+            <div class="spec__row">
+              <span class="spec__key">Résultat</span>
+              <div class="spec__val spec__val--result"><p><span class="todo">[TODO: métrique]</span> périmètre du MVP livré ou retour du commanditaire.</p></div>
+            </div>
+          </div>
+          <a class="card__more" href="/projects/decrypt-ia/">Lire le détail</a>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- ═══════════ 05 — PRODUCT & ENTREPRENEURIAT ═══════════ -->
+    <section class="section" id="product" aria-labelledby="product-title">
+      <div class="section__head">
+        <span class="section__num">05</span>
+        <h2 class="section__title" id="product-title">Product &amp; Entrepreneuriat</h2>
+        <span class="section__kicker">Lendr</span>
+      </div>
+
+      <div class="cards">
+        <article class="card">
+          <div class="card__head">
+            <h3 class="card__title"><a href="/projects/lendr/">Lendr — casiers connectés à vérification d'état par IA</a></h3>
+            <span class="card__tag">Startup B2B cofondée</span>
+          </div>
+          <div class="spec">
+            <div class="spec__row">
+              <span class="spec__key">Contexte</span>
+              <div class="spec__val"><p>Un casier connecté qui contrôle par IA l'état du matériel rendu. Premier positionnement scolaire, marché trop étroit et trop peu solvable.</p></div>
+            </div>
+            <div class="spec__row">
+              <span class="spec__key">Rôle</span>
+              <div class="spec__val"><p>Cofondateur — produit, modèle économique et pitch.</p></div>
+            </div>
+            <div class="spec__row">
+              <span class="spec__key">Ce que j'ai fait</span>
+              <div class="spec__val"><p>Repositionnement vers le field service et la maintenance industrielle, face à CribMaster et SupplyPoint. Business model canvas, BOM hardware, modèle financier Excel — P&amp;L, projections à 5 ans, analyse de levée et de levier — et pitch deck investisseurs.</p></div>
+            </div>
+            <div class="spec__row">
+              <span class="spec__key">Résultat</span>
+              <div class="spec__val spec__val--result"><p>Je sais chiffrer un produit, pas seulement le coder. <span class="todo">[TODO: métrique]</span> coût unitaire du BOM ou montant de levée modélisé.</p></div>
+            </div>
+          </div>
+          <a class="card__more" href="/projects/lendr/">Lire le détail</a>
+        </article>
+      </div>
+    </section>
+
+    <!-- ═══════════ PARCOURS ═══════════ -->
+    <section class="section" id="parcours" aria-labelledby="parcours-title">
+      <div class="section__head">
+        <span class="section__num">—</span>
+        <h2 class="section__title" id="parcours-title">Parcours</h2>
+      </div>
+
+      <ul class="timeline">
+        <li>
+          <span class="timeline__when">2022 – 2027</span>
+          <span class="timeline__what"><strong>EPITA — majeure SIGL</strong>
+            <span>Systèmes d'Information &amp; Génie Logiciel. Promo 2027.</span></span>
+        </li>
+        <li>
+          <span class="timeline__when">2025 – 2026</span>
+          <span class="timeline__what"><strong>Ipsos — Software Developer, Global BI</strong>
+            <span>Refonte du moteur d'export Excel d'un portail financier utilisé dans plus de 90 pays.</span></span>
+        </li>
+        <li>
+          <span class="timeline__when">En cours</span>
+          <span class="timeline__what"><strong>Product Owner — SIOPS</strong>
+            <span>Équipe DevOps/SRE de cinq personnes, cluster RKE2 de production sur OpenStack.</span></span>
+        </li>
+        <li>
+          <span class="timeline__when">Un semestre</span>
+          <span class="timeline__what"><strong>FPT University, Vietnam</strong>
+            <span>Semestre d'échange. TOEIC 900.</span></span>
+        </li>
+        <li>
+          <span class="timeline__when">Mandat en cours</span>
+          <span class="timeline__what"><strong>Délégué de promotion</strong>
+            <span>Interface entre la promo et l'administration de la majeure.</span></span>
+        </li>
+        <li>
+          <span class="timeline__when">Avant</span>
+          <span class="timeline__what"><strong>Clayens NP — opérateur</strong>
+            <span>Premier contact avec la production industrielle et ses contraintes.</span></span>
+        </li>
+        <li>
+          <span class="timeline__when">9 ans</span>
+          <span class="timeline__what"><strong>Scoutisme — dont 4 ans chef d'unité</strong>
+            <span>Encadrement, logistique et responsabilité de groupe sur le terrain.</span></span>
+        </li>
+      </ul>
+    </section>
+
+    <!-- ═══════════ STACK ═══════════ -->
+    <section class="section" id="stack" aria-labelledby="stack-title">
+      <div class="section__head">
+        <span class="section__num">—</span>
+        <h2 class="section__title" id="stack-title">Stack</h2>
+        <span class="section__kicker">Sans niveaux ni pourcentages</span>
+      </div>
+
+      <div class="stack-groups">
+        <div class="stack-group">
+          <span class="stack-group__name">Infra &amp; Cloud</span>
+          <span class="stack-group__items">Kubernetes / RKE2 · OpenStack · Azure · Terraform / OpenTofu · Ansible · Cinder · WireGuard</span>
+        </div>
+        <div class="stack-group">
+          <span class="stack-group__name">GitOps &amp; CI/CD</span>
+          <span class="stack-group__items">ArgoCD · Helm · GitLab CI · GitHub Actions · Kaniko · Docker</span>
+        </div>
+        <div class="stack-group">
+          <span class="stack-group__name">Sécurité &amp; secrets</span>
+          <span class="stack-group__items">HashiCorp Vault · Boundary · OIDC · EBIOS Risk Manager</span>
+        </div>
+        <div class="stack-group">
+          <span class="stack-group__name">Observabilité</span>
+          <span class="stack-group__items">Prometheus · Grafana · Loki · Alloy · Gatus</span>
+        </div>
+        <div class="stack-group">
+          <span class="stack-group__name">Développement</span>
+          <span class="stack-group__items">Python / FastAPI · C# / .NET · Java / Quarkus · React · PostgreSQL · MariaDB · RabbitMQ</span>
+        </div>
+        <div class="stack-group">
+          <span class="stack-group__name">SI &amp; conseil</span>
+          <span class="stack-group__items">SAP S/4HANA · Oracle HCM · ITIL / COBIT · chiffrage et gestion des risques</span>
+        </div>
+        <div class="stack-group">
+          <span class="stack-group__name">Environnement</span>
+          <span class="stack-group__items">Arch Linux</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════ CONTACT ═══════════ -->
+    <section class="section" id="contact" aria-labelledby="contact-title">
+      <div class="section__head">
+        <span class="section__num">—</span>
+        <h2 class="section__title" id="contact-title">Contact</h2>
+        <span class="section__kicker">Réponse sous 24 h</span>
+      </div>
+
+      <p class="section__lede">
+        Je cherche un stage de pré-embauche de 6 mois à partir de février 2027, sur des
+        postes Platform, Cloud, SRE ou DevOps — avec une ouverture Product technique.
+        Écrivez-moi directement, le mail arrive dans ma boîte, pas dans un formulaire.
+      </p>
+
+      <dl class="contact-grid">
+        <div class="contact-item">
+          <dt>E-mail</dt>
+          <dd><a href="mailto:tom.giles@epita.fr">tom.giles@epita.fr</a></dd>
+        </div>
+        <div class="contact-item">
+          <dt>Téléphone</dt>
+          <dd><a href="tel:+33695104056">06 95 10 40 56</a></dd>
+        </div>
+        <div class="contact-item">
+          <dt>Localisation</dt>
+          <dd>Paris / Vosges — mobile</dd>
+        </div>
+        <div class="contact-item">
+          <dt>Langues</dt>
+          <dd>Français · Anglais (TOEIC 900)</dd>
+        </div>
+      </dl>
+
+      <div class="actions">
+        <a class="btn btn--primary" href="mailto:tom.giles@epita.fr?subject=Stage%206%20mois%20%E2%80%94%20f%C3%A9vrier%202027">Écrire à Tom</a>
+        <a class="btn btn--ghost" href="/cv/tom-giles-cv.pdf" download>Télécharger le CV (PDF)</a>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<footer class="site-footer">
+  <div class="site-footer__inner">
+    <span>Tom Giles — EPITA SIGL 2027</span>
+    <span><a href="mailto:tom.giles@epita.fr">tom.giles@epita.fr</a> · <a href="/en/" hreflang="en">English version</a></span>
+  </div>
+</footer>
+
+<script src="/assets/main.js" defer></script>
 </body>
 </html>

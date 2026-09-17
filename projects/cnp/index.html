@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="fr" prefix="og: https://ogp.me/ns#">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CNP — Internal Developer Platform — Tom Giles</title>
+<meta name="description" content="CNP : Internal Developer Platform repository-first — GitHub App, pipeline GitHub Actions généré, publication GHCR et déploiement AKS, API FastAPI.">
+<link rel="canonical" href="https://tom.giles.fr/projects/cnp/">
+<link rel="alternate" hreflang="fr" href="https://tom.giles.fr/projects/cnp/">
+<link rel="alternate" hreflang="en" href="https://tom.giles.fr/en/projects/cnp/">
+<link rel="alternate" hreflang="x-default" href="https://tom.giles.fr/projects/cnp/">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:locale:alternate" content="en_GB">
+<meta property="og:url" content="https://tom.giles.fr/projects/cnp/">
+<meta property="og:site_name" content="Tom Giles">
+<meta property="og:title" content="CNP — Internal Developer Platform — Tom Giles">
+<meta property="og:description" content="CNP : Internal Developer Platform repository-first — GitHub App, pipeline GitHub Actions généré, publication GHCR et déploiement AKS, API FastAPI.">
+<meta property="og:image" content="https://tom.giles.fr/assets/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#F5F7F8" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0B1015" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/assets/style.css">
+<script>try{var t=localStorage.getItem("theme");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+</head>
+
+<body>
+<a class="skip-link" href="#main">Aller au contenu</a>
+
+<header class="topbar">
+  <a class="topbar__id" href="/">tom giles <span class="dim">/ platform &amp; cloud</span></a>
+  <div class="topbar__tools">
+    <a class="btn-ghost" href="/projects/cnp/" aria-current="true" hreflang="fr">FR</a>
+    <a class="btn-ghost" href="/en/projects/cnp/" hreflang="en">EN</a>
+    <button class="btn-ghost" type="button" data-theme-toggle>Sombre</button>
+  </div>
+</header>
+
+<main class="project" id="main">
+  <p class="crumb"><a href="/#platform">Retour — 01 Platform & Cloud</a></p>
+
+  <h1 class="project__title">CNP — Internal Developer Platform</h1>
+  <p class="project__sub">Plateforme repository-first qui embarque une application dans un workflow cloud-native standardisé, sans qu'elle écrive son pipeline.</p>
+
+  <dl class="meta">
+    <div><dt>Rôle</dt><dd>Développement plateforme</dd></div>
+    <div><dt>Modèle</dt><dd>Repository-first</dd></div>
+    <div><dt>Cible</dt><dd>Azure AKS</dd></div>
+    <div><dt>Cœur</dt><dd>Python 3.12 / FastAPI</dd></div>
+  </dl>
+
+
+  <h2 data-n="01">Le problème</h2>
+  <p>Onboarder une application dans un workflow cloud-native prend des jours, et le délai
+  dépend surtout de qui, dans l'équipe plateforme, accepte d'aider. Chaque équipe réinvente
+  son pipeline, avec ses propres approximations sur la sécurité et les conventions.</p>
+  <p>CNP fait de ce parcours un produit : le chemin standard devient le chemin le plus
+  facile.</p>
+
+  <h2 data-n="02">Comment ça marche</h2>
+  <p>L'approche est repository-first. Une GitHub App instrumente le dépôt de l'équipe
+  applicative : elle y installe le pipeline GitHub Actions, qui construit l'image, la
+  publie sur GHCR et déclenche le déploiement sur Azure AKS.</p>
+  <p>Derrière, une API FastAPI tient l'état des applications et de leurs environnements,
+  sur PostgreSQL via SQLAlchemy, avec les migrations gérées par Alembic. L'environnement de
+  développement complet tourne en Docker Compose.</p>
+  <p class="kv">Python 3.12 · FastAPI · PostgreSQL · SQLAlchemy · Alembic · GitHub App ·
+  GitHub Actions · Docker Compose · Kubernetes · Azure AKS · GHCR</p>
+
+  <h2 data-n="03">Ce que j'ai fait</h2>
+  <ul>
+    <li>Développement de l'API de la plateforme et de son modèle de données
+    (applications, environnements, déploiements).</li>
+    <li>Intégration GitHub App : installation, permissions, écriture du pipeline dans le
+    dépôt cible.</li>
+    <li>Chaîne build → GHCR → déploiement AKS.</li>
+    <li>Migrations Alembic et environnement de développement reproductible.</li>
+  </ul>
+
+  <h2 data-n="04">Résultat</h2>
+  <p>Une équipe applicative passe du dépôt vide au premier déploiement sans écrire une
+  ligne de pipeline. <span class="todo">[TODO: métrique]</span> time-to-first-deploy mesuré avant et après.</p>
+
+  <h2 data-n="05">Ce que j'en retire</h2>
+  <p>Une plateforme interne n'est pas un outil, c'est un produit avec des utilisateurs qui
+  ont le droit de la contourner. Si le chemin standard n'est pas le plus rapide, personne
+  ne le prend — et on se retrouve avec la gouvernance sur le papier et le chaos dans les
+  dépôts.</p>
+
+
+  <div class="project-nav">
+    <a class="btn btn--primary" href="mailto:tom.giles@epita.fr?subject=Stage%206%20mois%20%E2%80%94%20f%C3%A9vrier%202027">Me contacter</a>
+    <a class="btn btn--ghost" href="/#platform">Retour</a>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="site-footer__inner">
+    <span>Tom Giles — EPITA SIGL 2027</span>
+    <span><a href="mailto:tom.giles@epita.fr">tom.giles@epita.fr</a> · <a href="/en/">English version</a></span>
+  </div>
+</footer>
+
+<script src="/assets/main.js" defer></script>
+</body>
+</html>

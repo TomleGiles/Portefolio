@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="fr" prefix="og: https://ogp.me/ns#">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SIOPS — plateforme Kubernetes de production — Tom Giles</title>
+<meta name="description" content="SIOPS : cluster RKE2 v1.32 de production sur OpenStack — 6 nœuds, ~60 applications ArgoCD, 4 clients. Rôle de Product Owner, portail GitOps Cassiopée et post-mortems.">
+<link rel="canonical" href="https://tom.giles.fr/projects/siops/">
+<link rel="alternate" hreflang="fr" href="https://tom.giles.fr/projects/siops/">
+<link rel="alternate" hreflang="en" href="https://tom.giles.fr/en/projects/siops/">
+<link rel="alternate" hreflang="x-default" href="https://tom.giles.fr/projects/siops/">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:locale:alternate" content="en_GB">
+<meta property="og:url" content="https://tom.giles.fr/projects/siops/">
+<meta property="og:site_name" content="Tom Giles">
+<meta property="og:title" content="SIOPS — plateforme Kubernetes de production — Tom Giles">
+<meta property="og:description" content="SIOPS : cluster RKE2 v1.32 de production sur OpenStack — 6 nœuds, ~60 applications ArgoCD, 4 clients. Rôle de Product Owner, portail GitOps Cassiopée et post-mortems.">
+<meta property="og:image" content="https://tom.giles.fr/assets/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#F5F7F8" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0B1015" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/assets/style.css">
+<script>try{var t=localStorage.getItem("theme");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+</head>
+
+<body>
+<a class="skip-link" href="#main">Aller au contenu</a>
+
+<header class="topbar">
+  <a class="topbar__id" href="/">tom giles <span class="dim">/ platform &amp; cloud</span></a>
+  <div class="topbar__tools">
+    <a class="btn-ghost" href="/projects/siops/" aria-current="true" hreflang="fr">FR</a>
+    <a class="btn-ghost" href="/en/projects/siops/" hreflang="en">EN</a>
+    <button class="btn-ghost" type="button" data-theme-toggle>Sombre</button>
+  </div>
+</header>
+
+<main class="project" id="main">
+  <p class="crumb"><a href="/#sre">Retour — 02 Production & SRE</a></p>
+
+  <h1 class="project__title">SIOPS — plateforme Kubernetes de production</h1>
+  <p class="project__sub">Cluster RKE2 sur OpenStack opéré à cinq, quatre clients hébergés, et les incidents qui vont avec.</p>
+
+  <dl class="meta">
+    <div><dt>Rôle</dt><dd>Product Owner</dd></div>
+    <div><dt>Équipe</dt><dd>5 personnes</dd></div>
+    <div><dt>Plateforme</dt><dd>RKE2 v1.32 / OpenStack</dd></div>
+    <div><dt>Méthode</dt><dd>Kanban, Linear</dd></div>
+  </dl>
+
+
+  <h2 data-n="01">La plateforme</h2>
+  <p>SIOPS est l'équipe DevOps/SRE interne de la majeure SIGL. Elle opère un cluster
+  Kubernetes réellement en production : d'autres équipes y hébergent leurs applications,
+  s'y connectent tous les jours et remontent quand ça casse. Ce n'est pas un lab qu'on
+  reconstruit le lundi matin.</p>
+
+  <div class="callout">
+    <span class="mono">Inventaire</span>
+    <p class="kv">RKE2 v1.32 · 6 nœuds sur OpenStack · CNI Flannel · stockage Cinder CSI<br>
+    ~60 applications réconciliées par ArgoCD · 4 clients en production + staging<br>
+    Observabilité : Prometheus · Grafana · Loki · Alloy · Gatus<br>
+    ~440 commits sur le semestre, équipe de 5, Kanban sur Linear</p>
+  </div>
+
+  <h2 data-n="02">Mon rôle — Product Owner</h2>
+  <p>Je tiens le backlog de l'équipe et j'arbitre ce qui passe. Concrètement : traduire une
+  demande client en incrément livrable, décider ce qu'on ne fait pas ce sprint, et défendre
+  cet arbitrage devant les clients comme devant l'équipe.</p>
+  <p>Ce n'est pas un rôle de façade : je suis dans les logs et sur les post-mortems. C'est
+  précisément pour ça que les arbitrages tiennent — je sais ce que coûte réellement une
+  demande qui paraît anodine.</p>
+
+  <h2 data-n="03">Cassiopée — portail self-service GitOps</h2>
+  <p>Avant Cassiopée, chaque demande d'environnement passait par un membre de l'équipe
+  plateforme. Le portail transforme ce parcours en self-service piloté par Git.</p>
+  <p>Un utilisateur demande une application, une base de données, un bucket S3 ou une
+  ingress. Le portail écrit le <code>values.yaml</code> correspondant dans le dépôt GitOps ;
+  ArgoCD réconcilie. Les credentials sont générés à la volée et stockés dans Vault — ils ne
+  transitent jamais par le dépôt. Les quotas sont appliqués par groupe.</p>
+  <p class="kv">FastAPI · ArgoCD · Helm · HashiCorp Vault · Swift / RGW</p>
+  <p><strong>Résultat :</strong> un environnement complet déployé par commit, sans
+  intervention de l'équipe plateforme. <span class="todo">[TODO: métrique]</span> nombre d'environnements
+  provisionnés via le portail.</p>
+
+  <h2 data-n="04">Incidents &amp; post-mortems</h2>
+
+  <h3>INC-01 — Le cluster se bloque lui-même au redémarrage</h3>
+  <p><strong>Symptôme.</strong> master-1 injoignable, API server instable, cluster en
+  fonctionnement dégradé.</p>
+  <p><strong>Diagnostic.</strong> Le nœud était sous-dimensionné. Sous pression mémoire,
+  l'OOM killer tue etcd et le quorum tombe à 2/3. Pire, la remise en route se bloque
+  elle-même : <code>rke2-server</code> attend kubelet, kubelet attend le static pod etcd,
+  et etcd ne redémarre plus. Interblocage à trois.</p>
+  <p><strong>Correctif.</strong> <code>rke2-killall</code> pour casser la boucle, puis
+  redémarrage propre du nœud — et redimensionnement du master pour que la cause ne
+  revienne pas.</p>
+  <p><strong>Leçon.</strong> Un control plane ne se dimensionne pas comme un worker. Les
+  ressources d'etcd sont une contrainte de disponibilité, pas une ligne de facture qu'on
+  rogne.</p>
+
+  <h3>INC-02 — Trois semaines sans sauvegarde, et les jobs étaient verts</h3>
+  <p><strong>Symptôme.</strong> Plus aucun snapshot récent dans le dépôt. Les jobs de
+  sauvegarde, eux, remontaient en succès.</p>
+  <p><strong>Diagnostic.</strong> Le quota S3 de 500 GiB était saturé. Le dépôt restic
+  pesait 486 GiB pour 349 snapshots jamais purgés : le nom de dump embarquait la date, donc
+  chaque sauvegarde créait son propre groupe et la politique de rétention ne s'appliquait
+  à rien. Le nettoyage n'avait jamais rien eu à nettoyer.</p>
+  <p><strong>Correctif.</strong> Montée de version de restic, puis
+  <code>forget --group-by host</code> suivi de <code>prune</code> : le dépôt passe de
+  <strong>486 GiB à 48 GiB</strong>. Script de sauvegarde durci avec
+  <code>set -euo pipefail</code> et un nom de dump stable.</p>
+  <p><strong>Leçon.</strong> Un job vert ne prouve rien. Ce qu'il faut surveiller, c'est
+  l'âge du dernier snapshot restaurable — pas le code de sortie du cron. Et un script sans
+  <code>set -e</code> ment sur son propre statut.</p>
+
+  <h3>INC-03 — La chaîne de descellement Vault se mord la queue</h3>
+  <p><strong>Symptôme.</strong> Audit de la chaîne de démarrage de Vault, mené après un
+  redémarrage de la plateforme.</p>
+  <p><strong>Diagnostic.</strong> L'auto-unseal transit du Vault principal s'appuie sur un
+  Vault secondaire, lui-même scellé en Shamir et déployé en réplique unique. Si le
+  secondaire tombe, plus rien ne se descelle — y compris les secrets dont on a besoin pour
+  le remonter. Un SPOF, avec une dépendance circulaire au démarrage.</p>
+  <p><strong>Correctif.</strong> SPOF identifié, documenté et porté au backlog avec ses
+  options de sortie. <span class="todo">[TODO: statut de la remédiation]</span></p>
+  <p><strong>Leçon.</strong> Une dépendance circulaire au démarrage est invisible en régime
+  nominal. Elle se voit le jour où tout redémarre en même temps — c'est-à-dire le pire
+  jour possible.</p>
+
+  <h2 data-n="05">Mutualisation des ressources — une décision produit</h2>
+  <p>Chaque groupe disposait d'un quota fixe, calibré au plus juste. Le résultat était le
+  pire des deux mondes : de la capacité réservée qui dormait d'un côté, des équipes
+  bloquées à livrer des maquettes de l'autre.</p>
+  <p>J'ai porté le passage à un pool commun. La capacité va là où il y a de la demande
+  réelle, au lieu d'être gelée par un tableau de quotas. Le pari est assumé : on accepte un
+  risque de contention pour que les équipes mènent de vrais projets plutôt que des
+  démonstrations.</p>
+  <p><span class="todo">[TODO: métrique]</span> taux d'utilisation du pool avant et après la bascule.</p>
+
+  <h2 data-n="06">Ce que j'en retire</h2>
+  <p>La partie technique s'apprend. Ce qui s'apprend moins vite, c'est d'arbitrer sous
+  contrainte : dire non à une demande légitime parce que la capacité n'est pas là, assumer
+  un SPOF connu le temps de le traiter proprement, et expliquer les deux à un client sans
+  se cacher derrière du jargon.</p>
+
+
+  <div class="project-nav">
+    <a class="btn btn--primary" href="mailto:tom.giles@epita.fr?subject=Stage%206%20mois%20%E2%80%94%20f%C3%A9vrier%202027">Me contacter</a>
+    <a class="btn btn--ghost" href="/#sre">Retour</a>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="site-footer__inner">
+    <span>Tom Giles — EPITA SIGL 2027</span>
+    <span><a href="mailto:tom.giles@epita.fr">tom.giles@epita.fr</a> · <a href="/en/">English version</a></span>
+  </div>
+</footer>
+
+<script src="/assets/main.js" defer></script>
+</body>
+</html>

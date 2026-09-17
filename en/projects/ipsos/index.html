@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en" prefix="og: https://ogp.me/ns#">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ipsos — rebuilding the Excel export engine — Tom Giles</title>
+<meta name="description" content="Ipsos Global BI: rewrote the Excel export engine of a C#/ASP.NET financial portal used in 90+ countries — Open XML SDK in SAX mode, memory flat at 100–200 MB, 1M rows in 2 minutes.">
+<link rel="canonical" href="https://tom.giles.fr/en/projects/ipsos/">
+<link rel="alternate" hreflang="fr" href="https://tom.giles.fr/projects/ipsos/">
+<link rel="alternate" hreflang="en" href="https://tom.giles.fr/en/projects/ipsos/">
+<link rel="alternate" hreflang="x-default" href="https://tom.giles.fr/projects/ipsos/">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_GB">
+<meta property="og:locale:alternate" content="fr_FR">
+<meta property="og:url" content="https://tom.giles.fr/en/projects/ipsos/">
+<meta property="og:site_name" content="Tom Giles">
+<meta property="og:title" content="Ipsos — rebuilding the Excel export engine — Tom Giles">
+<meta property="og:description" content="Ipsos Global BI: rewrote the Excel export engine of a C#/ASP.NET financial portal used in 90+ countries — Open XML SDK in SAX mode, memory flat at 100–200 MB, 1M rows in 2 minutes.">
+<meta property="og:image" content="https://tom.giles.fr/assets/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#F5F7F8" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0B1015" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/assets/style.css">
+<script>try{var t=localStorage.getItem("theme");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+</head>
+
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="topbar">
+  <a class="topbar__id" href="/en/">tom giles <span class="dim">/ platform &amp; cloud</span></a>
+  <div class="topbar__tools">
+    <a class="btn-ghost" href="/projects/ipsos/" hreflang="fr">FR</a>
+    <a class="btn-ghost" href="/en/projects/ipsos/" aria-current="true" hreflang="en">EN</a>
+    <button class="btn-ghost" type="button" data-theme-toggle>Dark</button>
+  </div>
+</header>
+
+<main class="project" id="main">
+  <p class="crumb"><a href="/en/#software">Back — 03 Software Engineering</a></p>
+
+  <h1 class="project__title">Ipsos — rebuilding the Excel export engine</h1>
+  <p class="project__sub">A financial export that crashed past 50,000 rows, rewritten as pure streaming: from 3–4 GB of memory down to 100–200 MB.</p>
+
+  <dl class="meta">
+    <div><dt>Role</dt><dd>Software Developer</dd></div>
+    <div><dt>Team</dt><dd>Global Business Intelligence</dd></div>
+    <div><dt>Period</dt><dd>Sept 2025 – Jan 2026</dd></div>
+    <div><dt>Stack</dt><dd>C# / ASP.NET / SQL Server</dd></div>
+  </dl>
+
+
+  <h2 data-n="01">Context</h2>
+  <p>An internal financial portal in C# / ASP.NET, hosted on IIS with SQL Server, used by
+  management controllers in <strong>more than 90 countries</strong>. Team spread across
+  Europe, North America and India; work in English, Jira, agile cadence.</p>
+  <p>The Excel export engine threw <code>OutOfMemoryException</code> as soon as a report
+  went past 50,000 rows. Users worked around it by splitting exports by hand — when they
+  remembered to.</p>
+
+  <h2 data-n="02">Diagnosis</h2>
+  <p>V1 loaded the entire SQL result set into a <code>DataTable</code>, then let EPPlus
+  assemble the workbook in memory. The data therefore existed twice, and the large string
+  arrays went straight onto the Large Object Heap, which fragments and is not
+  compacted.</p>
+  <div class="callout">
+    <span class="mono">Measured before the rewrite</span>
+    <p><strong>3 to 4 GB</strong> of memory consumed for <strong>50 MB</strong> of actual
+    data. Crash at 45 s on the largest reports.</p>
+  </div>
+
+  <h2 data-n="03">The rewrite</h2>
+  <p>Rewritten as pure streaming: the data set is never fully materialised in memory.</p>
+  <ul>
+    <li><strong>Open XML SDK in SAX mode</strong> — rows are written as they come instead
+    of being assembled into a tree.</li>
+    <li><strong><code>IDataReader</code> in <code>SequentialAccess</code></strong> — data
+    is read column by column from SQL Server, with no intermediate buffer.</li>
+    <li><strong>Direct <code>FileStream</code> writes</strong> — the file is built on disk,
+    not in RAM.</li>
+    <li><strong>A single indexed stylesheet</strong> — formats are declared once and
+    referenced, rather than recreated per cell.</li>
+    <li><strong>No-allocation parsers</strong> on the hot paths, to avoid producing
+    millions of temporary objects.</li>
+    <li><strong>Two-pass predictive auto-fit</strong> — column widths are estimated during
+    streaming, without re-reading the file.</li>
+    <li><strong>Recompression of the <code>.xlsx</code></strong> on output.</li>
+  </ul>
+
+  <h2 data-n="04">Outcome</h2>
+  <div class="callout">
+    <p><strong>Memory flat at 100–200 MB</strong>, whatever the report size.</p>
+    <p><strong>1 million rows exported in ~2 minutes</strong>, where V1 crashed after 45
+    seconds.</p>
+    <p><strong>OOM incidents disappeared from the production logs.</strong></p>
+    <p><strong>Files 20–30% smaller</strong> after recompression.</p>
+  </div>
+
+  <h2 data-n="05">Second workstream</h2>
+  <p>Refactored a Python forecasting pipeline: robustness against degraded input data,
+  structured logs usable in production, and encapsulation behind an API to decouple the
+  pipeline from its callers.</p>
+
+  <h2 data-n="06">What I took from it</h2>
+  <p>The win did not come from micro-optimisation but from a change of model: stop
+  materialising. And working in English across three time zones teaches you to write
+  tickets and commits that stand on their own, because nobody will be around to explain
+  them.</p>
+
+
+  <div class="project-nav">
+    <a class="btn btn--primary" href="mailto:tom.giles@epita.fr?subject=6-month%20internship%20%E2%80%94%20from%20February%202027">Get in touch</a>
+    <a class="btn btn--ghost" href="/en/#software">Back</a>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="site-footer__inner">
+    <span>Tom Giles — EPITA SIGL, class of 2027</span>
+    <span><a href="mailto:tom.giles@epita.fr">tom.giles@epita.fr</a> · <a href="/">Version française</a></span>
+  </div>
+</footer>
+
+<script src="/assets/main.js" defer></script>
+</body>
+</html>
