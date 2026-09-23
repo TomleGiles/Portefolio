@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""Génère les pages projet statiques à partir de _build/content_*.py.
+"""Génère l'accueil (_build/home.py) et les pages projet (_build/content_*.py).
 
     python3 _build/build.py
 
 La sortie (projects/<slug>/index.html et en/projects/<slug>/index.html) est du HTML
 pur, commité dans le dépôt et servi tel quel par GitHub Pages. Aucun build n'est
 nécessaire pour déployer — ce script n'est qu'un outil d'édition.
-ATTENTION : il écrase les pages projet. Éditer le contenu dans _build/, pas dans
+ATTENTION : il écrase l'accueil et les pages projet. Éditer le contenu dans _build/, pas dans
 projects/.
 """
 import os
@@ -19,6 +19,7 @@ ROOT = os.path.dirname(HERE)
 sys.path.insert(0, HERE)
 
 import shell  # noqa: E402
+import home  # noqa: E402
 
 LANGS = {}
 try:
@@ -47,6 +48,10 @@ def main():
         for slug, page in pages.items():
             out = os.path.join(base, "projects", slug, "index.html")
             written.append(write(out, shell.render(lang, slug, page)))
+
+    # accueil
+    written.append(write(os.path.join(ROOT, "index.html"), home.render("fr")))
+    written.append(write(os.path.join(ROOT, "en", "index.html"), home.render("en")))
 
     # sitemap
     urls = ["/", "/en/"]

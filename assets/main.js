@@ -14,74 +14,38 @@
   var pick = function (arr) { return arr[Math.floor(Math.random() * arr.length)]; };
 
   var T = EN ? {
-    toLight: "Switch to light theme", toDark: "Switch to dark theme",
     copied: "Email copied to clipboard", copy: "Copy", copyDone: "Copied ✓",
     usedIn: "Used in", project: "project", projects: "projects"
   } : {
-    toLight: "Passer en thème clair", toDark: "Passer en thème sombre",
     copied: "Adresse copiée dans le presse-papiers", copy: "Copier", copyDone: "Copié ✓",
     usedIn: "Utilisé dans", project: "projet", projects: "projets"
   };
 
-  /* ================================================================ thème */
-
-  function storedTheme() { try { return localStorage.getItem("theme"); } catch (e) { return null; } }
-  function saveTheme(v) { try { localStorage.setItem("theme", v); } catch (e) { /* mode privé */ } }
-  function currentTheme() {
-    var a = root.getAttribute("data-theme");
-    if (a) return a;
-    return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
-  }
-  var themeListeners = [];
-  function setTheme(t) {
-    root.setAttribute("data-theme", t);
-    saveTheme(t);
-    syncThemeBtn();
-    themeListeners.forEach(function (f) { f(); });
-  }
-  var s = storedTheme();
-  if (s === "dark" || s === "light") root.setAttribute("data-theme", s);
-
-  var themeBtn = $("[data-theme-toggle]");
-  function syncThemeBtn() {
-    if (themeBtn) themeBtn.setAttribute("aria-label", currentTheme() === "dark" ? T.toLight : T.toDark);
-  }
-  syncThemeBtn();
-  if (themeBtn) themeBtn.addEventListener("click", function () {
-    setTheme(currentTheme() === "dark" ? "light" : "dark");
-  });
-  window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", function () {
-    if (!root.getAttribute("data-theme")) themeListeners.forEach(function (f) { f(); });
-  });
-
   function cssVar(name) { return getComputedStyle(root).getPropertyValue(name).trim(); }
+  var clamp = function (v, a, b) { return Math.max(a, Math.min(b, v)); };
+  var desktopPin = window.matchMedia("(min-width: 901px)");
 
-  /* ================================================================ barre du haut, progression, halo */
+  /* ================================================================ curseur */
 
-  var topbar = $(".topbar");
-  var progress = $(".progress");
-  function onScroll() {
-    var y = window.scrollY;
-    if (topbar) topbar.classList.toggle("scrolled", y > 20);
-    if (progress) {
-      var max = document.documentElement.scrollHeight - window.innerHeight;
-      progress.style.setProperty("--p", max > 0 ? (y / max).toFixed(4) : 0);
-    }
-  }
-  window.addEventListener("scroll", onScroll, { passive: true });
-  onScroll();
-
-  var glow = $(".glow");
-  if (glow && finePointer && !reduced) {
+  var cursor = $(".cursor");
+  if (cursor && finePointer && !reduced) {
+    var cx = -100, cy = -100, tx = -100, ty = -100;
     window.addEventListener("pointermove", function (e) {
-      glow.style.setProperty("--gx", e.clientX + "px");
-      glow.style.setProperty("--gy", e.clientY + "px");
-      glow.classList.add("on");
+      tx = e.clientX; ty = e.clientY;
+      cursor.classList.add("on");
+      var hot = e.target.closest && e.target.closest("a, button, summary, .tech[data-n], input");
+      cursor.classList.toggle("hover", !!hot);
     }, { passive: true });
-    document.addEventListener("pointerleave", function () { glow.classList.remove("on"); });
+    document.addEventListener("pointerleave", function () { cursor.classList.remove("on"); });
+    (function follow() {
+      cx += (tx - cx) * .2; cy += (ty - cy) * .2;
+      cursor.style.transform = "translate3d(" + cx + "px," + cy + "px,0)";
+      requestAnimationFrame(follow);
+    })();
   }
 
-  // menu mobile
+  /* ================================================================ menu mobile + nav */
+
   var menuBtn = $(".menu-btn");
   var nav = $("#nav");
   if (menuBtn && nav) {
@@ -97,7 +61,6 @@
     });
   }
 
-  // section courante dans la nav
   var navLinks = $$(".nav a[href^='#']");
   if (navLinks.length && "IntersectionObserver" in window) {
     var visible = new Set();
@@ -112,7 +75,6 @@
     }, { rootMargin: "-35% 0px -60% 0px" });
     targets.forEach(function (t) { navObs.observe(t); });
   }
-
   /* ================================================================ cluster : modèle partagé */
 
   var APPS = ["cassiopee-api", "cassiopee-web", "argocd-server", "argocd-repo", "vault-0", "prometheus",
@@ -262,27 +224,24 @@
             danger: cssVar("--danger"), ink3: cssVar("--ink-3"), line: cssVar("--line-strong"), bg: cssVar("--bg") };
     };
     readColors();
-    themeListeners.push(function () { readColors(); if (reduced) draw(performance.now()); });
 
     var layout = function () {
       var r = hero.getBoundingClientRect();
       DPR = Math.min(window.devicePixelRatio || 1, 2);
       W = r.width; H = r.height;
       canvas.width = W * DPR; canvas.height = H * DPR;
-      var wide = W > 1000;
-      var cx = wide ? W * .7 : W * .5;
-      var cy = wide ? H * .42 : H * .8;
-      var R = wide ? Math.min(W * .17, H * .24) : Math.min(W * .3, 120);
+      var wide = W > 900;
+      var cx = W * .5, cy = H * .5;
+      var rx = wide ? W * .37 : W * .44, ry = wide ? H * .4 : H * .36;
+      // nœuds répartis sur les côtés d'une ellipse : le centre reste libre pour le texte
+      var ANG = [180, 0, 208, 152, 332, 28];
       cluster.nodes.forEach(function (n, i) {
-        // hexagone entrelacé : masters (anneau intérieur) en haut, workers (anneau extérieur) en bas
-        var k = n.master ? i : i - 3;
-        var a = (k / 3) * Math.PI * 2 + (n.master ? -Math.PI / 2 : Math.PI / 2);
-        var rr = n.master ? R * .5 : R;
-        n.bx = cx + Math.cos(a) * rr;
-        n.by = cy + Math.sin(a) * rr;
+        var a = ANG[i] * Math.PI / 180;
+        n.bx = cx + Math.cos(a) * rx;
+        n.by = cy + Math.sin(a) * ry;
         n.seed = n.seed || rand(0, 1000);
       });
-      canvas.style.opacity = wide ? 1 : .25;
+      canvas.style.opacity = wide ? .9 : .35;
     };
 
     var rgba = function (hex, a) {
@@ -483,14 +442,15 @@
   /* ================================================================ révélations + compteurs */
 
   var countUp = function (el) {
+    if (el.dataset.done) return;
+    el.dataset.done = "1";
     var target = parseFloat(el.getAttribute("data-count"));
     var prefix = el.getAttribute("data-prefix") || "";
     if (reduced) { el.textContent = prefix + target; return; }
-    var t0 = performance.now(), dur = 1400;
+    var t0 = performance.now(), dur = 1300;
     var f = function (t) {
       var k = Math.min(1, (t - t0) / dur);
-      var e = 1 - Math.pow(1 - k, 4);
-      el.textContent = prefix + Math.round(target * e);
+      el.textContent = prefix + Math.round(target * (1 - Math.pow(1 - k, 4)));
       if (k < 1) requestAnimationFrame(f);
     };
     requestAnimationFrame(f);
@@ -501,29 +461,22 @@
       entries.forEach(function (e) {
         if (!e.isIntersecting) return;
         e.target.classList.add("in");
-        $$("[data-count]", e.target).forEach(countUp);
         revObs.unobserve(e.target);
       });
     }, { rootMargin: "0px 0px -8% 0px", threshold: .08 });
-    $$(".reveal").forEach(function (el) { revObs.observe(el); });
+    $$(".reveal, .meter").forEach(function (el) { revObs.observe(el); });
   } else {
-    $$(".reveal").forEach(function (el) { el.classList.add("in"); });
+    $$(".reveal, .meter").forEach(function (el) { el.classList.add("in"); });
   }
 
-  /* ================================================================ cartes : spotlight + inclinaison */
+  /* ================================================================ cartes : halo sous le pointeur */
 
   $$(".card").forEach(function (card) {
     card.addEventListener("pointermove", function (e) {
       var r = card.getBoundingClientRect();
-      var x = e.clientX - r.left, y = e.clientY - r.top;
-      card.style.setProperty("--mx", x + "px");
-      card.style.setProperty("--my", y + "px");
-      if (finePointer && !reduced) {
-        var rx = ((y / r.height) - .5) * -4, ry = ((x / r.width) - .5) * 4;
-        card.style.transform = "perspective(1000px) rotateX(" + rx + "deg) rotateY(" + ry + "deg) translateY(-2px)";
-      }
+      card.style.setProperty("--mx", (e.clientX - r.left) + "px");
+      card.style.setProperty("--my", (e.clientY - r.top) + "px");
     });
-    card.addEventListener("pointerleave", function () { card.style.transform = ""; });
   });
 
   // boutons magnétiques
@@ -532,16 +485,133 @@
       b.addEventListener("pointermove", function (e) {
         var r = b.getBoundingClientRect();
         var x = e.clientX - r.left - r.width / 2, y = e.clientY - r.top - r.height / 2;
-        b.style.transform = "translate(" + x * .2 + "px," + y * .3 + "px)";
+        b.style.transform = "translate(" + x * .25 + "px," + y * .35 + "px)";
       });
       b.addEventListener("pointerleave", function () { b.style.transform = ""; });
     });
   }
 
+  /* ================================================================ moteur de scroll
+     Un seul passage par frame : hero, manifeste, chiffres, bandeau, galerie
+     horizontale, timeline, barre du haut, progression. */
+
+  var topbar = $(".topbar");
+  var progress = $(".progress");
+  var heroInner = $("[data-hero]");
+  var heroSec = $(".hero");
+  var statement = $(".statement");
+  var stWords = statement ? $$(".w", statement) : [];
+  var numbersSec = $(".numbers");
+  var nums = numbersSec ? $$(".num", numbersSec) : [];
+  var dots = numbersSec ? $$(".numbers__dots i", numbersSec) : [];
+  var bandRows = $$("[data-band]");
+  var band = $(".band");
+  var hs = $("[data-hscroll]");
+  var hsTrack = hs && $(".hscroll__track", hs);
+  var hsBar = hs && $(".hscroll__bar", hs);
+  var tl = $(".timeline-wrap");
+  var tlFill = tl && $(".timeline__fill", tl);
+  var tlItems = tl ? $$(".timeline li", tl) : [];
+  var hsDist = 0;
+  var lastY = window.scrollY;
+
+  var sectionProgress = function (el) {
+    var r = el.getBoundingClientRect();
+    var span = r.height - window.innerHeight;
+    return span > 0 ? clamp(-r.top / span, 0, 1) : (r.top < 0 ? 1 : 0);
+  };
+
+  var sizeHscroll = function () {
+    if (!hs) return;
+    if (!desktopPin.matches || reduced) { hs.style.height = ""; hsDist = 0; hsTrack.style.transform = ""; return; }
+    hsDist = Math.max(0, hsTrack.scrollWidth - window.innerWidth);
+    hs.style.height = (hsDist + window.innerHeight) + "px";
+  };
+
+  var frame = function () {
+    var y = window.scrollY, vh = window.innerHeight;
+
+    if (topbar) {
+      topbar.classList.toggle("scrolled", y > 20);
+      topbar.classList.toggle("hide", y > vh && y > lastY + 2 && !(nav && nav.classList.contains("open")));
+      if (y < lastY - 2) topbar.classList.remove("hide");
+    }
+    lastY = y;
+    if (progress) {
+      var max = document.documentElement.scrollHeight - vh;
+      progress.style.setProperty("--p", max > 0 ? (y / max).toFixed(4) : 0);
+    }
+
+    if (heroInner && heroSec && !reduced) heroInner.style.setProperty("--hp", clamp(y / (heroSec.offsetHeight * .85), 0, 1).toFixed(3));
+
+    if (statement && !reduced) {
+      var sp = sectionProgress(statement);
+      var lit = Math.round(clamp(sp * 1.25, 0, 1) * stWords.length);
+      stWords.forEach(function (w, i) { w.classList.toggle("lit", i < lit); });
+    }
+
+    if (numbersSec && !reduced) {
+      var np = sectionProgress(numbersSec);
+      var idx = Math.min(nums.length - 1, Math.floor(np * nums.length));
+      var inView = numbersSec.getBoundingClientRect().top < vh * .5;
+      nums.forEach(function (n, i) {
+        var on = inView && i === idx;
+        n.classList.toggle("on", on);
+        n.classList.toggle("past", i < idx);
+        if (on) $$("[data-count]", n).forEach(countUp);
+      });
+      dots.forEach(function (d, i) { d.classList.toggle("on", i === idx); });
+    }
+
+    if (band && !reduced) {
+      var br = band.getBoundingClientRect();
+      if (br.bottom > 0 && br.top < vh) {
+        var off = (vh - br.top) * .35;
+        bandRows.forEach(function (row) {
+          var dir = parseFloat(row.getAttribute("data-band"));
+          row.style.transform = "translate3d(" + (dir > 0 ? off - row.scrollWidth / 4 : -off) + "px,0,0)";
+        });
+      }
+    }
+
+    if (hs && hsDist > 0) {
+      var hp = sectionProgress(hs);
+      hsTrack.style.transform = "translate3d(" + (-hp * hsDist) + "px,0,0)";
+      if (hsBar) hsBar.style.setProperty("--hx", hp.toFixed(4));
+    }
+
+    if (tl) {
+      var tr = tl.getBoundingClientRect(), mid = vh * .6;
+      if (tlFill) tlFill.style.setProperty("--t", clamp((mid - tr.top) / tr.height, 0, 1).toFixed(3));
+      tlItems.forEach(function (li) { li.classList.toggle("lit", li.getBoundingClientRect().top < mid); });
+    }
+  };
+
+  // barre de progression du carrousel natif (mobile)
+  if (hsTrack && hsBar) {
+    hsTrack.addEventListener("scroll", function () {
+      if (desktopPin.matches) return;
+      var m = hsTrack.scrollWidth - hsTrack.clientWidth;
+      hsBar.style.setProperty("--hx", m > 0 ? (hsTrack.scrollLeft / m).toFixed(4) : 0);
+    }, { passive: true });
+  }
+
+  var ticking = false;
+  var onScroll = function () {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(function () { ticking = false; frame(); });
+  };
+  window.addEventListener("scroll", onScroll, { passive: true });
+  window.addEventListener("resize", function () { sizeHscroll(); frame(); });
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { sizeHscroll(); frame(); });
+  sizeHscroll();
+  frame();
+
   /* ================================================================ filtres de projets */
 
   var filters = $$(".filter");
-  var cards = $$(".bento .card");
+  var cards = $$(".hscroll__track .card");
   var CATS = ["platform", "sre", "software", "consulting", "product"];
   if (filters.length) {
     filters.forEach(function (f) {
@@ -550,25 +620,29 @@
       var cnt = $(".filter__count", f);
       if (cnt) cnt.textContent = n;
     });
-    var apply = function (cat) {
+    var apply = function (cat, scroll) {
       var run = function () {
         filters.forEach(function (f) { f.setAttribute("aria-pressed", f.getAttribute("data-filter") === cat); });
-        cards.forEach(function (c) {
-          c.classList.toggle("is-hidden", cat !== "all" && c.getAttribute("data-cat") !== cat);
-          c.classList.add("in");
-        });
+        cards.forEach(function (c) { c.classList.toggle("is-hidden", cat !== "all" && c.getAttribute("data-cat") !== cat); });
+        sizeHscroll();
+        if (hsTrack) hsTrack.scrollLeft = 0;
+        frame();
       };
       if (document.startViewTransition && !reduced) document.startViewTransition(run);
       else run();
+      // ramène au début de la galerie pour voir le résultat du filtre
+      if (scroll !== false && hs) {
+        var top = hs.getBoundingClientRect().top + window.scrollY;
+        if (window.scrollY > top) window.scrollTo({ top: top, behavior: reduced ? "auto" : "smooth" });
+      }
     };
-    cards.forEach(function (c, i) { c.style.viewTransitionName = "card-" + i; });
     filters.forEach(function (f) {
       f.addEventListener("click", function () { apply(f.getAttribute("data-filter")); });
     });
     var fromHash = function () {
       var h = location.hash.slice(1);
       if (CATS.indexOf(h) >= 0) {
-        apply(h);
+        apply(h, false);
         var p = $("#projets");
         if (p) setTimeout(function () { p.scrollIntoView(); }, 50);
       }
@@ -579,10 +653,9 @@
 
   /* ================================================================ stack : projets par outil */
 
-  var pop = null;
   var techs = $$(".tech");
   if (techs.length && cards.length) {
-    pop = document.createElement("div");
+    var pop = document.createElement("div");
     pop.className = "tech-pop";
     pop.setAttribute("role", "tooltip");
     document.body.appendChild(pop);
@@ -593,12 +666,12 @@
         return (c.getAttribute("data-stack") || "").split("|").map(norm).indexOf(name) >= 0;
       }).map(function (c) { return $(".card__title", c).textContent; });
       if (!used.length) return;
+      var label = T.usedIn + " " + used.length + " " + (used.length > 1 ? T.projects : T.project);
       t.setAttribute("data-n", used.length);
       t.setAttribute("tabindex", "0");
-      t.setAttribute("aria-label", t.textContent + " — " + T.usedIn + " " + used.length + " " + (used.length > 1 ? T.projects : T.project) + " : " + used.join(", "));
+      t.setAttribute("aria-label", t.textContent + " — " + label + " : " + used.join(", "));
       var show = function () {
-        pop.innerHTML = "<b>" + T.usedIn + " " + used.length + " " + (used.length > 1 ? T.projects : T.project) + "</b><ul>" +
-          used.map(function (u) { return "<li>" + u + "</li>"; }).join("") + "</ul>";
+        pop.innerHTML = "<b>" + label + "</b><ul>" + used.map(function (u) { return "<li>" + u + "</li>"; }).join("") + "</ul>";
         var r = t.getBoundingClientRect();
         pop.style.left = Math.max(8, Math.min(r.left, window.innerWidth - 300)) + "px";
         pop.style.top = (r.bottom + 8) + "px";
@@ -613,23 +686,6 @@
     window.addEventListener("scroll", function () { pop.classList.remove("on"); }, { passive: true });
   }
 
-  /* ================================================================ timeline */
-
-  var tl = $(".timeline-wrap");
-  if (tl) {
-    var fill = $(".timeline__fill", tl);
-    var items = $$(".timeline li", tl);
-    var updTl = function () {
-      var r = tl.getBoundingClientRect();
-      var mid = window.innerHeight * .6;
-      var k = Math.max(0, Math.min(1, (mid - r.top) / r.height));
-      if (fill) fill.style.setProperty("--t", k.toFixed(3));
-      items.forEach(function (li) { li.classList.toggle("lit", li.getBoundingClientRect().top < mid); });
-    };
-    window.addEventListener("scroll", updTl, { passive: true });
-    updTl();
-  }
-
   /* ================================================================ copier l'e-mail, toast */
 
   var toast = $(".toast");
@@ -641,16 +697,14 @@
     clearTimeout(toastTimer);
     toastTimer = setTimeout(function () { toast.classList.remove("on"); }, 2200);
   }
-  function copy(text, cb) {
-    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(cb, function () {});
-  }
   $$("[data-copy]").forEach(function (b) {
     b.addEventListener("click", function () {
-      copy(b.getAttribute("data-copy"), function () {
+      if (!navigator.clipboard) return;
+      navigator.clipboard.writeText(b.getAttribute("data-copy")).then(function () {
         b.textContent = T.copyDone; b.classList.add("done");
         showToast(T.copied);
         setTimeout(function () { b.textContent = T.copy; b.classList.remove("done"); }, 2000);
-      });
+      }, function () {});
     });
   });
 
@@ -686,7 +740,7 @@
     welcome: 'Welcome to <span class="b">tom@giles</span> — interactive shell.\nType <span class="c">help</span> to list commands. <span class="g">Tab completes, ↑/↓ browse history, Esc closes.</span>',
     help: [["whoami", "who am I"], ["projects", "list projects"], ["open &lt;slug&gt;", "open a project page"],
       ["incidents", "production post-mortems"], ["stack", "tools I use"], ["kubectl get nodes|pods", "live cluster state"],
-      ["contact", "how to reach me"], ["cv", "download my resume"], ["theme [dark|light]", "switch theme"],
+      ["contact", "how to reach me"], ["cv", "download my resume"],
       ["cd &lt;section&gt;", "jump to a section"], ["neofetch", "system summary"], ["clear", "clear screen"], ["exit", "close terminal"]],
     who: "Tom Giles — engineering student at EPITA (SIGL, class of 2027).\nProduct Owner of SIOPS, the SRE team running a production RKE2 cluster on OpenStack.\n<span class=\"c\">Looking for a 6-month pre-hire internship from February 2027</span> — Platform / Cloud / SRE / DevOps.",
     notFound: function (c) { return '<span class="r">command not found:</span> ' + esc(c) + ' — type <span class="c">help</span>'; },
@@ -695,12 +749,12 @@
     rm: '<span class="r">rm: refusing to remove "/"</span> — I write post-mortems, not incidents.',
     incidents: ["INC-01 SEV1  etcd OOM-killed → control plane deadlock at restart", "INC-02 SEV1  3 weeks without backups while jobs were green (486 → 48 GiB)", "INC-03 SEV2  Vault auto-unseal depends on a single-replica Vault (SPOF)"],
     contact: "email   tom.giles@epita.fr\nphone   +33 6 95 10 40 56\nplace   Paris / Vosges — mobile",
-    themeSet: "theme set to", sections: "projects  incidents  parcours  stack  contact", secMap: { projects: "projets", timeline: "parcours", career: "parcours" }
+    themeSet: "dark. always dark.", sections: "projects  incidents  parcours  stack  contact", secMap: { projects: "projets", timeline: "parcours", career: "parcours" }
   } : {
     welcome: 'Bienvenue sur <span class="b">tom@giles</span> — shell interactif.\nTapez <span class="c">help</span> pour la liste des commandes. <span class="g">Tab complète, ↑/↓ historique, Échap ferme.</span>',
     help: [["whoami", "qui suis-je"], ["projects", "liste des projets"], ["open &lt;slug&gt;", "ouvre la page d'un projet"],
       ["incidents", "post-mortems de production"], ["stack", "mes outils"], ["kubectl get nodes|pods", "état du cluster en direct"],
-      ["contact", "me joindre"], ["cv", "télécharger le CV"], ["theme [dark|light]", "changer de thème"],
+      ["contact", "me joindre"], ["cv", "télécharger le CV"],
       ["cd &lt;section&gt;", "aller à une section"], ["neofetch", "résumé système"], ["clear", "effacer l'écran"], ["exit", "fermer le terminal"]],
     who: "Tom Giles — étudiant-ingénieur à l'EPITA (majeure SIGL, promo 2027).\nProduct Owner de SIOPS, l'équipe SRE qui opère un cluster RKE2 de production sur OpenStack.\n<span class=\"c\">Cherche un stage de pré-embauche de 6 mois dès février 2027</span> — Platform / Cloud / SRE / DevOps.",
     notFound: function (c) { return '<span class="r">commande introuvable :</span> ' + esc(c) + ' — tapez <span class="c">help</span>'; },
@@ -709,7 +763,7 @@
     rm: '<span class="r">rm : suppression de « / » refusée</span> — j\'écris des post-mortems, pas des incidents.',
     incidents: ["INC-01 SEV1  etcd tué par l'OOM killer → interblocage du control plane", "INC-02 SEV1  3 semaines sans sauvegarde, jobs verts (486 → 48 GiB)", "INC-03 SEV2  auto-unseal Vault dépendant d'un Vault en réplique unique (SPOF)"],
     contact: "mail    tom.giles@epita.fr\ntél.    06 95 10 40 56\nlieu    Paris / Vosges — mobile",
-    themeSet: "thème :", sections: "projets  incidents  parcours  stack  contact", secMap: { projects: "projets", timeline: "parcours", career: "parcours" }
+    themeSet: "sombre. toujours sombre.", sections: "projets  incidents  parcours  stack  contact", secMap: { projects: "projets", timeline: "parcours", career: "parcours" }
   };
 
   var COMMANDS = ["help", "whoami", "about", "projects", "ls", "open", "cat", "incidents", "stack", "kubectl", "contact", "email", "cv",
@@ -781,12 +835,11 @@
         go("/cv/tom-giles-cv" + (EN ? "-en" : "") + ".pdf");
         break;
       case "theme":
-        var th = arg === "dark" || arg === "light" ? arg : (currentTheme() === "dark" ? "light" : "dark");
-        setTheme(th); print(S.themeSet + " " + th); break;
+        print(S.themeSet); break;
       case "cd":
         var sec = S.secMap[arg] || arg.replace(/\/$/, "");
         var el = sec && $("#" + sec);
-        if (!el || !/^(projets|incidents|parcours|stack|contact|about)$/.test(sec)) { print(S.usage + ": cd " + S.sections.split("  ").join(" | ")); break; }
+        if (!el || !/^(projets|incidents|parcours|stack|contact|manifeste)$/.test(sec)) { print(S.usage + ": cd " + S.sections.split("  ").join(" | ")); break; }
         close(); el.scrollIntoView({ behavior: reduced ? "auto" : "smooth" });
         break;
       case "neofetch":
