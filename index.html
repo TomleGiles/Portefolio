@@ -182,7 +182,7 @@ document.body.appendChild(b);document.documentElement.classList.add("booting")})
           <div class="card__top"><span class="card__cat">Production &amp; SRE</span><span class="card__num">01</span></div>
           <h3 class="card__title"><a href="/projects/siops/">SIOPS — plateforme Kubernetes de production</a></h3>
           <p class="card__tag">Product Owner · équipe de 5 · portail GitOps Cassiopée</p>
-          <p class="todo-desc" data-label="Description à rédiger">Description du projet à venir.<span class="skel"></span><span class="skel"></span><span class="skel"></span></p>
+          <p class="card__desc">L'équipe SRE qui opère le cluster Kubernetes de production de la majeure. Je tiens le backlog, j'arbitre ce qui passe — et je suis dans les logs quand ça casse. Avec Cassiopée, un environnement complet se déploie par commit, sans passer par l'équipe plateforme.</p>
           <div class="nodes" aria-hidden="true" data-nodes></div><div class="card__stats"><div><b>6</b><span>nœuds</span></div><div><b>~60</b><span>apps ArgoCD</span></div><div><b>4</b><span>clients</span></div></div>
           <ul class="card__stack"><li>RKE2</li><li>OpenStack</li><li>ArgoCD</li><li>Helm</li><li>Vault</li><li>Prometheus</li><li>Loki</li></ul>
           <span class="card__go">Voir le projet <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
@@ -191,7 +191,7 @@ document.body.appendChild(b);document.documentElement.classList.add("booting")})
           <div class="card__top"><span class="card__cat">Platform &amp; Cloud</span><span class="card__num">02</span></div>
           <h3 class="card__title"><a href="/projects/arcl/">ARCL — architecture hybride résiliente</a></h3>
           <p class="card__tag">Azure × cloud privé</p>
-          <p class="todo-desc" data-label="Description à rédiger">Description du projet à venir.<span class="skel"></span><span class="skel"></span><span class="skel"></span></p>
+          <p class="card__desc">Un socle self-service qui reste debout quand l'un des deux clouds tombe. Azure porte les frontaux, OpenStack porte l'état, un tunnel WireGuard relie les deux et Patroni bascule PostgreSQL sans intervention humaine. Tout est décrit en OpenTofu : reconstructible depuis zéro.</p>
           
           <ul class="card__stack"><li>Azure</li><li>OpenTofu</li><li>WireGuard</li><li>Patroni</li></ul>
           <span class="card__go">Voir le projet <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
@@ -200,7 +200,7 @@ document.body.appendChild(b);document.documentElement.classList.add("booting")})
           <div class="card__top"><span class="card__cat">Platform &amp; Cloud</span><span class="card__num">03</span></div>
           <h3 class="card__title"><a href="/projects/cnp/">CNP — Internal Developer Platform</a></h3>
           <p class="card__tag">Repository-first</p>
-          <p class="todo-desc" data-label="Description à rédiger">Description du projet à venir.<span class="skel"></span><span class="skel"></span><span class="skel"></span></p>
+          <p class="card__desc">Une plateforme interne où le chemin standard devient le plus rapide. Une GitHub App installe le pipeline dans le dépôt, publie l'image sur GHCR et déploie sur AKS. Une équipe passe du dépôt vide au premier déploiement sans écrire une ligne de pipeline.</p>
           
           <ul class="card__stack"><li>FastAPI</li><li>GitHub App</li><li>AKS</li><li>GHCR</li></ul>
           <span class="card__go">Voir le projet <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
@@ -209,7 +209,7 @@ document.body.appendChild(b);document.documentElement.classList.add("booting")})
           <div class="card__top"><span class="card__cat">Software</span><span class="card__num">04</span></div>
           <h3 class="card__title"><a href="/projects/ipsos/">Ipsos — refonte du moteur d'export Excel</a></h3>
           <p class="card__tag">Global BI · sept. 2025 – janv. 2026</p>
-          <p class="todo-desc" data-label="Description à rédiger">Description du projet à venir.<span class="skel"></span><span class="skel"></span><span class="skel"></span></p>
+          <p class="card__desc">Le moteur d'export Excel d'un portail financier utilisé dans plus de 90 pays crashait au-delà de 50 000 lignes. Réécrit en streaming pur — Open XML SDK en mode SAX, lecture séquentielle, écriture directe sur disque : 1 million de lignes en ~2 minutes.</p>
           <div class="meter" role="img" aria-label="Mémoire : 3 à 4 Go avant, 100 à 200 Mo après"><div class="meter__row"><span>avant</span><span class="meter__bar"><i class="v1" style="--w:100%"></i></span><span>3–4 Go</span></div><div class="meter__row"><span>après</span><span class="meter__bar"><i class="v2" style="--w:5%"></i></span><span>100–200 Mo</span></div></div>
           <ul class="card__stack"><li>C#</li><li>ASP.NET</li><li>Open XML SDK</li><li>SQL Server</li></ul>
           <span class="card__go">Voir le projet <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
@@ -218,7 +218,7 @@ document.body.appendChild(b);document.documentElement.classList.add("booting")})
           <div class="card__top"><span class="card__cat">Platform &amp; Cloud</span><span class="card__num">05</span></div>
           <h3 class="card__title"><a href="/projects/ubsi/">UBSI — leadership DevOps multi-équipes</a></h3>
           <p class="card__tag">Pilotage du workstream DevOps · 50 participants</p>
-          <p class="todo-desc" data-label="Description à rédiger">Description du projet à venir.<span class="skel"></span><span class="skel"></span><span class="skel"></span></p>
+          <p class="card__desc">Le SI d'une compagnie aérienne miniature, construit par 50 participants. J'ai piloté le socle commun : conventions d'API, CI/CD GitLab, observabilité Prometheus / Grafana / Loki et bus RabbitMQ. Un standard n'est adopté que s'il est plus rapide à suivre qu'à contourner.</p>
           
           <ul class="card__stack"><li>GitLab CI</li><li>RabbitMQ</li><li>Prometheus</li><li>Grafana</li><li>Loki</li></ul>
           <span class="card__go">Voir le projet <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
@@ -227,7 +227,7 @@ document.body.appendChild(b);document.documentElement.classList.add("booting")})
           <div class="card__top"><span class="card__cat">Consulting &amp; SI</span><span class="card__num">06</span></div>
           <h3 class="card__title"><a href="/projects/danone/">Danone — architecture SAP S/4HANA Finance</a></h3>
           <p class="card__tag">Architecture cible</p>
-          <p class="todo-desc" data-label="Description à rédiger">Description du projet à venir.<span class="skel"></span><span class="skel"></span><span class="skel"></span></p>
+          <p class="card__desc">Cadrage d'une transformation Finance sur SAP S/4HANA : socle conceptuel du domaine, cartographie des flux financiers et des interfaces, puis un deck d'architecture cible défendu devant jury, face à des interlocuteurs métier autant que techniques.</p>
           
           <ul class="card__stack"><li>SAP S/4HANA</li><li>Finance</li></ul>
           <span class="card__go">Voir le projet <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
@@ -236,7 +236,7 @@ document.body.appendChild(b);document.documentElement.classList.add("booting")})
           <div class="card__top"><span class="card__cat">Consulting &amp; SI</span><span class="card__num">07</span></div>
           <h3 class="card__title"><a href="/projects/beblood/">BeBlood — transformation SIRH</a></h3>
           <p class="card__tag">Oracle HCM · chiffrage Monte-Carlo</p>
-          <p class="todo-desc" data-label="Description à rédiger">Description du projet à venir.<span class="skel"></span><span class="skel"></span><span class="skel"></span></p>
+          <p class="card__desc">Transformation SIRH sur Oracle HCM. Plutôt qu'un chiffre unique sorti d'un tableur, une estimation de charge par simulation Monte-Carlo au P80 — une fourchette défendable avec son niveau de confiance — et le registre des risques du workstream.</p>
           
           <ul class="card__stack"><li>Oracle HCM</li><li>Monte-Carlo P80</li></ul>
           <span class="card__go">Voir le projet <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
@@ -245,7 +245,7 @@ document.body.appendChild(b);document.documentElement.classList.add("booting")})
           <div class="card__top"><span class="card__cat">Consulting &amp; SI</span><span class="card__num">08</span></div>
           <h3 class="card__title"><a href="/projects/ebios/">Analyse de risques EBIOS RM</a></h3>
           <p class="card__tag">Sécurité</p>
-          <p class="todo-desc" data-label="Description à rédiger">Description du projet à venir.<span class="skel"></span><span class="skel"></span><span class="skel"></span></p>
+          <p class="card__desc">Démarche EBIOS Risk Manager complète sur un SI cible, du cadrage au plan de traitement. La méthode force à nommer un attaquant, son objectif et son chemin — et à tenir le lien entre la menace réelle et la mesure technique.</p>
           
           <ul class="card__stack"><li>EBIOS RM</li><li>Analyse de risques</li></ul>
           <span class="card__go">Voir le projet <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
@@ -254,7 +254,7 @@ document.body.appendChild(b);document.documentElement.classList.add("booting")})
           <div class="card__top"><span class="card__cat">Product</span><span class="card__num">09</span></div>
           <h3 class="card__title"><a href="/projects/lendr/">Lendr — casiers connectés vérifiés par IA</a></h3>
           <p class="card__tag">Startup B2B cofondée</p>
-          <p class="todo-desc" data-label="Description à rédiger">Description du projet à venir.<span class="skel"></span><span class="skel"></span><span class="skel"></span></p>
+          <p class="card__desc">Un casier connecté qui vérifie par IA l'état du matériel à son retour. Premier marché scolaire trop peu solvable : repositionnement vers le field service industriel. J'ai construit le BOM hardware, le modèle financier à 5 ans et le pitch investisseurs.</p>
           
           <ul class="card__stack"><li>Business model</li><li>BOM hardware</li><li>Modèle financier</li></ul>
           <span class="card__go">Voir le projet <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
