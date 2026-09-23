@@ -740,7 +740,7 @@
     welcome: 'Welcome to <span class="b">tom@giles</span> — interactive shell.\nType <span class="c">help</span> to list commands. <span class="g">Tab completes, ↑/↓ browse history, Esc closes.</span>',
     help: [["whoami", "who am I"], ["projects", "list projects"], ["open &lt;slug&gt;", "open a project page"],
       ["incidents", "production post-mortems"], ["stack", "tools I use"], ["kubectl get nodes|pods", "live cluster state"],
-      ["contact", "how to reach me"], ["cv", "download my resume"],
+      ["contact", "how to reach me"], ["linkedin", "open my LinkedIn"], ["cv", "download my resume"],
       ["cd &lt;section&gt;", "jump to a section"], ["neofetch", "system summary"], ["clear", "clear screen"], ["exit", "close terminal"]],
     who: "Tom Giles — engineering student at EPITA (SIGL, class of 2027).\nProduct Owner of SIOPS, the SRE team running a production RKE2 cluster on OpenStack.\n<span class=\"c\">Looking for a 6-month pre-hire internship from February 2027</span> — Platform / Cloud / SRE / DevOps.",
     notFound: function (c) { return '<span class="r">command not found:</span> ' + esc(c) + ' — type <span class="c">help</span>'; },
@@ -748,13 +748,13 @@
     opening: "opening", usage: "usage", hire: "Permission granted. Redirecting to my inbox… 🚀",
     rm: '<span class="r">rm: refusing to remove "/"</span> — I write post-mortems, not incidents.',
     incidents: ["INC-01 SEV1  etcd OOM-killed → control plane deadlock at restart", "INC-02 SEV1  3 weeks without backups while jobs were green (486 → 48 GiB)", "INC-03 SEV2  Vault auto-unseal depends on a single-replica Vault (SPOF)"],
-    contact: "email   tom.giles@epita.fr\nphone   +33 6 95 10 40 56\nplace   Paris / Vosges — mobile",
+    contact: "email     tom.giles@epita.fr\nphone     +33 6 95 10 40 56\nlinkedin  <a href=\"https://www.linkedin.com/in/giles-tom/\" target=\"_blank\" rel=\"noopener\">in/giles-tom</a>\nplace     Paris / Vosges — mobile",
     themeSet: "dark. always dark.", sections: "projects  incidents  parcours  stack  contact", secMap: { projects: "projets", timeline: "parcours", career: "parcours" }
   } : {
     welcome: 'Bienvenue sur <span class="b">tom@giles</span> — shell interactif.\nTapez <span class="c">help</span> pour la liste des commandes. <span class="g">Tab complète, ↑/↓ historique, Échap ferme.</span>',
     help: [["whoami", "qui suis-je"], ["projects", "liste des projets"], ["open &lt;slug&gt;", "ouvre la page d'un projet"],
       ["incidents", "post-mortems de production"], ["stack", "mes outils"], ["kubectl get nodes|pods", "état du cluster en direct"],
-      ["contact", "me joindre"], ["cv", "télécharger le CV"],
+      ["contact", "me joindre"], ["linkedin", "ouvrir mon LinkedIn"], ["cv", "télécharger le CV"],
       ["cd &lt;section&gt;", "aller à une section"], ["neofetch", "résumé système"], ["clear", "effacer l'écran"], ["exit", "fermer le terminal"]],
     who: "Tom Giles — étudiant-ingénieur à l'EPITA (majeure SIGL, promo 2027).\nProduct Owner de SIOPS, l'équipe SRE qui opère un cluster RKE2 de production sur OpenStack.\n<span class=\"c\">Cherche un stage de pré-embauche de 6 mois dès février 2027</span> — Platform / Cloud / SRE / DevOps.",
     notFound: function (c) { return '<span class="r">commande introuvable :</span> ' + esc(c) + ' — tapez <span class="c">help</span>'; },
@@ -762,12 +762,12 @@
     opening: "ouverture de", usage: "usage", hire: "Permission accordée. Redirection vers ma boîte mail… 🚀",
     rm: '<span class="r">rm : suppression de « / » refusée</span> — j\'écris des post-mortems, pas des incidents.',
     incidents: ["INC-01 SEV1  etcd tué par l'OOM killer → interblocage du control plane", "INC-02 SEV1  3 semaines sans sauvegarde, jobs verts (486 → 48 GiB)", "INC-03 SEV2  auto-unseal Vault dépendant d'un Vault en réplique unique (SPOF)"],
-    contact: "mail    tom.giles@epita.fr\ntél.    06 95 10 40 56\nlieu    Paris / Vosges — mobile",
+    contact: "mail      tom.giles@epita.fr\ntél.      06 95 10 40 56\nlinkedin  <a href=\"https://www.linkedin.com/in/giles-tom/\" target=\"_blank\" rel=\"noopener\">in/giles-tom</a>\nlieu      Paris / Vosges — mobile",
     themeSet: "sombre. toujours sombre.", sections: "projets  incidents  parcours  stack  contact", secMap: { projects: "projets", timeline: "parcours", career: "parcours" }
   };
 
   var COMMANDS = ["help", "whoami", "about", "projects", "ls", "open", "cat", "incidents", "stack", "kubectl", "contact", "email", "cv",
-    "theme", "cd", "neofetch", "clear", "exit", "date", "echo", "uname", "sudo", "history", "pwd", "hire"];
+    "theme", "linkedin", "cd", "neofetch", "clear", "exit", "date", "echo", "uname", "sudo", "history", "pwd", "hire"];
 
   var go = function (href) { setTimeout(function () { close(); location.href = href; }, 450); };
 
@@ -830,6 +830,10 @@
         break;
       case "contact": case "email":
         print(S.contact); break;
+      case "linkedin":
+        print(S.opening + ' <a href="https://www.linkedin.com/in/giles-tom/" target="_blank" rel="noopener">linkedin.com/in/giles-tom</a> …');
+        window.open("https://www.linkedin.com/in/giles-tom/", "_blank", "noopener");
+        break;
       case "cv":
         print(S.opening + ' <a href="/cv/tom-giles-cv' + (EN ? "-en" : "") + '.pdf">cv.pdf</a> …');
         go("/cv/tom-giles-cv" + (EN ? "-en" : "") + ".pdf");

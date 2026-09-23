@@ -494,45 +494,6 @@ PAGES["ebios"] = {
 """,
 }
 
-# ──────────────────────────────────────────────────────────────── DECRYPT'IA
-PAGES["decrypt-ia"] = {
-    "title": "Décrypt'IA — littératie à l'IA",
-    "subtitle": "Produit de littératie à l'intelligence artificielle destiné à la CNIL et "
-                "à l'Éducation nationale, mené jusqu'au MVP.",
-    "description": "Décrypt'IA : produit de littératie à l'IA pour la CNIL et l'Éducation "
-                   "nationale — cadrage du besoin, conception produit, MVP et soutenance.",
-    "anchor": "consulting",
-    "section_label": "04 Consulting & SI",
-    "meta": [
-        ("Rôle", "Produit"),
-        ("Commanditaires", "CNIL / Éducation nationale"),
-        ("Cible", "Publics scolaires"),
-        ("Livrable", "MVP + soutenance"),
-    ],
-    "body": """
-  <h2 data-n="01">Contexte</h2>
-  <p>Un produit de littératie à l'IA pour la CNIL et l'Éducation nationale. Deux
-  commanditaires publics, un public scolaire, et une contrainte qui structure tout : il
-  s'agit d'outiller le jugement, pas de délivrer une opinion sur l'IA.</p>
-
-  <h2 data-n="02">Ce que j'ai fait</h2>
-  <ul>
-    <li>Cadrage du besoin avec les attentes des commanditaires.</li>
-    <li>Conception du produit et de son parcours utilisateur.</li>
-    <li>Construction du MVP.</li>
-    <li>Soutenance devant les parties prenantes.</li>
-  </ul>
-
-  <h2 data-n="03">Résultat</h2>
-  <p>""" + TODO + """ périmètre du MVP livré, ou retour formalisé du commanditaire.</p>
-
-  <h2 data-n="04">Ce que j'en retire</h2>
-  <p>Un commanditaire public n'achète pas une fonctionnalité, il achète une position
-  défendable devant son propre public. La contrainte de neutralité, posée tôt, a plus
-  façonné le produit que n'importe quel choix technique.</p>
-""",
-}
-
 # ──────────────────────────────────────────────────────────────── LENDR
 PAGES["lendr"] = {
     "title": "Lendr — casiers connectés à vérification par IA",

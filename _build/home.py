@@ -7,6 +7,8 @@ Tant que "desc" vaut None, la carte affiche un emplacement « à rédiger ».
 """
 
 SITE = "https://tom.giles.fr"
+LINKEDIN = "https://www.linkedin.com/in/giles-tom/"
+LI_ICON = ('<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.34V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg>')
 ARROW = ('<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" '
          'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>')
 PLUS = ('<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" '
@@ -79,15 +81,6 @@ PROJECTS = [
         "chips": {"fr": ["EBIOS RM", "Analyse de risques"], "en": ["EBIOS RM", "Risk analysis"]},
         "fr": {"title": "Analyse de risques EBIOS RM", "tag": "Sécurité", "desc": None},
         "en": {"title": "EBIOS RM risk assessment", "tag": "Security", "desc": None},
-    },
-    {
-        "slug": "decrypt-ia", "cat": "consulting", "visual": None,
-        "stack": [],
-        "chips": {"fr": ["Cadrage", "MVP", "Soutenance"], "en": ["Scoping", "MVP", "Defence"]},
-        "fr": {"title": "Décrypt'IA — littératie à l'IA",
-               "tag": "CNIL / Éducation nationale · du cadrage au MVP", "desc": None},
-        "en": {"title": "Décrypt'IA — AI literacy",
-               "tag": "CNIL / French Ministry of Education · from scoping to MVP", "desc": None},
     },
     {
         "slug": "lendr", "cat": "product", "visual": None,
@@ -193,7 +186,7 @@ T["fr"] = {
     "ct_lede": "Stage de pré-embauche de 6 mois à partir de février 2027 — Platform, Cloud, SRE ou DevOps, avec une ouverture Product technique. Le mail arrive dans ma boîte, pas dans un formulaire.",
     "subject": "Stage%206%20mois%20%E2%80%94%20f%C3%A9vrier%202027",
     "copy": "Copier", "write": "Écrire à Tom",
-    "ct_meta": [("Téléphone", '<a href="tel:+33695104056">06 95 10 40 56</a>'), ("Localisation", "Paris / Vosges — mobile"), ("Langues", "Français · Anglais (TOEIC 900)")],
+    "ct_meta": [("Téléphone", '<a href="tel:+33695104056">06 95 10 40 56</a>'), ("LinkedIn", '<a href="' + LINKEDIN + '" target="_blank" rel="noopener me">in/giles-tom</a>'), ("Localisation", "Paris / Vosges — mobile"), ("Langues", "Français · Anglais (TOEIC 900)")],
     "footer_other": "English version",
     "term_aria": "Terminal interactif", "term_close": "Fermer le terminal", "menu": "Menu",
 }
@@ -267,7 +260,7 @@ T["en"] = {
     "ct_lede": "6-month pre-hire internship from February 2027 — Platform, Cloud, SRE or DevOps, open to technical Product roles. Email lands in my inbox, not in a form.",
     "subject": "6-month%20internship%20%E2%80%94%20from%20February%202027",
     "copy": "Copy", "write": "Email Tom",
-    "ct_meta": [("Phone", '<a href="tel:+33695104056">+33 6 95 10 40 56</a>'), ("Location", "Paris / Vosges, France — mobile"), ("Languages", "French · English (TOEIC 900)")],
+    "ct_meta": [("Phone", '<a href="tel:+33695104056">+33 6 95 10 40 56</a>'), ("LinkedIn", '<a href="' + LINKEDIN + '" target="_blank" rel="noopener me">in/giles-tom</a>'), ("Location", "Paris / Vosges, France — mobile"), ("Languages", "French · English (TOEIC 900)")],
     "footer_other": "Version française",
     "term_aria": "Interactive terminal", "term_close": "Close terminal", "menu": "Menu",
 }
@@ -322,6 +315,7 @@ def head(t):
   "telephone": "+33695104056",
   "jobTitle": "{t['job']}",
   "description": "{t['ld']}",
+  "sameAs": ["{LINKEDIN}"],
   "knowsLanguage": ["fr", "en"],
   "address": {{ "@type": "PostalAddress", "addressCountry": "FR", "addressLocality": "Paris" }},
   "alumniOf": [
@@ -363,6 +357,7 @@ document.body.appendChild(b);document.documentElement.classList.add("booting")}}
     </nav>
     <div class="tools">
       <a class="chip-btn chip-btn--lang" href="{t['other']}" hreflang="{'en' if t['lang'] == 'fr' else 'fr'}" aria-label="{t['other_aria']}">{t['other_label']}</a>
+      <a class="chip-btn chip-btn--icon" href="{LINKEDIN}" target="_blank" rel="noopener me" aria-label="LinkedIn">{LI_ICON}</a>
       <button class="chip-btn chip-btn--icon" type="button" data-term-open aria-label="Terminal"><span class="mono" aria-hidden="true">&gt;_</span></button>
       <button class="chip-btn chip-btn--icon menu-btn" type="button" aria-controls="nav" aria-expanded="false" aria-label="{t['menu']}">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 8h16M4 16h16"/></svg>
@@ -608,6 +603,7 @@ def contact(t):
       </div>
       <div class="actions reveal">
         <a class="btn btn--primary magnetic" href="{mail}">{t['write']} {ARROW}</a>
+        <a class="btn btn--ghost magnetic" href="{LINKEDIN}" target="_blank" rel="noopener me">{LI_ICON} LinkedIn</a>
         <a class="btn btn--ghost magnetic" href="{t['cv']}" download>{t['cta2']}</a>
       </div>
       <ul class="contact__meta reveal">{meta}</ul>
@@ -623,7 +619,7 @@ def footer(t):
 <footer class="site-footer">
   <div class="wrap site-footer__inner">
     <span>© Tom Giles — EPITA SIGL 2027</span>
-    <span><a href="mailto:tom.giles@epita.fr">tom.giles@epita.fr</a> · <a href="{t['other']}" hreflang="{'en' if t['lang'] == 'fr' else 'fr'}">{t['footer_other']}</a></span>
+    <span><a href="mailto:tom.giles@epita.fr">tom.giles@epita.fr</a> · <a href="{LINKEDIN}" target="_blank" rel="noopener me">LinkedIn</a> · <a href="{t['other']}" hreflang="{'en' if t['lang'] == 'fr' else 'fr'}">{t['footer_other']}</a></span>
   </div>
 </footer>
 

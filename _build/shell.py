@@ -114,7 +114,7 @@ PROJECT_TEMPLATE = """<!doctype html>
 <footer class="site-footer">
   <div class="wrap site-footer__inner">
     <span>{footer_id}</span>
-    <span><a href="mailto:tom.giles@epita.fr">tom.giles@epita.fr</a> · <a href="{other_home}">{footer_other}</a></span>
+    <span><a href="mailto:tom.giles@epita.fr">tom.giles@epita.fr</a> · <a href="https://www.linkedin.com/in/giles-tom/" target="_blank" rel="noopener me">LinkedIn</a> · <a href="{other_home}">{footer_other}</a></span>
   </div>
 </footer>
 

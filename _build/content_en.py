@@ -480,45 +480,6 @@ PAGES["ebios"] = {
 """,
 }
 
-# ──────────────────────────────────────────────────────────────── DECRYPT'IA
-PAGES["decrypt-ia"] = {
-    "title": "Décrypt'IA — AI literacy product",
-    "subtitle": "An AI literacy product for the CNIL and the French Ministry of Education, "
-                "taken through to MVP.",
-    "description": "Décrypt'IA: AI literacy product for the CNIL and the French Ministry "
-                   "of Education — needs scoping, product design, MVP and defence.",
-    "anchor": "consulting",
-    "section_label": "04 Consulting & IS",
-    "meta": [
-        ("Role", "Product"),
-        ("Sponsors", "CNIL / Ministry of Education"),
-        ("Audience", "School students"),
-        ("Deliverable", "MVP + defence"),
-    ],
-    "body": """
-  <h2 data-n="01">Context</h2>
-  <p>An AI literacy product for the CNIL and the French Ministry of Education. Two public
-  sponsors, a school audience, and one constraint that shapes everything: the goal is to
-  equip judgement, not to deliver an opinion about AI.</p>
-
-  <h2 data-n="02">What I did</h2>
-  <ul>
-    <li>Scoped the need against the sponsors' expectations.</li>
-    <li>Designed the product and its user journey.</li>
-    <li>Built the MVP.</li>
-    <li>Defended it in front of the stakeholders.</li>
-  </ul>
-
-  <h2 data-n="03">Outcome</h2>
-  <p>""" + TODO + """ scope of the delivered MVP, or formal sponsor feedback.</p>
-
-  <h2 data-n="04">What I took from it</h2>
-  <p>A public sponsor is not buying a feature, they are buying a position they can defend
-  to their own audience. The neutrality constraint, set early, shaped the product more than
-  any technical choice did.</p>
-""",
-}
-
 # ──────────────────────────────────────────────────────────────── LENDR
 PAGES["lendr"] = {
     "title": "Lendr — smart lockers with AI condition checks",

@@ -254,6 +254,7 @@ em { font-style: normal; }
 .chip-btn:hover { color: var(--ink); border-color: var(--line-strong); }
 .chip-btn[aria-current="true"] { color: var(--accent); border-color: rgba(52, 211, 194, .4); }
 .chip-btn svg { width: 15px; height: 15px; }
+.chip-btn svg[fill="currentColor"] { width: 13px; height: 13px; }
 .chip-btn--icon { width: 2.25rem; padding: 0; }
 .chip-btn--icon .mono { color: var(--accent); font-size: .72rem; }
 .menu-btn { display: none; }
@@ -297,7 +298,8 @@ em { font-style: normal; }
   will-change: transform;
 }
 .btn svg { width: 17px; height: 17px; transition: transform .25s var(--ease); }
-.btn:hover svg { transform: translateX(3px); }
+.btn svg[fill="currentColor"] { width: 15px; height: 15px; }
+.btn:hover svg:not([fill="currentColor"]) { transform: translateX(3px); }
 .btn--primary { background: var(--ink); color: #000; }
 .btn--primary:hover { background: var(--accent); box-shadow: 0 0 60px -10px var(--accent); }
 .btn--ghost { border: 1px solid var(--line-strong); color: var(--ink); background: rgba(255, 255, 255, .03); backdrop-filter: blur(8px); }
@@ -391,7 +393,9 @@ em { font-style: normal; }
   animation: rise 1.1s var(--ease) forwards;
   animation-delay: calc(var(--boot) + var(--i) * 55ms + 150ms);
 }
-.hero__name .line:last-child { color: transparent; -webkit-text-stroke: 1.5px rgba(255, 255, 255, .85); letter-spacing: -.01em; }
+/* contour : le trait est peint sous un remplissage noir, ce qui masque les contours
+   internes qui se chevauchent dans les glyphes de la police variable */
+.hero__name .line:last-child { color: #000; -webkit-text-stroke: 3px rgba(255, 255, 255, .85); paint-order: stroke fill; letter-spacing: -.01em; }
 @keyframes rise { to { transform: none; } }
 
 .hero__role { margin: 1.75rem 0 0; font-family: var(--mono); font-size: clamp(.95rem, 2.2vw, 1.2rem); color: var(--ink-2); min-height: 1.7em; }
@@ -542,7 +546,7 @@ em { font-style: normal; }
   color: var(--ink);
   will-change: transform;
 }
-.band__row--outline { color: transparent; -webkit-text-stroke: 1.5px rgba(255, 255, 255, .35); letter-spacing: -.005em; }
+.band__row--outline { color: #000; -webkit-text-stroke: 3px rgba(255, 255, 255, .35); paint-order: stroke fill; letter-spacing: -.005em; }
 
 /* ---------- sections ---------- */
 
@@ -669,8 +673,9 @@ main { position: relative; z-index: 1; }
   font-weight: 800;
   line-height: 1;
   letter-spacing: -.06em;
-  color: transparent;
-  -webkit-text-stroke: 1px rgba(255, 255, 255, .08);
+  color: var(--surface);
+  -webkit-text-stroke: 2px rgba(255, 255, 255, .08);
+  paint-order: stroke fill;
   transition: -webkit-text-stroke-color .4s;
 }
 .card:hover .card__num { -webkit-text-stroke-color: color-mix(in srgb, var(--c) 45%, transparent); }
