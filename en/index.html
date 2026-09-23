@@ -1,10 +1,10 @@
 <!doctype html>
-<html lang="en" prefix="og: https://ogp.me/ns#">
+<html lang="en" prefix="og: https://ogp.me/ns#" class="no-js">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Tom Giles — Platform &amp; Cloud / SRE — 6-month internship from February 2027</title>
-<meta name="description" content="Tom Giles, EPITA SIGL class of 2027. Product Owner of an SRE team running a production RKE2 cluster on OpenStack: 6 nodes, ~60 ArgoCD applications, 4 tenants. Looking for a 6-month internship from February 2027.">
+<meta name="description" content="Tom Giles, EPITA SIGL 2027. Product Owner of an SRE team running a production RKE2 cluster on OpenStack. Looking for a 6-month pre-hire internship from February 2027.">
 <link rel="canonical" href="https://tom.giles.fr/en/">
 <link rel="alternate" hreflang="fr" href="https://tom.giles.fr/">
 <link rel="alternate" hreflang="en" href="https://tom.giles.fr/en/">
@@ -16,15 +16,18 @@
 <meta property="og:url" content="https://tom.giles.fr/en/">
 <meta property="og:site_name" content="Tom Giles">
 <meta property="og:title" content="Tom Giles — Platform &amp; Cloud / SRE">
-<meta property="og:description" content="I run a production Kubernetes cluster with real tenants — and I can cost it, steer it and defend it in front of them. 6-month internship from February 2027.">
+<meta property="og:description" content="I run a production Kubernetes cluster with real customers — and I can cost it, steer it and defend it in front of them. 6-month internship from February 2027.">
 <meta property="og:image" content="https://tom.giles.fr/assets/og.png">
 <meta name="twitter:card" content="summary_large_image">
 
-<meta name="theme-color" content="#F5F7F8" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#0B1015" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#F3F5F6" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#06080B" media="(prefers-color-scheme: dark)">
 <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Geist:wght@400..700&family=Geist+Mono:wght@400;500&display=swap">
 <link rel="stylesheet" href="/assets/style.css">
-<script>try{var t=localStorage.getItem("theme");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+<script>document.documentElement.classList.remove("no-js");try{var t=localStorage.getItem("theme");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
 
 <script type="application/ld+json">
 {
@@ -42,7 +45,6 @@
     { "@type": "CollegeOrUniversity", "name": "EPITA — SIGL major" },
     { "@type": "CollegeOrUniversity", "name": "FPT University, Vietnam" }
   ],
-  "worksFor": { "@type": "Organization", "name": "SIOPS — DevOps/SRE team, EPITA SIGL" },
   "knowsAbout": ["Kubernetes", "RKE2", "OpenStack", "ArgoCD", "GitOps", "HashiCorp Vault",
                  "Terraform", "OpenTofu", "Prometheus", "Site Reliability Engineering",
                  "FastAPI", "C#/.NET", "SAP S/4HANA", "EBIOS Risk Manager"]
@@ -52,616 +54,466 @@
 
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
+<div class="progress" aria-hidden="true"></div>
+<div class="glow" aria-hidden="true"></div>
 
 <header class="topbar">
-  <a class="topbar__id" href="/en/">tom giles <span class="dim">/ platform &amp; cloud</span></a>
-  <div class="topbar__tools">
-    <a class="btn-ghost" href="/" hreflang="fr">FR</a>
-    <a class="btn-ghost" href="/en/" aria-current="true" hreflang="en">EN</a>
-    <button class="btn-ghost" type="button" data-theme-toggle>Dark</button>
+  <div class="wrap topbar__inner">
+    <a class="logo" href="/en/" aria-label="Tom Giles — home">
+      <span class="logo__mark" aria-hidden="true">&gt;_</span>
+      <span class="logo__text">tom.giles<span class="dim">.fr</span></span>
+    </a>
+    <nav class="nav" id="nav" aria-label="Sections">
+      <a href="#projets">Projects</a>
+      <a href="#incidents">Incidents</a>
+      <a href="#parcours">Career</a>
+      <a href="#stack">Stack</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <div class="tools">
+      <a class="chip-btn chip-btn--lang" href="/" hreflang="fr" lang="fr" aria-label="Version française">FR</a>
+      <button class="chip-btn chip-btn--icon" type="button" data-theme-toggle aria-label="Toggle theme">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+      </button>
+      <button class="chip-btn chip-btn--icon menu-btn" type="button" aria-controls="nav" aria-expanded="false" aria-label="Menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 8h16M4 16h16"/></svg>
+      </button>
+    </div>
   </div>
 </header>
 
-<div class="shell">
+<main id="main">
 
-  <nav class="rail" aria-label="Site sections">
-    <p class="rail__title">Contents</p>
-    <ul class="rail__list">
-      <li><a class="rail__link" href="#platform"><span>01</span><span>Platform &amp; Cloud</span></a></li>
-      <li><a class="rail__link" href="#sre"><span>02</span><span>Production &amp; SRE</span></a></li>
-      <li><a class="rail__link" href="#software"><span>03</span><span>Software Engineering</span></a></li>
-      <li><a class="rail__link" href="#consulting"><span>04</span><span>Consulting &amp; IS</span></a></li>
-      <li><a class="rail__link" href="#product"><span>05</span><span>Product</span></a></li>
-      <li><a class="rail__link" href="#background"><span>—</span><span>Background</span></a></li>
-      <li><a class="rail__link" href="#stack"><span>—</span><span>Stack</span></a></li>
-      <li><a class="rail__link" href="#contact"><span>—</span><span>Contact</span></a></li>
-    </ul>
-  </nav>
+  <!-- ═══════════ HERO ═══════════ -->
+  <section class="hero" aria-labelledby="hero-name">
+    <canvas class="hero__canvas" aria-hidden="true"></canvas>
 
-  <main id="main">
+    <div class="wrap">
+      <div class="hero__content">
+        <p class="status fade-up">
+          <span class="status__dot" aria-hidden="true"></span>
+          Available · 6-month internship, Feb 2027
+        </p>
 
-    <!-- ═══════════ HERO ═══════════ -->
-    <section class="hero" aria-labelledby="hero-name">
-      <p class="hero__eyebrow">EPITA — SIGL major — class of 2027 · Paris / Vosges, France</p>
-      <h1 class="hero__name" id="hero-name">Tom Giles</h1>
-      <p class="hero__pitch">
-        I run a <strong>production</strong> Kubernetes cluster with real tenants.
-        And I can cost it, steer it and defend it in front of them.
-      </p>
+        <h1 class="hero__name" id="hero-name" aria-label="Tom Giles">
+          <span class="line" aria-hidden="true"><span class="ch" style="--i:0">T</span><span class="ch" style="--i:1">o</span><span class="ch" style="--i:2">m</span></span>
+          <span class="line" aria-hidden="true"><span class="ch" style="--i:3">G</span><span class="ch" style="--i:4">i</span><span class="ch" style="--i:5">l</span><span class="ch" style="--i:6">e</span><span class="ch" style="--i:7">s</span></span>
+        </h1>
 
-      <p class="status">
-        <span class="status__dot" aria-hidden="true"></span>
-        6-month internship — from February 2027 — Platform / Cloud / SRE
-      </p>
+        <p class="hero__role fade-up d1">
+          <span class="prompt">~ $</span> <span class="typer" data-words="Platform Engineer|Site Reliability Engineer|Product Owner SRE|Cloud &amp; DevOps">Platform Engineer</span>
+        </p>
 
-      <div class="figures">
-        <div class="figure">
-          <span class="figure__value">1 K8s cluster</span>
-          <span class="figure__label">RKE2 v1.32 in production on OpenStack, run by a team of five</span>
+        <p class="hero__pitch fade-up d2">
+          I run a <strong>production</strong> Kubernetes cluster with real customers.
+          And I can cost it, steer it and defend it in front of them.
+        </p>
+
+        <div class="actions fade-up d3">
+          <a class="btn btn--primary magnetic" href="#projets">
+            See the projects
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+          <a class="btn btn--ghost magnetic" href="/cv/tom-giles-cv-en.pdf" download>Download CV</a>
         </div>
-        <div class="figure">
-          <span class="figure__value">4 tenants</span>
-          <span class="figure__label">hosted in production and staging</span>
+
+        <p class="hero__hint fade-up d4">Tip: press <kbd>/</kbd> to open the terminal.</p>
+      </div>
+    </div>
+
+    <aside class="feed fade-up d5" aria-hidden="true">
+      <div class="feed__head"><span>kubectl get events -w</span><b>● live</b></div>
+      <ol></ol>
+    </aside>
+
+    <a class="scroll-cue" href="#about" aria-label="Scroll to content"></a>
+  </section>
+
+  <!-- ═══════════ TICKER ═══════════ -->
+  <div class="ticker" aria-hidden="true">
+    <div class="ticker__track">
+      <span class="ticker__item"><b>RKE2</b> v1.32 in production</span>
+      <span class="ticker__item"><b>~60</b> ArgoCD apps</span>
+      <span class="ticker__item"><b>4</b> hosted customers</span>
+      <span class="ticker__item"><b>486 → 48</b> GiB of backups</span>
+      <span class="ticker__item"><b>1M</b> rows exported in ~2 min</span>
+      <span class="ticker__item"><b>90+</b> user countries</span>
+      <span class="ticker__item"><b>TOEIC</b> 900</span>
+      <span class="ticker__item"><b>RKE2</b> v1.32 in production</span>
+      <span class="ticker__item"><b>~60</b> ArgoCD apps</span>
+      <span class="ticker__item"><b>4</b> hosted customers</span>
+      <span class="ticker__item"><b>486 → 48</b> GiB of backups</span>
+      <span class="ticker__item"><b>1M</b> rows exported in ~2 min</span>
+      <span class="ticker__item"><b>90+</b> user countries</span>
+      <span class="ticker__item"><b>TOEIC</b> 900</span>
+    </div>
+  </div>
+
+  <!-- ═══════════ À PROPOS ═══════════ -->
+  <section class="section" id="about" aria-labelledby="about-title">
+    <div class="wrap">
+      <div class="about">
+        <div class="about__text reveal">
+          <h2 class="eyebrow" id="about-title">About</h2>
+          <p class="lead">Engineering student at EPITA, SIGL major. I build platforms — and I stay
+          in the logs when they break.</p>
+          <p>Product Owner of SIOPS, the SRE team running the major's production cluster:
+          I own the backlog, write the post-mortems and defend architecture decisions
+          in front of customers.</p>
+          <p>Looking for a 6-month pre-hire internship from February 2027 — Platform,
+          Cloud, SRE or DevOps.</p>
         </div>
-        <div class="figure">
-          <span class="figure__value">6 nodes · ~60 apps</span>
-          <span class="figure__label">continuously reconciled by ArgoCD</span>
+        <div class="figures reveal" style="--d:2">
+          <div class="figure">
+            <span class="figure__value" data-count="6">6</span>
+            <span class="figure__label">RKE2 nodes on OpenStack, run by a team of five</span>
+          </div>
+          <div class="figure">
+            <span class="figure__value"><span data-count="60" data-prefix="~">~60</span></span>
+            <span class="figure__label">applications reconciled by ArgoCD</span>
+          </div>
+          <div class="figure">
+            <span class="figure__value" data-count="4">4</span>
+            <span class="figure__label">customers hosted in production and staging</span>
+          </div>
+          <div class="figure">
+            <span class="figure__value"><span data-count="440" data-prefix="~">~440</span></span>
+            <span class="figure__label">commits this semester, Kanban on Linear</span>
+          </div>
         </div>
       </div>
+    </div>
+  </section>
 
-      <div class="actions">
-        <a class="btn btn--primary" href="mailto:tom.giles@epita.fr?subject=6-month%20internship%20%E2%80%94%20from%20February%202027">Get in touch</a>
-        <a class="btn btn--ghost" href="/cv/tom-giles-cv-en.pdf" download>Download CV (PDF)</a>
-      </div>
-    </section>
-
-    <!-- ═══════════ 01 ═══════════ -->
-    <section class="section" id="platform" aria-labelledby="platform-title">
+  <!-- ═══════════ PROJETS ═══════════ -->
+  <section class="section" id="projets" aria-labelledby="projets-title">
+    <!-- anchors kept for the "back" links on project pages -->
+    <span id="platform"></span><span id="sre"></span><span id="software"></span><span id="consulting"></span><span id="product"></span>
+    <div class="wrap">
       <div class="section__head">
-        <span class="section__num">01</span>
-        <h2 class="section__title" id="platform-title">Platform &amp; Cloud</h2>
-        <span class="section__kicker">Infrastructure at scale</span>
+        <div class="reveal">
+          <p class="eyebrow">Selected work</p>
+          <h2 class="section__title" id="projets-title">What I've <em>built</em>.</h2>
+        </div>
+        <p class="section__lede reveal" style="--d:1">From infrastructure to production, from code to consulting. Each project has its own detailed page.</p>
       </div>
 
-      <p class="section__lede">
-        Building the base layer: network, storage, high availability, and the path from
-        commit to deployment. Three projects where infrastructure is the product, not the
-        plumbing.
-      </p>
+      <div class="filters reveal" role="group" aria-label="Filter projects">
+        <button class="filter" type="button" data-filter="all" aria-pressed="true">All <span class="filter__count"></span></button>
+        <button class="filter" type="button" data-filter="platform" aria-pressed="false">Platform &amp; Cloud <span class="filter__count"></span></button>
+        <button class="filter" type="button" data-filter="sre" aria-pressed="false">Production &amp; SRE <span class="filter__count"></span></button>
+        <button class="filter" type="button" data-filter="software" aria-pressed="false">Software <span class="filter__count"></span></button>
+        <button class="filter" type="button" data-filter="consulting" aria-pressed="false">Consulting &amp; IS <span class="filter__count"></span></button>
+        <button class="filter" type="button" data-filter="product" aria-pressed="false">Product <span class="filter__count"></span></button>
+      </div>
 
-      <div class="cards">
+      <div class="bento">
 
-        <article class="card">
-          <div class="card__head">
-            <h3 class="card__title"><a href="/en/projects/arcl/">ARCL — Resilient Hybrid Cloud Architecture</a></h3>
-            <span class="card__tag">Azure × private cloud</span>
+        <!-- SIOPS -->
+        <article class="card card--xl reveal" data-cat="sre" data-slug="siops"
+                 data-stack="Kubernetes|RKE2|OpenStack|ArgoCD|Helm|HashiCorp Vault|Prometheus|Grafana|Loki|FastAPI">
+          <div class="card__top"><span class="card__cat">Production &amp; SRE</span><span>01</span></div>
+          <span class="card__go" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+          <h3 class="card__title"><a href="/en/projects/siops/">SIOPS — production Kubernetes platform</a></h3>
+          <p class="card__tag">Product Owner · team of 5 · Cassiopée GitOps portal</p>
+          <p class="todo-desc" data-label="Description to write">
+            Project description coming soon.
+            <span class="skel"></span><span class="skel"></span><span class="skel"></span>
+          </p>
+          <div class="nodes" aria-hidden="true" data-nodes="master-1|master-2|master-3|worker-1|worker-2|worker-3"></div>
+          <div class="card__stats">
+            <div><b>6</b><span>nodes</span></div>
+            <div><b>~60</b><span>ArgoCD apps</span></div>
+            <div><b>4</b><span>customers</span></div>
           </div>
-          <div class="spec">
-            <div class="spec__row">
-              <span class="spec__key">Context</span>
-              <div class="spec__val"><p>Keep a self-service platform available even when one of the two clouds goes down. Redundancy and high availability end to end.</p></div>
-            </div>
-            <div class="spec__row">
-              <span class="spec__key">Role</span>
-              <div class="spec__val"><p>Infrastructure design and implementation, entirely as Infrastructure as Code.</p></div>
-            </div>
-            <div class="spec__row">
-              <span class="spec__key">Stack</span>
-              <div class="spec__val spec__val--stack">Azure · Azure Load Balancer · OpenTofu · MicroStack / OpenStack · WireGuard · PostgreSQL · Patroni · Cinder</div>
-            </div>
-            <div class="spec__row">
-              <span class="spec__key">What I did</span>
-              <div class="spec__val"><p>Encrypted WireGuard interconnect between Azure and the private cloud. PostgreSQL cluster made redundant with Patroni: automatic primary failover, no human in the loop. Azure load balancing in front of the front ends, Cinder volumes on the private side. The whole environment is described in OpenTofu and rebuildable from scratch.</p></div>
-            </div>
-            <div class="spec__row">
-              <span class="spec__key">Outcome</span>
-              <div class="spec__val spec__val--result"><p><span class="todo">[TODO: metric]</span> measured RTO of the Patroni failover, or full rebuild time of the environment from IaC.</p></div>
-            </div>
-          </div>
-          <a class="card__more" href="/en/projects/arcl/">Read the detail</a>
+          <ul class="card__stack"><li>RKE2</li><li>OpenStack</li><li>ArgoCD</li><li>Helm</li><li>Vault</li><li>Prometheus</li><li>Loki</li></ul>
         </article>
 
-        <article class="card">
-          <div class="card__head">
-            <h3 class="card__title"><a href="/en/projects/cnp/">CNP — Internal Developer Platform</a></h3>
-            <span class="card__tag">Repository-first</span>
-          </div>
-          <div class="spec">
-            <div class="spec__row">
-              <span class="spec__key">Context</span>
-              <div class="spec__val"><p>Onboarding an application into a cloud-native workflow takes days and depends on who agrees to help. CNP turns that path into a product.</p></div>
-            </div>
-            <div class="spec__row">
-              <span class="spec__key">Role</span>
-              <div class="spec__val"><p>Platform engineering, from the API to the GitHub integration.</p></div>
-            </div>
-            <div class="spec__row">
-              <span class="spec__key">Stack</span>
-              <div class="spec__val spec__val--stack">Python 3.12 · FastAPI · PostgreSQL · SQLAlchemy · Alembic · GitHub App · GitHub Actions · Docker Compose · Kubernetes · Azure AKS · GHCR</div>
-            </div>
-            <div class="spec__row">
-              <span class="spec__key">What I did</span>
-              <div class="spec__val"><p>Repository-first approach: a GitHub App instruments the team's repository, generates the GitHub Actions pipeline, publishes the image to GHCR and triggers deployment on AKS. The FastAPI service holds the state of applications and environments, with Alembic migrations.</p></div>
-            </div>
-            <div class="spec__row">
-              <span class="spec__key">Outcome</span>
-              <div class="spec__val spec__val--result"><p>An application team goes from empty repository to first deployment without writing a line of pipeline. <span class="todo">[TODO: metric]</span> time-to-first-deploy measured before / after.</p></div>
-            </div>
-          </div>
-          <a class="card__more" href="/en/projects/cnp/">Read the detail</a>
+        <!-- ARCL -->
+        <article class="card reveal" style="--d:1" data-cat="platform" data-slug="arcl"
+                 data-stack="Azure|OpenTofu|OpenStack|WireGuard|PostgreSQL|Patroni">
+          <div class="card__top"><span class="card__cat">Platform &amp; Cloud</span><span>02</span></div>
+          <span class="card__go" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+          <h3 class="card__title"><a href="/en/projects/arcl/">ARCL — resilient hybrid architecture</a></h3>
+          <p class="card__tag">Azure × private cloud</p>
+          <p class="todo-desc" data-label="Description to write">
+            Project description coming soon.
+            <span class="skel"></span><span class="skel"></span>
+          </p>
+          <ul class="card__stack"><li>Azure</li><li>OpenTofu</li><li>WireGuard</li><li>Patroni</li></ul>
         </article>
 
-        <article class="card">
-          <div class="card__head">
-            <h3 class="card__title"><a href="/en/projects/ubsi/">UBSI — DevOps leadership across a multi-team IS</a></h3>
-            <span class="card__tag">50 participants</span>
+        <!-- CNP -->
+        <article class="card reveal" style="--d:2" data-cat="platform" data-slug="cnp"
+                 data-stack="Python|FastAPI|PostgreSQL|GitHub Actions|Kubernetes|Azure|Docker">
+          <div class="card__top"><span class="card__cat">Platform &amp; Cloud</span><span>03</span></div>
+          <span class="card__go" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+          <h3 class="card__title"><a href="/en/projects/cnp/">CNP — Internal Developer Platform</a></h3>
+          <p class="card__tag">Repository-first</p>
+          <p class="todo-desc" data-label="Description to write">
+            Project description coming soon.
+            <span class="skel"></span><span class="skel"></span>
+          </p>
+          <ul class="card__stack"><li>FastAPI</li><li>GitHub App</li><li>AKS</li><li>GHCR</li></ul>
+        </article>
+
+        <!-- IPSOS -->
+        <article class="card card--wide reveal" data-cat="software" data-slug="ipsos"
+                 data-stack="C# / .NET|SQL Server|Python">
+          <div class="card__top"><span class="card__cat">Software Engineering</span><span>04</span></div>
+          <span class="card__go" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+          <h3 class="card__title"><a href="/en/projects/ipsos/">Ipsos — rebuilding the Excel export engine</a></h3>
+          <p class="card__tag">Global BI · Sept 2025 – Jan 2026</p>
+          <p class="todo-desc" data-label="Description to write">
+            Project description coming soon.
+            <span class="skel"></span><span class="skel"></span>
+          </p>
+          <div class="meter" aria-label="Memory: 3 to 4 GB before, 100 to 200 MB after">
+            <div class="meter__row"><span>before</span><span class="meter__bar"><i class="v1" style="--w:100%"></i></span><span>3–4 GB</span></div>
+            <div class="meter__row"><span>after</span><span class="meter__bar"><i class="v2" style="--w:5%"></i></span><span>100–200 MB</span></div>
           </div>
-          <div class="spec">
-            <div class="spec__row">
-              <span class="spec__key">Context</span>
-              <div class="spec__val"><p>The information system of a miniature airline, simulated by 50 participants split across several application teams.</p></div>
-            </div>
-            <div class="spec__row">
-              <span class="spec__key">Role</span>
-              <div class="spec__val"><p>Leading the DevOps workstream. I provide the base; the other teams build on it.</p></div>
-            </div>
-            <div class="spec__row">
-              <span class="spec__key">Stack</span>
-              <div class="spec__val spec__val--stack">FastAPI · Python · PostgreSQL · RabbitMQ · Docker · Docker Compose · GitLab CI/CD · Prometheus · Grafana · Loki · Alembic · HTTPX</div>
-            </div>
-            <div class="spec__row">
-              <span class="spec__key">What I did</span>
-              <div class="spec__val"><p>Defined the shared standards — API conventions, log format, service boundaries. Set up the GitLab CI/CD chain, the Prometheus / Grafana / Loki observability base, and the RabbitMQ bus used for cross-team integration.</p></div>
-            </div>
-            <div class="spec__row">
-              <span class="spec__key">Outcome</span>
-              <div class="spec__val spec__val--result"><p>A common base mandated and genuinely adopted across a 50-participant simulation. <span class="todo">[TODO: metric]</span> number of teams and services integrated onto the base.</p></div>
-            </div>
-          </div>
-          <a class="card__more" href="/en/projects/ubsi/">Read the detail</a>
+          <ul class="card__stack"><li>C#</li><li>ASP.NET</li><li>Open XML SDK</li><li>SQL Server</li></ul>
+        </article>
+
+        <!-- UBSI -->
+        <article class="card card--wide reveal" style="--d:1" data-cat="platform" data-slug="ubsi"
+                 data-stack="FastAPI|Python|PostgreSQL|RabbitMQ|Docker|GitLab CI|Prometheus|Grafana|Loki">
+          <div class="card__top"><span class="card__cat">Platform &amp; Cloud</span><span>05</span></div>
+          <span class="card__go" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+          <h3 class="card__title"><a href="/en/projects/ubsi/">UBSI — multi-team DevOps leadership</a></h3>
+          <p class="card__tag">DevOps workstream lead · 50 participants</p>
+          <p class="todo-desc" data-label="Description to write">
+            Project description coming soon.
+            <span class="skel"></span><span class="skel"></span>
+          </p>
+          <ul class="card__stack"><li>GitLab CI</li><li>RabbitMQ</li><li>Prometheus</li><li>Grafana</li><li>Loki</li></ul>
+        </article>
+
+        <!-- DANONE -->
+        <article class="card reveal" data-cat="consulting" data-slug="danone" data-stack="SAP S/4HANA">
+          <div class="card__top"><span class="card__cat">Consulting &amp; IS</span><span>06</span></div>
+          <span class="card__go" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+          <h3 class="card__title"><a href="/en/projects/danone/">Danone — SAP S/4HANA Finance architecture</a></h3>
+          <p class="card__tag">Target architecture</p>
+          <p class="todo-desc" data-label="Description to write">
+            Project description coming soon.
+            <span class="skel"></span><span class="skel"></span>
+          </p>
+          <ul class="card__stack"><li>SAP S/4HANA</li><li>Finance</li></ul>
+        </article>
+
+        <!-- BEBLOOD -->
+        <article class="card reveal" style="--d:1" data-cat="consulting" data-slug="beblood" data-stack="Oracle HCM|Monte-Carlo">
+          <div class="card__top"><span class="card__cat">Consulting &amp; IS</span><span>07</span></div>
+          <span class="card__go" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+          <h3 class="card__title"><a href="/en/projects/beblood/">BeBlood — HRIS transformation</a></h3>
+          <p class="card__tag">Oracle HCM · Monte-Carlo estimation</p>
+          <p class="todo-desc" data-label="Description to write">
+            Project description coming soon.
+            <span class="skel"></span><span class="skel"></span>
+          </p>
+          <ul class="card__stack"><li>Oracle HCM</li><li>Monte-Carlo P80</li></ul>
+        </article>
+
+        <!-- EBIOS -->
+        <article class="card reveal" style="--d:2" data-cat="consulting" data-slug="ebios" data-stack="EBIOS Risk Manager">
+          <div class="card__top"><span class="card__cat">Consulting &amp; IS</span><span>08</span></div>
+          <span class="card__go" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+          <h3 class="card__title"><a href="/en/projects/ebios/">EBIOS RM risk assessment</a></h3>
+          <p class="card__tag">Security</p>
+          <p class="todo-desc" data-label="Description to write">
+            Project description coming soon.
+            <span class="skel"></span><span class="skel"></span>
+          </p>
+          <ul class="card__stack"><li>EBIOS RM</li><li>Risk analysis</li></ul>
+        </article>
+
+        <!-- DECRYPT'IA -->
+        <article class="card card--wide reveal" data-cat="consulting" data-slug="decrypt-ia" data-stack="">
+          <div class="card__top"><span class="card__cat">Consulting &amp; IS</span><span>09</span></div>
+          <span class="card__go" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+          <h3 class="card__title"><a href="/en/projects/decrypt-ia/">Décrypt'IA — AI literacy</a></h3>
+          <p class="card__tag">CNIL / French Ministry of Education · from scoping to MVP</p>
+          <p class="todo-desc" data-label="Description to write">
+            Project description coming soon.
+            <span class="skel"></span><span class="skel"></span>
+          </p>
+          <ul class="card__stack"><li>Scoping</li><li>MVP</li><li>Defence</li></ul>
+        </article>
+
+        <!-- LENDR -->
+        <article class="card card--wide reveal" style="--d:1" data-cat="product" data-slug="lendr" data-stack="">
+          <div class="card__top"><span class="card__cat">Product &amp; Entrepreneurship</span><span>10</span></div>
+          <span class="card__go" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+          <h3 class="card__title"><a href="/en/projects/lendr/">Lendr — smart lockers with AI checks</a></h3>
+          <p class="card__tag">Co-founded B2B startup</p>
+          <p class="todo-desc" data-label="Description to write">
+            Project description coming soon.
+            <span class="skel"></span><span class="skel"></span>
+          </p>
+          <ul class="card__stack"><li>Business model</li><li>BOM hardware</li><li>Financial model</li></ul>
         </article>
 
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- ═══════════ 02 ═══════════ -->
-    <section class="section" id="sre" aria-labelledby="sre-title">
+  <!-- ═══════════ INCIDENTS ═══════════ -->
+  <section class="section" id="incidents" aria-labelledby="incidents-title">
+    <div class="wrap">
       <div class="section__head">
-        <span class="section__num">02</span>
-        <h2 class="section__title" id="sre-title">Production &amp; SRE — SIOPS</h2>
-        <span class="section__kicker">Product Owner</span>
-      </div>
-
-      <p class="section__lede">
-        The in-house DevOps/SRE team of the SIGL major. Five people, one cluster, four
-        tenants waiting for it to work. I am its Product Owner: I arbitrate the backlog and
-        I am in the logs.
-      </p>
-
-      <div class="figures">
-        <div class="figure">
-          <span class="figure__value">RKE2 v1.32</span>
-          <span class="figure__label">6 nodes on OpenStack · Flannel CNI · Cinder CSI storage</span>
+        <div class="reveal">
+          <p class="eyebrow">Post-mortems</p>
+          <h2 class="section__title" id="incidents-title">When it <em>breaks</em> for real.</h2>
         </div>
-        <div class="figure">
-          <span class="figure__value">~60 applications</span>
-          <span class="figure__label">managed by ArgoCD · 4 tenants in production and staging</span>
-        </div>
-        <div class="figure">
-          <span class="figure__value">~440 commits</span>
-          <span class="figure__label">over the semester · team of 5 · Kanban on Linear</span>
-        </div>
+        <p class="section__lede reveal" style="--d:1">Three incidents on the SIOPS cluster. Symptom, diagnosis, fix, lesson — unfiltered.</p>
       </div>
-
-      <div class="cards">
-
-        <article class="card">
-          <div class="card__head">
-            <h3 class="card__title"><a href="/en/projects/siops/">Cassiopée — GitOps self-service portal</a></h3>
-            <span class="card__tag">SIOPS sub-project</span>
-          </div>
-          <div class="spec">
-            <div class="spec__row">
-              <span class="spec__key">Context</span>
-              <div class="spec__val"><p>Every environment request went through a member of the platform team. Cassiopée turns that into Git-driven self-service.</p></div>
-            </div>
-            <div class="spec__row">
-              <span class="spec__key">Role</span>
-              <div class="spec__val"><p>Product Owner — framing the need, breaking down the backlog, arbitrating quotas.</p></div>
-            </div>
-            <div class="spec__row">
-              <span class="spec__key">Stack</span>
-              <div class="spec__val spec__val--stack">FastAPI · ArgoCD · Helm · HashiCorp Vault · Swift / RGW</div>
-            </div>
-            <div class="spec__row">
-              <span class="spec__key">What I did</span>
-              <div class="spec__val"><p>A user requests an application, a database, an S3 bucket or an ingress. The portal commits the <code>values.yaml</code> to the GitOps repository and ArgoCD reconciles. Credentials are generated on the fly and stored in Vault — never in the repository. Quotas are enforced per group.</p></div>
-            </div>
-            <div class="spec__row">
-              <span class="spec__key">Outcome</span>
-              <div class="spec__val spec__val--result"><p>A complete environment deployed by commit, with no platform team involvement. <span class="todo">[TODO: metric]</span> number of environments provisioned through the portal.</p></div>
-            </div>
-          </div>
-          <a class="card__more" href="/en/projects/siops/">Read the SIOPS detail</a>
-        </article>
-
-        <article class="card">
-          <div class="card__head">
-            <h3 class="card__title">Resource pooling</h3>
-            <span class="card__tag">Product decision</span>
-          </div>
-          <div class="spec">
-            <div class="spec__row">
-              <span class="spec__key">Context</span>
-              <div class="spec__val"><p>Each group had a fixed, tightly sized quota. The result: reserved capacity sitting idle on one side, teams reduced to shipping mock-ups on the other.</p></div>
-            </div>
-            <div class="spec__row">
-              <span class="spec__key">What I did</span>
-              <div class="spec__val"><p>I pushed the move to a shared pool: capacity goes where the real demand is, instead of sleeping inside quotas. The trade-off is explicit — accept some contention risk so teams can run real projects rather than demos.</p></div>
-            </div>
-            <div class="spec__row">
-              <span class="spec__key">Outcome</span>
-              <div class="spec__val spec__val--result"><p><span class="todo">[TODO: metric]</span> pool utilisation rate before / after the switch.</p></div>
-            </div>
-          </div>
-        </article>
-
-      </div>
-
-      <h3 class="section__title" style="font-size:1.05rem;margin:2.5rem 0 1rem">Incidents &amp; post-mortems</h3>
 
       <div class="incidents">
-
-        <article class="incident">
-          <span class="incident__id">INC-01 · Control plane</span>
-          <h4 class="incident__title">The cluster deadlocks itself on restart</h4>
-          <dl>
-            <dt>Symptom</dt>
-            <dd>master-1 unreachable, unstable API server, cluster running degraded.</dd>
-            <dt>Diagnosis</dt>
-            <dd>Undersized node: the <strong>OOM killer takes out etcd</strong> and quorum drops to 2/3. <code>rke2-server</code> waits on kubelet, which waits on the etcd static pod, which no longer starts. Deadlock.</dd>
-            <dt>Fix</dt>
-            <dd><code>rke2-killall</code> to break the loop, a clean node restart, then resizing the master.</dd>
-            <dt>Lesson</dt>
-            <dd>A control plane is not sized like a worker. etcd's resources are an availability constraint, not a line item to trim.</dd>
+        <details class="incident reveal" open>
+          <summary>
+            <span class="incident__id">INC-01 · SEV1</span>
+            <h3 class="incident__title">The cluster deadlocks itself on restart<span class="incident__area">control plane · etcd</span></h3>
+            <span class="incident__toggle" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span>
+          </summary>
+          <dl class="incident__body">
+            <div><dt>Symptom</dt><dd>master-1 unreachable, API server flapping, cluster degraded.</dd></div>
+            <div><dt>Diagnosis</dt><dd>Undersized node: the <strong>OOM killer takes out etcd</strong>, quorum drops to 2/3. <code>rke2-server</code> waits on kubelet, which waits on etcd. Deadlock.</dd></div>
+            <div><dt>Fix</dt><dd><code>rke2-killall</code> to break the loop, clean restart, then resize the master.</dd></div>
+            <div><dt>Lesson</dt><dd>You don't size a control plane like a worker.</dd></div>
           </dl>
-        </article>
+        </details>
 
-        <article class="incident">
-          <span class="incident__id">INC-02 · Backups</span>
-          <h4 class="incident__title">Three weeks without backups, and the jobs were green</h4>
-          <dl>
-            <dt>Symptom</dt>
-            <dd>No recent snapshot in the repository. The backup jobs kept reporting success.</dd>
-            <dt>Diagnosis</dt>
-            <dd>S3 quota full at 500 GiB. The restic repository held <strong>486 GiB across 349 snapshots that were never pruned</strong>: the dump name embedded the date, so every backup created its own group and the retention policy applied to nothing.</dd>
-            <dt>Fix</dt>
-            <dd>Upgraded restic, <code>forget --group-by host</code> then <code>prune</code>: <strong>486 → 48 GiB</strong>. Script hardened with <code>set -euo pipefail</code> and a stable dump name.</dd>
-            <dt>Lesson</dt>
-            <dd>A green job proves nothing. What you monitor is the age of the last restorable snapshot — not the cron's exit code.</dd>
+        <details class="incident reveal" style="--d:1">
+          <summary>
+            <span class="incident__id">INC-02 · SEV1</span>
+            <h3 class="incident__title">Three weeks without backups, and the jobs were green<span class="incident__area">backups · restic · S3</span></h3>
+            <span class="incident__toggle" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span>
+          </summary>
+          <dl class="incident__body">
+            <div><dt>Symptom</dt><dd>No recent snapshot. Yet every job reported success.</dd></div>
+            <div><dt>Diagnosis</dt><dd>S3 quota full. <strong>486 GiB, 349 snapshots never pruned</strong>: the date in the dump name broke retention.</dd></div>
+            <div><dt>Fix</dt><dd><code>forget --group-by host</code> + <code>prune</code> : <strong>486 → 48 GiB</strong>. Script hardened with <code>set -euo pipefail</code>.</dd></div>
+            <div><dt>Lesson</dt><dd>A green job proves nothing. Monitor the age of the last restorable snapshot.</dd></div>
           </dl>
-        </article>
+        </details>
 
-        <article class="incident">
-          <span class="incident__id">INC-03 · Vault</span>
-          <h4 class="incident__title">The unseal chain eats its own tail</h4>
-          <dl>
-            <dt>Symptom</dt>
-            <dd>Audit of Vault's startup chain, carried out after a platform restart.</dd>
-            <dt>Diagnosis</dt>
-            <dd>The primary Vault's transit auto-unseal depends on a <strong>secondary Vault, Shamir-sealed and deployed as a single replica</strong>. If the secondary goes down, nothing unseals — including the secrets needed to bring it back.</dd>
-            <dt>Fix</dt>
-            <dd>SPOF identified, documented and added to the backlog with its exit options. <span class="todo">[TODO: remediation status]</span></dd>
-            <dt>Lesson</dt>
-            <dd>A circular startup dependency is invisible in steady state. You find it the day everything restarts at once.</dd>
+        <details class="incident reveal" data-sev="2" style="--d:2">
+          <summary>
+            <span class="incident__id">INC-03 · SEV2</span>
+            <h3 class="incident__title">The Vault unseal chain bites its own tail<span class="incident__area">secrets · Vault · SPOF</span></h3>
+            <span class="incident__toggle" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span>
+          </summary>
+          <dl class="incident__body">
+            <div><dt>Symptom</dt><dd>Audit of Vault's boot chain after a platform restart.</dd></div>
+            <div><dt>Diagnosis</dt><dd>Auto-unseal depends on a <strong>single-replica secondary Vault</strong>. If it goes down, nothing unseals.</dd></div>
+            <div><dt>Fix</dt><dd>SPOF documented and added to the backlog with exit options. <span class="todo">[TODO: status]</span></dd></div>
+            <div><dt>Lesson</dt><dd>A circular boot dependency only shows the day everything restarts at once.</dd></div>
           </dl>
-        </article>
-
+        </details>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- ═══════════ 03 ═══════════ -->
-    <section class="section" id="software" aria-labelledby="software-title">
+  <!-- ═══════════ PARCOURS ═══════════ -->
+  <section class="section" id="parcours" aria-labelledby="parcours-title">
+    <div class="wrap">
       <div class="section__head">
-        <span class="section__num">03</span>
-        <h2 class="section__title" id="software-title">Software Engineering</h2>
-        <span class="section__kicker">Ipsos — Global BI</span>
+        <div class="reveal">
+          <p class="eyebrow">Career</p>
+          <h2 class="section__title" id="parcours-title">The road <em>so far</em>.</h2>
+        </div>
       </div>
 
-      <div class="cards">
-        <article class="card">
-          <div class="card__head">
-            <h3 class="card__title"><a href="/en/projects/ipsos/">Ipsos — rebuilding the Excel export engine</a></h3>
-            <span class="card__tag">Sept 2025 – Jan 2026</span>
-          </div>
-          <div class="spec">
-            <div class="spec__row">
-              <span class="spec__key">Context</span>
-              <div class="spec__val"><p>A C# / ASP.NET financial portal used by management controllers in more than 90 countries. The Excel export engine threw <code>OutOfMemoryException</code> past 50,000 rows.</p></div>
-            </div>
-            <div class="spec__row">
-              <span class="spec__key">Role</span>
-              <div class="spec__val"><p>Software Developer, Global Business Intelligence. Team spread across Europe / North America / India, work in English, Jira, agile.</p></div>
-            </div>
-            <div class="spec__row">
-              <span class="spec__key">Stack</span>
-              <div class="spec__val spec__val--stack">C# · ASP.NET · IIS · SQL Server · Open XML SDK (SAX mode) · EPPlus (V1) · Python</div>
-            </div>
-            <div class="spec__row">
-              <span class="spec__key">What I did</span>
-              <div class="spec__val"><p>Diagnosis: double allocation across <code>DataTable</code> + EPPlus and Large Object Heap fragmentation — 3 to 4 GB of memory for 50 MB of data. Rewrote as pure streaming: Open XML SDK in SAX mode, <code>IDataReader</code> in <code>SequentialAccess</code>, direct <code>FileStream</code> writes, a single indexed stylesheet, no-allocation parsers, two-pass predictive auto-fit, <code>.xlsx</code> recompression.</p></div>
-            </div>
-            <div class="spec__row">
-              <span class="spec__key">Outcome</span>
-              <div class="spec__val spec__val--result"><p>Memory flat at <strong>100–200 MB</strong>. <strong>1 million rows in ~2 min</strong> where V1 crashed at 45 s. OOM incidents disappeared from the production logs, and files are <strong>20–30% smaller</strong>.</p></div>
-            </div>
-          </div>
-          <a class="card__more" href="/en/projects/ipsos/">Read the technical detail</a>
-        </article>
+      <div class="timeline-wrap">
+      <span class="timeline__fill" aria-hidden="true"></span>
+      <ol class="timeline">
+        <li class="reveal"><span class="timeline__when">Now</span><p class="timeline__what">Product Owner — SIOPS</p><p class="timeline__desc">Five-person DevOps/SRE team, production RKE2 cluster on OpenStack.</p></li>
+        <li class="reveal"><span class="timeline__when">2025 – 2026</span><p class="timeline__what">Ipsos — Software Developer, Global BI</p><p class="timeline__desc">Rebuilt the Excel export engine of a finance portal used in 90+ countries.</p></li>
+        <li class="reveal"><span class="timeline__when">One semester</span><p class="timeline__what">FPT University, Vietnam</p><p class="timeline__desc">Exchange semester. TOEIC 900.</p></li>
+        <li class="reveal"><span class="timeline__when">2022 – 2027</span><p class="timeline__what">EPITA — SIGL major</p><p class="timeline__desc">Information Systems &amp; Software Engineering. Class representative.</p></li>
+        <li class="reveal"><span class="timeline__when">Before</span><p class="timeline__what">Clayens NP — operator</p><p class="timeline__desc">First contact with industrial production and its constraints.</p></li>
+        <li class="reveal"><span class="timeline__when">9 years</span><p class="timeline__what">Scouting — 4 years as unit leader</p><p class="timeline__desc">Leadership, logistics and responsibility for a group in the field.</p></li>
+      </ol>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- ═══════════ 04 ═══════════ -->
-    <section class="section" id="consulting" aria-labelledby="consulting-title">
+  <!-- ═══════════ STACK ═══════════ -->
+  <section class="section" id="stack" aria-labelledby="stack-title">
+    <div class="wrap">
       <div class="section__head">
-        <span class="section__num">04</span>
-        <h2 class="section__title" id="consulting-title">Consulting &amp; IS</h2>
-        <span class="section__kicker">Budget · risk · architecture</span>
+        <div class="reveal">
+          <p class="eyebrow">Stack</p>
+          <h2 class="section__title" id="stack-title">Everyday <em>tools</em>.</h2>
+        </div>
+        <p class="section__lede reveal" style="--d:1">No percentages. The number next to a tool is how many projects I used it in — hover to see which.</p>
       </div>
 
-      <p class="section__lede">
-        Discussing budget, risk and target architecture with people who will never read a
-        YAML file — and leaving the room with a decision.
-      </p>
-
-      <div class="cards">
-
-        <article class="card">
-          <div class="card__head">
-            <h3 class="card__title"><a href="/en/projects/danone/">Danone — SAP S/4HANA Finance architecture</a></h3>
-            <span class="card__tag">Target architecture</span>
-          </div>
-          <div class="spec">
-            <div class="spec__row">
-              <span class="spec__key">What I did</span>
-              <div class="spec__val"><p>Conceptual foundation for the Finance domain, mapping of flows and business objects, architecture deck and defence in front of a panel.</p></div>
-            </div>
-            <div class="spec__row">
-              <span class="spec__key">Outcome</span>
-              <div class="spec__val spec__val--result"><p><span class="todo">[TODO: metric]</span> functional scope covered, or defence grade.</p></div>
-            </div>
-          </div>
-          <a class="card__more" href="/en/projects/danone/">Read the detail</a>
-        </article>
-
-        <article class="card">
-          <div class="card__head">
-            <h3 class="card__title"><a href="/en/projects/beblood/">BeBlood — HRIS transformation (Oracle HCM)</a></h3>
-            <span class="card__tag">Monte-Carlo estimation</span>
-          </div>
-          <div class="spec">
-            <div class="spec__row">
-              <span class="spec__key">What I did</span>
-              <div class="spec__val"><p>Effort estimation by Monte-Carlo simulation at P80, with the workstream risk register.</p></div>
-            </div>
-            <div class="spec__row">
-              <span class="spec__key">Outcome</span>
-              <div class="spec__val spec__val--result"><p>A defensible effort range with its confidence level, instead of a single number pulled out of a spreadsheet. <span class="todo">[TODO: metric]</span> estimated effort and P50 / P80 spread.</p></div>
-            </div>
-          </div>
-          <a class="card__more" href="/en/projects/beblood/">Read the detail</a>
-        </article>
-
-        <article class="card">
-          <div class="card__head">
-            <h3 class="card__title"><a href="/en/projects/ebios/">EBIOS Risk Manager assessment</a></h3>
-            <span class="card__tag">Security</span>
-          </div>
-          <div class="spec">
-            <div class="spec__row">
-              <span class="spec__key">What I did</span>
-              <div class="spec__val"><p>Full method on a target IS: scoping and security baseline, risk sources, strategic then operational scenarios, risk treatment.</p></div>
-            </div>
-            <div class="spec__row">
-              <span class="spec__key">Outcome</span>
-              <div class="spec__val spec__val--result"><p><span class="todo">[TODO: metric]</span> number of operational scenarios retained and controls arbitrated.</p></div>
-            </div>
-          </div>
-          <a class="card__more" href="/en/projects/ebios/">Read the detail</a>
-        </article>
-
-        <article class="card">
-          <div class="card__head">
-            <h3 class="card__title"><a href="/en/projects/decrypt-ia/">Décrypt'IA — AI literacy</a></h3>
-            <span class="card__tag">CNIL / Ministry of Education</span>
-          </div>
-          <div class="spec">
-            <div class="spec__row">
-              <span class="spec__key">What I did</span>
-              <div class="spec__val"><p>AI literacy product for the CNIL and the French Ministry of Education, taken from scoping through to MVP and its defence.</p></div>
-            </div>
-            <div class="spec__row">
-              <span class="spec__key">Outcome</span>
-              <div class="spec__val spec__val--result"><p><span class="todo">[TODO: metric]</span> scope of the delivered MVP, or sponsor feedback.</p></div>
-            </div>
-          </div>
-          <a class="card__more" href="/en/projects/decrypt-ia/">Read the detail</a>
-        </article>
-
+      <div class="stack">
+        <div class="stack__group reveal"><p class="stack__name">Infra &amp; Cloud</p><ul class="stack__items"><li class="tech">Kubernetes</li><li class="tech">RKE2</li><li class="tech">OpenStack</li><li class="tech">Azure</li><li class="tech">OpenTofu</li><li class="tech">Ansible</li><li class="tech">WireGuard</li></ul></div>
+        <div class="stack__group reveal" style="--d:1"><p class="stack__name">GitOps &amp; CI/CD</p><ul class="stack__items"><li class="tech">ArgoCD</li><li class="tech">Helm</li><li class="tech">GitLab CI</li><li class="tech">GitHub Actions</li><li class="tech">Kaniko</li><li class="tech">Docker</li></ul></div>
+        <div class="stack__group reveal" style="--d:2"><p class="stack__name">Security &amp; secrets</p><ul class="stack__items"><li class="tech">HashiCorp Vault</li><li class="tech">Boundary</li><li class="tech">OIDC</li><li class="tech">EBIOS Risk Manager</li></ul></div>
+        <div class="stack__group reveal"><p class="stack__name">Observability</p><ul class="stack__items"><li class="tech">Prometheus</li><li class="tech">Grafana</li><li class="tech">Loki</li><li class="tech">Alloy</li><li class="tech">Gatus</li></ul></div>
+        <div class="stack__group reveal" style="--d:1"><p class="stack__name">Development</p><ul class="stack__items"><li class="tech">Python</li><li class="tech">FastAPI</li><li class="tech">C# / .NET</li><li class="tech">Java / Quarkus</li><li class="tech">React</li><li class="tech">PostgreSQL</li><li class="tech">RabbitMQ</li></ul></div>
+        <div class="stack__group reveal" style="--d:2"><p class="stack__name">IS &amp; consulting</p><ul class="stack__items"><li class="tech">SAP S/4HANA</li><li class="tech">Oracle HCM</li><li class="tech">ITIL / COBIT</li><li class="tech">Monte-Carlo</li></ul></div>
       </div>
-    </section>
+      <p class="stack__note">Daily driver: Arch Linux.</p>
+    </div>
+  </section>
 
-    <!-- ═══════════ 05 ═══════════ -->
-    <section class="section" id="product" aria-labelledby="product-title">
-      <div class="section__head">
-        <span class="section__num">05</span>
-        <h2 class="section__title" id="product-title">Product &amp; Entrepreneurship</h2>
-        <span class="section__kicker">Lendr</span>
+  <!-- ═══════════ CONTACT ═══════════ -->
+  <section class="section contact" id="contact" aria-labelledby="contact-title">
+    <div class="wrap">
+      <p class="eyebrow reveal">Contact · reply within 24 h</p>
+      <h2 class="contact__title reveal" id="contact-title">Let's build something <em>solid</em>.</h2>
+      <p class="contact__lede reveal">6-month pre-hire internship from February 2027 — Platform, Cloud, SRE or DevOps,
+      open to technical Product roles. Email lands in my inbox, not in a form.</p>
+
+      <div class="mail reveal">
+        <a href="mailto:tom.giles@epita.fr?subject=6-month%20internship%20%E2%80%94%20from%20February%202027">tom.giles@epita.fr</a>
+        <button type="button" data-copy="tom.giles@epita.fr">Copy</button>
       </div>
 
-      <div class="cards">
-        <article class="card">
-          <div class="card__head">
-            <h3 class="card__title"><a href="/en/projects/lendr/">Lendr — smart lockers with AI condition checks</a></h3>
-            <span class="card__tag">Co-founded B2B startup</span>
-          </div>
-          <div class="spec">
-            <div class="spec__row">
-              <span class="spec__key">Context</span>
-              <div class="spec__val"><p>A connected locker that uses AI to check the condition of returned equipment. First positioned for schools — a market too narrow and unable to pay.</p></div>
-            </div>
-            <div class="spec__row">
-              <span class="spec__key">Role</span>
-              <div class="spec__val"><p>Co-founder — product, business model and pitch.</p></div>
-            </div>
-            <div class="spec__row">
-              <span class="spec__key">What I did</span>
-              <div class="spec__val"><p>Repositioned towards field service and industrial maintenance, against CribMaster and SupplyPoint. Business model canvas, hardware BOM, Excel financial model — P&amp;L, 5-year projections, fundraising and leverage analysis — and investor pitch deck.</p></div>
-            </div>
-            <div class="spec__row">
-              <span class="spec__key">Outcome</span>
-              <div class="spec__val spec__val--result"><p>I can cost a product, not just build it. <span class="todo">[TODO: metric]</span> BOM unit cost, or modelled raise amount.</p></div>
-            </div>
-          </div>
-          <a class="card__more" href="/en/projects/lendr/">Read the detail</a>
-        </article>
-      </div>
-    </section>
-
-    <!-- ═══════════ BACKGROUND ═══════════ -->
-    <section class="section" id="background" aria-labelledby="background-title">
-      <div class="section__head">
-        <span class="section__num">—</span>
-        <h2 class="section__title" id="background-title">Background</h2>
+      <div class="actions reveal">
+        <a class="btn btn--primary magnetic" href="mailto:tom.giles@epita.fr?subject=6-month%20internship%20%E2%80%94%20from%20February%202027">Email Tom
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        <a class="btn btn--ghost magnetic" href="/cv/tom-giles-cv-en.pdf" download>Download CV</a>
       </div>
 
-      <ul class="timeline">
-        <li>
-          <span class="timeline__when">2022 – 2027</span>
-          <span class="timeline__what"><strong>EPITA — SIGL major</strong>
-            <span>Information Systems &amp; Software Engineering. Class of 2027.</span></span>
-        </li>
-        <li>
-          <span class="timeline__when">2025 – 2026</span>
-          <span class="timeline__what"><strong>Ipsos — Software Developer, Global BI</strong>
-            <span>Rebuilt the Excel export engine of a financial portal used in 90+ countries.</span></span>
-        </li>
-        <li>
-          <span class="timeline__when">Current</span>
-          <span class="timeline__what"><strong>Product Owner — SIOPS</strong>
-            <span>A five-person DevOps/SRE team running a production RKE2 cluster on OpenStack.</span></span>
-        </li>
-        <li>
-          <span class="timeline__when">One semester</span>
-          <span class="timeline__what"><strong>FPT University, Vietnam</strong>
-            <span>Exchange semester. TOEIC 900.</span></span>
-        </li>
-        <li>
-          <span class="timeline__when">Current term</span>
-          <span class="timeline__what"><strong>Class representative</strong>
-            <span>Interface between the cohort and the major's administration.</span></span>
-        </li>
-        <li>
-          <span class="timeline__when">Earlier</span>
-          <span class="timeline__what"><strong>Clayens NP — production operator</strong>
-            <span>First contact with industrial production and its constraints.</span></span>
-        </li>
-        <li>
-          <span class="timeline__when">9 years</span>
-          <span class="timeline__what"><strong>Scouting — 4 years as unit leader</strong>
-            <span>Leading, logistics and responsibility for a group in the field.</span></span>
-        </li>
+      <ul class="contact__meta reveal">
+        <li>Phone <b><a href="tel:+33695104056">+33 6 95 10 40 56</a></b></li>
+        <li>Location <b>Paris / Vosges, France — mobile</b></li>
+        <li>Languages <b>French · English (TOEIC 900)</b></li>
       </ul>
-    </section>
+    </div>
+  </section>
 
-    <!-- ═══════════ STACK ═══════════ -->
-    <section class="section" id="stack" aria-labelledby="stack-title">
-      <div class="section__head">
-        <span class="section__num">—</span>
-        <h2 class="section__title" id="stack-title">Stack</h2>
-        <span class="section__kicker">No levels, no percentages</span>
-      </div>
-
-      <div class="stack-groups">
-        <div class="stack-group">
-          <span class="stack-group__name">Infra &amp; Cloud</span>
-          <span class="stack-group__items">Kubernetes / RKE2 · OpenStack · Azure · Terraform / OpenTofu · Ansible · Cinder · WireGuard</span>
-        </div>
-        <div class="stack-group">
-          <span class="stack-group__name">GitOps &amp; CI/CD</span>
-          <span class="stack-group__items">ArgoCD · Helm · GitLab CI · GitHub Actions · Kaniko · Docker</span>
-        </div>
-        <div class="stack-group">
-          <span class="stack-group__name">Security &amp; secrets</span>
-          <span class="stack-group__items">HashiCorp Vault · Boundary · OIDC · EBIOS Risk Manager</span>
-        </div>
-        <div class="stack-group">
-          <span class="stack-group__name">Observability</span>
-          <span class="stack-group__items">Prometheus · Grafana · Loki · Alloy · Gatus</span>
-        </div>
-        <div class="stack-group">
-          <span class="stack-group__name">Development</span>
-          <span class="stack-group__items">Python / FastAPI · C# / .NET · Java / Quarkus · React · PostgreSQL · MariaDB · RabbitMQ</span>
-        </div>
-        <div class="stack-group">
-          <span class="stack-group__name">IS &amp; consulting</span>
-          <span class="stack-group__items">SAP S/4HANA · Oracle HCM · ITIL / COBIT · estimation and risk management</span>
-        </div>
-        <div class="stack-group">
-          <span class="stack-group__name">Environment</span>
-          <span class="stack-group__items">Arch Linux</span>
-        </div>
-      </div>
-    </section>
-
-    <!-- ═══════════ CONTACT ═══════════ -->
-    <section class="section" id="contact" aria-labelledby="contact-title">
-      <div class="section__head">
-        <span class="section__num">—</span>
-        <h2 class="section__title" id="contact-title">Contact</h2>
-        <span class="section__kicker">Reply within 24 h</span>
-      </div>
-
-      <p class="section__lede">
-        I am looking for a 6-month pre-hire internship starting February 2027, in Platform,
-        Cloud, SRE or DevOps roles — with an opening towards technical Product. Write to me
-        directly; the mail lands in my inbox, not in a form.
-      </p>
-
-      <dl class="contact-grid">
-        <div class="contact-item">
-          <dt>E-mail</dt>
-          <dd><a href="mailto:tom.giles@epita.fr">tom.giles@epita.fr</a></dd>
-        </div>
-        <div class="contact-item">
-          <dt>Phone</dt>
-          <dd><a href="tel:+33695104056">+33 6 95 10 40 56</a></dd>
-        </div>
-        <div class="contact-item">
-          <dt>Location</dt>
-          <dd>Paris / Vosges — mobile</dd>
-        </div>
-        <div class="contact-item">
-          <dt>Languages</dt>
-          <dd>French · English (TOEIC 900)</dd>
-        </div>
-      </dl>
-
-      <div class="actions">
-        <a class="btn btn--primary" href="mailto:tom.giles@epita.fr?subject=6-month%20internship%20%E2%80%94%20from%20February%202027">Email Tom</a>
-        <a class="btn btn--ghost" href="/cv/tom-giles-cv-en.pdf" download>Download CV (PDF)</a>
-      </div>
-    </section>
-
-  </main>
-</div>
+</main>
 
 <footer class="site-footer">
-  <div class="site-footer__inner">
-    <span>Tom Giles — EPITA SIGL, class of 2027</span>
+  <div class="wrap site-footer__inner">
+    <span>© Tom Giles — EPITA SIGL 2027</span>
     <span><a href="mailto:tom.giles@epita.fr">tom.giles@epita.fr</a> · <a href="/" hreflang="fr">Version française</a></span>
   </div>
 </footer>
+
+<button class="term-fab" type="button" data-term-open aria-haspopup="dialog">
+  <b>&gt;_</b><span class="term-open-label">terminal</span> <kbd>/</kbd>
+</button>
+
+<div class="term" role="dialog" aria-modal="true" aria-label="Interactive terminal">
+  <div class="term__win">
+    <div class="term__bar"><i></i><i></i><i></i><span>tom@giles: ~</span><button class="term__close" type="button" aria-label="Close terminal">✕</button></div>
+    <div class="term__out" aria-live="polite"></div>
+    <form class="term__line" autocomplete="off">
+      <label class="term__ps" for="term-in">tom@giles:~$</label>
+      <input class="term__in" id="term-in" type="text" spellcheck="false" autocapitalize="off">
+    </form>
+  </div>
+</div>
+
+<div class="toast" role="status" aria-live="polite"></div>
 
 <script src="/assets/main.js" defer></script>
 </body>

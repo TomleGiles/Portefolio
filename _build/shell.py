@@ -13,7 +13,7 @@ STRINGS = {
         "other_proj_prefix": "/en/projects/",
         "skip": "Aller au contenu",
         "tagline": "platform &amp; cloud",
-        "toggle": "Sombre",
+        "toggle": "Changer de thème",
         "back": "Retour",
         "contact_btn": "Me contacter",
         "cv_btn": "Télécharger le CV (PDF)",
@@ -35,7 +35,7 @@ STRINGS = {
         "other_proj_prefix": "/projects/",
         "skip": "Skip to content",
         "tagline": "platform &amp; cloud",
-        "toggle": "Dark",
+        "toggle": "Toggle theme",
         "back": "Back",
         "contact_btn": "Get in touch",
         "cv_btn": "Download CV (PDF)",
@@ -69,22 +69,34 @@ PROJECT_TEMPLATE = """<!doctype html>
 <meta property="og:description" content="{description}">
 <meta property="og:image" content="{site}/assets/og.png">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="theme-color" content="#F5F7F8" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#0B1015" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#F3F5F6" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#06080B" media="(prefers-color-scheme: dark)">
 <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Geist:wght@400..700&family=Geist+Mono:wght@400;500&display=swap">
 <link rel="stylesheet" href="/assets/style.css">
 <script>try{{var t=localStorage.getItem("theme");if(t)document.documentElement.setAttribute("data-theme",t)}}catch(e){{}}</script>
 </head>
 
 <body>
 <a class="skip-link" href="#main">{skip}</a>
+<div class="progress" aria-hidden="true"></div>
+<div class="glow" aria-hidden="true"></div>
 
 <header class="topbar">
-  <a class="topbar__id" href="{home}">tom giles <span class="dim">/ {tagline}</span></a>
-  <div class="topbar__tools">
-    <a class="btn-ghost" href="{fr_path}"{fr_current} hreflang="fr">FR</a>
-    <a class="btn-ghost" href="{en_path}"{en_current} hreflang="en">EN</a>
-    <button class="btn-ghost" type="button" data-theme-toggle>{toggle}</button>
+  <div class="wrap topbar__inner">
+    <a class="logo" href="{home}">
+      <span class="logo__mark" aria-hidden="true">&gt;_</span>
+      <span class="logo__text">tom.giles<span class="dim">.fr</span></span>
+    </a>
+    <div class="tools">
+      <a class="chip-btn chip-btn--lang" href="{fr_path}"{fr_current} hreflang="fr">FR</a>
+      <a class="chip-btn chip-btn--lang" href="{en_path}"{en_current} hreflang="en">EN</a>
+      <button class="chip-btn chip-btn--icon" type="button" data-theme-toggle aria-label="{toggle}">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+      </button>
+    </div>
   </div>
 </header>
 
@@ -106,7 +118,7 @@ PROJECT_TEMPLATE = """<!doctype html>
 </main>
 
 <footer class="site-footer">
-  <div class="site-footer__inner">
+  <div class="wrap site-footer__inner">
     <span>{footer_id}</span>
     <span><a href="mailto:tom.giles@epita.fr">tom.giles@epita.fr</a> · <a href="{other_home}">{footer_other}</a></span>
   </div>

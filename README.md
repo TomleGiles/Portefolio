@@ -12,7 +12,7 @@ en/index.html                  accueil EN
 projects/<slug>/index.html     pages projet FR   → /projects/siops
 en/projects/<slug>/index.html  pages projet EN   → /en/projects/siops
 assets/style.css               feuille de style unique
-assets/main.js                 thème + surlignage de la nav
+assets/main.js                 thème, simulation de cluster du hero, filtres, terminal (touche /)
 cv/                            CV PDF (FR et EN)
 sitemap.xml  robots.txt  404.html  CNAME
 ```
@@ -40,6 +40,16 @@ python3 _build/build.py
 
 L'accueil (`index.html`, `en/index.html`) et `404.html` sont écrits à la main.
 
+## Accueil
+
+- Les descriptions des cartes projet sont des emplacements à remplir : chercher
+  `class="todo-desc"` dans `index.html` et `en/index.html`, remplacer tout le `<p>` par
+  `<p class="card__desc">…</p>` (ou garder le bloc tant que le texte n'est pas prêt).
+- `data-stack` sur chaque carte alimente le compteur « utilisé dans N projets » de la
+  section Stack : les noms doivent correspondre exactement aux libellés `.tech`.
+- `data-cat` (`platform`, `sre`, `software`, `consulting`, `product`) pilote les filtres ;
+  `/#sre`, `/#platform`… ouvrent l'accueil avec le filtre appliqué.
+
 ## Règles de contenu
 
 - Chaque projet suit le squelette **Contexte → Rôle → Stack → Ce que j'ai fait → Résultat**.
@@ -54,3 +64,4 @@ L'accueil (`index.html`, `en/index.html`) et `404.html` sont écrits à la main.
 - [ ] Déposer `cv/tom-giles-cv.pdf` et `cv/tom-giles-cv-en.pdf`
 - [ ] Générer `assets/og.png` (1200×630) pour les aperçus de partage
 - [ ] Remplacer les `[TODO: métrique]` par de vrais chiffres
+- [ ] Rédiger les descriptions des cartes projet de l'accueil (FR + EN)
