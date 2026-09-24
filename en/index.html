@@ -70,6 +70,7 @@ document.body.appendChild(b);document.documentElement.classList.add("booting")})
     </a>
     <nav class="nav" id="nav" aria-label="Sections">
       <a href="#projets">Projects</a>
+      <a href="#produit">Product</a>
       <a href="#incidents">Incidents</a>
       <a href="#parcours">Career</a>
       <a href="#stack">Stack</a>
@@ -97,7 +98,7 @@ document.body.appendChild(b);document.documentElement.classList.add("booting")})
         <span class="line" aria-hidden="true"><span class="ch" style="--i:0">T</span><span class="ch" style="--i:1">o</span><span class="ch" style="--i:2">m</span></span>
         <span class="line" aria-hidden="true"><span class="ch" style="--i:3">G</span><span class="ch" style="--i:4">i</span><span class="ch" style="--i:5">l</span><span class="ch" style="--i:6">e</span><span class="ch" style="--i:7">s</span></span>
       </h1>
-      <p class="hero__role fade-up d1"><span class="prompt">~ $</span> <span class="typer" data-words="Platform Engineer|Site Reliability Engineer|Product Owner SRE|Cloud &amp; DevOps">Platform Engineer</span></p>
+      <p class="hero__role fade-up d1"><span class="prompt">~ $</span> <span class="typer" data-words="Platform Engineer|Site Reliability Engineer|Product Owner SRE|Technical Product Manager|Cloud &amp; DevOps">Platform Engineer</span></p>
       <div class="actions fade-up d2">
         <a class="btn btn--primary magnetic" href="#projets">See the projects <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
         <a class="btn btn--ghost magnetic" href="/cv/tom-giles-cv-en.pdf" download>Download CV</a>
@@ -151,8 +152,8 @@ document.body.appendChild(b);document.documentElement.classList.add("booting")})
 
   <!-- ═══════════ BANDEAU ═══════════ -->
   <div class="band" aria-hidden="true">
-    <p class="band__row" data-band="-1">PLATFORM — SRE — CLOUD — DEVOPS — GITOPS — PLATFORM — SRE — CLOUD — DEVOPS — GITOPS — PLATFORM — SRE — CLOUD — DEVOPS — GITOPS — PLATFORM — SRE — CLOUD — DEVOPS — GITOPS — </p>
-    <p class="band__row band__row--outline" data-band="1">PLATFORM — SRE — CLOUD — DEVOPS — GITOPS — PLATFORM — SRE — CLOUD — DEVOPS — GITOPS — PLATFORM — SRE — CLOUD — DEVOPS — GITOPS — PLATFORM — SRE — CLOUD — DEVOPS — GITOPS — </p>
+    <p class="band__row" data-band="-1">PLATFORM — SRE — PRODUCT — CLOUD — DEVOPS — GITOPS — PLATFORM — SRE — PRODUCT — CLOUD — DEVOPS — GITOPS — PLATFORM — SRE — PRODUCT — CLOUD — DEVOPS — GITOPS — PLATFORM — SRE — PRODUCT — CLOUD — DEVOPS — GITOPS — </p>
+    <p class="band__row band__row--outline" data-band="1">PLATFORM — SRE — PRODUCT — CLOUD — DEVOPS — GITOPS — PLATFORM — SRE — PRODUCT — CLOUD — DEVOPS — GITOPS — PLATFORM — SRE — PRODUCT — CLOUD — DEVOPS — GITOPS — PLATFORM — SRE — PRODUCT — CLOUD — DEVOPS — GITOPS — </p>
   </div>
 
   <!-- ═══════════ PROJETS : défilement horizontal épinglé ═══════════ -->
@@ -261,6 +262,55 @@ document.body.appendChild(b);document.documentElement.classList.add("booting")})
         </article>
         </div>
         <div class="hscroll__bar" aria-hidden="true"><i></i></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════ PRODUIT : un pipeline, chaque étape prouvée par un projet ═══════════ -->
+  <section class="section" id="produit" aria-labelledby="produit-title">
+    <div class="wrap">
+      <div class="section__head">
+        <div class="reveal">
+          <p class="eyebrow">Product ownership</p>
+          <h2 class="section__title" id="produit-title">The <em>product</em> side.</h2>
+        </div>
+        <p class="section__lede reveal" style="--d:1">Running a platform also means deciding what to build, for whom and at what cost. Five principles — each one held on a real project.</p>
+      </div>
+      <div class="pipeline reveal" data-pipeline data-run="product-pipeline · running" data-done="product-pipeline · passed ✓">
+        <p class="pipeline__head mono"><b aria-hidden="true"></b><span>product-pipeline · running</span></p>
+        <ol class="pipeline__stages" style="--n:5"><li data-stage="0"><i aria-hidden="true"></i><span>discovery</span></li><li data-stage="1"><i aria-hidden="true"></i><span>backlog</span></li><li data-stage="2"><i aria-hidden="true"></i><span>estimate</span></li><li data-stage="3"><i aria-hidden="true"></i><span>adoption</span></li><li data-stage="4"><i aria-hidden="true"></i><span>alignment</span></li></ol>
+      </div>
+      <div class="pm-grid">
+        <article class="pm reveal" data-stage="0" style="--d:0">
+          <p class="pm__stage"><span>01</span> discovery</p>
+          <h3 class="pm__title">When the market won't pay, change the market.</h3>
+          <p class="pm__proof">Co-founded B2B startup: schools wanted the product but couldn't pay for it. We repositioned towards industrial field service — with the hardware BOM, the 5-year financial model and the investor pitch to back it.</p>
+          <a class="pm__link" href="/en/projects/lendr/">View project · Lendr <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        </article>
+        <article class="pm reveal" data-stage="1" style="--d:1">
+          <p class="pm__stage"><span>02</span> backlog</p>
+          <h3 class="pm__title">A backlog is a series of decisions, not a wish list.</h3>
+          <p class="pm__proof">Product Owner of a five-person SRE team: I own the backlog and decide what ships. Even a SPOF found during an audit goes in with its exit options, not as an orphan alert.</p>
+          <a class="pm__link" href="/en/projects/siops/">View project · SIOPS <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        </article>
+        <article class="pm reveal" data-stage="2" style="--d:2">
+          <p class="pm__stage"><span>03</span> estimate</p>
+          <h3 class="pm__title">A number without a confidence level is a promise.</h3>
+          <p class="pm__proof">Instead of a single figure pulled from a spreadsheet, an effort estimate by Monte-Carlo simulation at P80 — a defensible range — plus the risk register that goes with it.</p>
+          <a class="pm__link" href="/en/projects/beblood/">View project · BeBlood <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        </article>
+        <article class="pm reveal" data-stage="3" style="--d:0">
+          <p class="pm__stage"><span>04</span> adoption</p>
+          <h3 class="pm__title">A standard gets adopted when it's the fastest path.</h3>
+          <p class="pm__proof">A shared foundation for 50 participants: API conventions, CI/CD, observability. Same logic on CNP: a team goes from empty repo to first deployment without writing a line of pipeline.</p>
+          <a class="pm__link" href="/en/projects/ubsi/">View project · UBSI <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        </article>
+        <article class="pm reveal" data-stage="4" style="--d:1">
+          <p class="pm__stage"><span>05</span> alignment</p>
+          <h3 class="pm__title">A product is defended in front of the people paying for it.</h3>
+          <p class="pm__proof">Four customers hosted on SIOPS, a SAP S/4HANA target architecture defended before a panel: turning a technical choice into cost, risk and lead time for business stakeholders.</p>
+          <a class="pm__link" href="/en/projects/danone/">View project · Danone <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        </article>
       </div>
     </div>
   </section>

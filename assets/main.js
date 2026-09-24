@@ -573,6 +573,46 @@
     $$(".reveal, .meter").forEach(function (el) { el.classList.add("in"); });
   }
 
+  /* ================================================================ produit : pipeline validé étape par étape
+     Chaque tuile qui entre à l'écran valide son étape ; toutes validées → pipeline vert. */
+
+  var pipe = $("[data-pipeline]");
+  if (pipe) {
+    var stages = $$(".pipeline__stages li", pipe);
+    var rail = $(".pipeline__stages", pipe);
+    var label = $(".pipeline__head span", pipe);
+    var passed = -1;
+    var validate = function (k) {
+      if (k <= passed) return;
+      passed = k;
+      stages.forEach(function (li, i) { li.classList.toggle("lit", i <= k); });
+      rail.style.setProperty("--fill", stages.length > 1 ? (k / (stages.length - 1)).toFixed(3) : 1);
+      if (k >= stages.length - 1) {
+        pipe.classList.add("done");
+        label.textContent = pipe.getAttribute("data-done");
+      }
+    };
+    var tiles = $$(".pm[data-stage]");
+    if (reduced || !("IntersectionObserver" in window)) validate(stages.length - 1);
+    else {
+      var pmObs = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (!e.isIntersecting) return;
+          validate(parseInt(e.target.getAttribute("data-stage"), 10));
+          pmObs.unobserve(e.target);
+        });
+      }, { threshold: .6 });
+      tiles.forEach(function (el) { pmObs.observe(el); });
+    }
+    tiles.forEach(function (el) {
+      el.addEventListener("pointermove", function (e) {
+        var r = el.getBoundingClientRect();
+        el.style.setProperty("--mx", (e.clientX - r.left) + "px");
+        el.style.setProperty("--my", (e.clientY - r.top) + "px");
+      });
+    });
+  }
+
   /* ================================================================ cartes : halo sous le pointeur */
 
   var tilt = finePointer && !reduced;
@@ -657,8 +697,16 @@
       gradient: "uniform sampler2D uPressure,uVelocity;" +
         "void main(){vec2 v=texture2D(uVelocity,vUv).xy-vec2(texture2D(uPressure,vR).x-texture2D(uPressure,vL).x,texture2D(uPressure,vT).x-texture2D(uPressure,vB).x);gl_FragColor=vec4(v,0.,1.);}",
       clear: "uniform sampler2D uTexture;uniform float value;void main(){gl_FragColor=value*texture2D(uTexture,vUv);}",
+      // relief : normale tirée du gradient d'encre, éclairage diffus + reflet spéculaire,
+      // puis courbe de tons contrastée (les creux restent noirs, les crêtes brillent)
       display: "uniform sampler2D uTexture;" +
-        "void main(){vec3 c=texture2D(uTexture,vUv).rgb;c=c/(1.+c);float a=clamp(max(c.r,max(c.g,c.b))*1.4,0.,1.);gl_FragColor=vec4(c*1.2,a);}"
+        "void main(){vec3 c=texture2D(uTexture,vUv).rgb;" +
+        "float dx=length(texture2D(uTexture,vR).rgb)-length(texture2D(uTexture,vL).rgb);" +
+        "float dy=length(texture2D(uTexture,vT).rgb)-length(texture2D(uTexture,vB).rgb);" +
+        "vec3 n=normalize(vec3(dx,dy,.045));vec3 l=normalize(vec3(-.45,.55,1.));" +
+        "float dif=clamp(dot(n,l)+.25,.35,1.25);float sp=pow(max(dot(reflect(-l,n),vec3(0.,0.,1.)),0.),28.);" +
+        "c=c/(1.+c);c=pow(c,vec3(.8))*1.45*dif+sp*.55*vec3(.8,1.,1.);" +
+        "float m=max(c.r,max(c.g,c.b));float a=smoothstep(.02,.38,m);gl_FragColor=vec4(min(c,vec3(a)),a);}"
     };
 
     var compile = function (type, src) {
@@ -790,10 +838,10 @@
 
       use(P.advect, dye.write.w, dye.write.h);
       gl.uniform1i(u.uVelocity, vel.read.attach(0)); gl.uniform1i(u.uSource, dye.read.attach(1));
-      gl.uniform1f(u.dissipation, .9);
+      gl.uniform1f(u.dissipation, 1.1);
       blit(dye.write); dye.swap();
 
-      u = use(P.display, cv.width, cv.height);
+      u = use(P.display, dye.read.w, dye.read.h);
       gl.uniform1i(u.uTexture, dye.read.attach(0));
       blit(null);
     };
@@ -811,7 +859,7 @@
       if (t - lastAmbient > 2200) {
         lastAmbient = t;
         var a = rand(0, Math.PI * 2);
-        splat(rand(.15, .85), rand(.15, .85), Math.cos(a) * 260, Math.sin(a) * 260, tint(.25), .004);
+        splat(rand(.15, .85), rand(.15, .85), Math.cos(a) * 300, Math.sin(a) * 300, tint(.4), .004);
       }
       step(dt);
       requestAnimationFrame(loop);
@@ -823,7 +871,7 @@
         var x = (e.clientX - r.left) / r.width, y = 1 - (e.clientY - r.top) / r.height;
         if (px >= 0) {
           var dx = (x - px) * 6000, dy = (y - py) * 6000;
-          if (dx * dx + dy * dy > 1) splat(x, y, dx, dy, tint(.35));
+          if (dx * dx + dy * dy > 1) splat(x, y, dx, dy, tint(.6));
         }
         px = x; py = y;
       });
@@ -851,7 +899,7 @@
         var n = 7, o = rand(0, Math.PI * 2);
         for (var i = 0; i < n; i++) {
           var a = o + i / n * Math.PI * 2;
-          splat(.5 + Math.cos(a) * .03, .5 + Math.sin(a) * .05, Math.cos(a) * 1400, Math.sin(a) * 1400, tint(.6), .003);
+          splat(.5 + Math.cos(a) * .03, .5 + Math.sin(a) * .05, Math.cos(a) * 1600, Math.sin(a) * 1600, tint(1), .003);
         }
       }
     };
@@ -1118,7 +1166,7 @@
     rm: '<span class="r">rm: refusing to remove "/"</span> — I write post-mortems, not incidents.',
     incidents: ["INC-01 SEV1  etcd OOM-killed → control plane deadlock at restart", "INC-02 SEV1  3 weeks without backups while jobs were green (486 → 48 GiB)", "INC-03 SEV2  Vault auto-unseal depends on a single-replica Vault (SPOF)"],
     contact: "email     tom.giles@epita.fr\nphone     +33 6 95 10 40 56\nlinkedin  <a href=\"https://www.linkedin.com/in/giles-tom/\" target=\"_blank\" rel=\"noopener\">in/giles-tom</a>\nplace     Paris / Vosges — mobile",
-    themeSet: "dark. always dark.", sections: "projects  incidents  parcours  stack  contact", secMap: { projects: "projets", timeline: "parcours", career: "parcours" }
+    themeSet: "dark. always dark.", sections: "projects  product  incidents  parcours  stack  contact", secMap: { projects: "projets", product: "produit", timeline: "parcours", career: "parcours" }
   } : {
     welcome: 'Bienvenue sur <span class="b">tom@giles</span> — shell interactif.\nTapez <span class="c">help</span> pour la liste des commandes. <span class="g">Tab complète, ↑/↓ historique, Échap ferme.</span>',
     help: [["whoami", "qui suis-je"], ["projects", "liste des projets"], ["open &lt;slug&gt;", "ouvre la page d'un projet"],
@@ -1132,7 +1180,7 @@
     rm: '<span class="r">rm : suppression de « / » refusée</span> — j\'écris des post-mortems, pas des incidents.',
     incidents: ["INC-01 SEV1  etcd tué par l'OOM killer → interblocage du control plane", "INC-02 SEV1  3 semaines sans sauvegarde, jobs verts (486 → 48 GiB)", "INC-03 SEV2  auto-unseal Vault dépendant d'un Vault en réplique unique (SPOF)"],
     contact: "mail      tom.giles@epita.fr\ntél.      06 95 10 40 56\nlinkedin  <a href=\"https://www.linkedin.com/in/giles-tom/\" target=\"_blank\" rel=\"noopener\">in/giles-tom</a>\nlieu      Paris / Vosges — mobile",
-    themeSet: "sombre. toujours sombre.", sections: "projets  incidents  parcours  stack  contact", secMap: { projects: "projets", timeline: "parcours", career: "parcours" }
+    themeSet: "sombre. toujours sombre.", sections: "projets  produit  incidents  parcours  stack  contact", secMap: { projects: "projets", product: "produit", timeline: "parcours", career: "parcours" }
   };
 
   var COMMANDS = ["help", "whoami", "about", "projects", "ls", "open", "cat", "incidents", "stack", "kubectl", "contact", "email", "cv",
@@ -1212,7 +1260,7 @@
       case "cd":
         var sec = S.secMap[arg] || arg.replace(/\/$/, "");
         var el = sec && $("#" + sec);
-        if (!el || !/^(projets|incidents|parcours|stack|contact|manifeste)$/.test(sec)) { print(S.usage + ": cd " + S.sections.split("  ").join(" | ")); break; }
+        if (!el || !/^(projets|produit|incidents|parcours|stack|contact|manifeste)$/.test(sec)) { print(S.usage + ": cd " + S.sections.split("  ").join(" | ")); break; }
         close(); el.scrollIntoView({ behavior: reduced ? "auto" : "smooth" });
         break;
       case "neofetch":
@@ -1288,7 +1336,7 @@
       var pool, cur;
       if (parts.length <= 1) { pool = COMMANDS; cur = parts[0]; }
       else if (/^(open|cat)$/.test(parts[0])) { pool = projects().map(function (p) { return p.slug; }); cur = parts[1]; }
-      else if (parts[0] === "cd") { pool = ["projets", "incidents", "parcours", "stack", "contact"]; cur = parts[1]; }
+      else if (parts[0] === "cd") { pool = ["projets", "produit", "incidents", "parcours", "stack", "contact"]; cur = parts[1]; }
       else if (parts[0] === "kubectl") { pool = ["get nodes", "get pods"]; cur = parts.slice(1).join(" "); parts = [parts[0], cur]; }
       else return;
       var m = pool.filter(function (x) { return x.indexOf(cur) === 0; });

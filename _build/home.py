@@ -126,10 +126,10 @@ T["fr"] = {
     "ld": "Product Owner de l'équipe SRE SIOPS, opérant un cluster RKE2 de production sur OpenStack. Recherche un stage de pré-embauche de 6 mois à partir de février 2027.",
     "school": "EPITA — majeure SIGL",
     "skip": "Aller au contenu", "home_aria": "Tom Giles — accueil",
-    "nav": [("projets", "Projets"), ("incidents", "Incidents"), ("parcours", "Parcours"), ("stack", "Stack"), ("contact", "Contact")],
+    "nav": [("projets", "Projets"), ("produit", "Produit"), ("incidents", "Incidents"), ("parcours", "Parcours"), ("stack", "Stack"), ("contact", "Contact")],
     "boot": ["[ ok ] etcd quorum 3/3", "[ ok ] kube-apiserver ready", "[ ok ] argocd sync 60/60", "[ ok ] tom.giles.fr — online"],
     "status": "Disponible · stage 6 mois dès fév. 2027",
-    "roles": "Platform Engineer|Site Reliability Engineer|Product Owner SRE|Cloud &amp; DevOps",
+    "roles": "Platform Engineer|Site Reliability Engineer|Product Owner SRE|Product Manager technique|Cloud &amp; DevOps",
     "hero_sub": "Platform · Cloud · SRE",
     "cta1": "Voir les projets", "cta2": "Télécharger le CV",
     "scroll": "Défiler",
@@ -141,7 +141,7 @@ T["fr"] = {
         ("4", "", "clients", "hébergés en production et en staging."),
         ("90", "%", "de stockage en moins", "486 → 48 GiB de sauvegardes après un post-mortem."),
     ],
-    "band": "PLATFORM — SRE — CLOUD — DEVOPS — GITOPS — ",
+    "band": "PLATFORM — SRE — PRODUCT — CLOUD — DEVOPS — GITOPS — ",
     "proj_eyebrow": "Projets sélectionnés", "proj_title": "Ce que j'ai <em>construit</em>.",
     "proj_lede": "De l'infrastructure à la production, du code au conseil. Faites défiler — chaque projet a sa page.",
     "filter_aria": "Filtrer les projets", "all": "Tous",
@@ -150,6 +150,27 @@ T["fr"] = {
     "meter_aria": "Mémoire : 3 à 4 Go avant, 100 à 200 Mo après",
     "meter": [("avant", "3–4 Go"), ("après", "100–200 Mo")],
     "see": "Voir le projet",
+    "pm_eyebrow": "Product ownership", "pm_title": "Côté <em>produit</em>.",
+    "pm_lede": "Opérer une plateforme, c'est aussi décider quoi construire, pour qui et à quel prix. Cinq principes — chacun tenu sur un projet réel.",
+    "pm_run": "product-pipeline · en cours", "pm_done": "product-pipeline · validé ✓",
+    "pm_see": "Voir le projet",
+    "pm": [
+        ("discovery", "lendr", "Lendr",
+         "Quand le marché ne paie pas, on change de marché.",
+         "Startup B2B cofondée : le marché scolaire voulait le produit mais ne pouvait pas le payer. Repositionnement vers le field service industriel — avec le BOM hardware, le modèle financier à 5 ans et le pitch investisseurs pour le défendre."),
+        ("backlog", "siops", "SIOPS",
+         "Le backlog est une suite de décisions, pas une liste de souhaits.",
+         "Product Owner d'une équipe SRE de cinq : je tiens le backlog et j'arbitre ce qui passe. Même un SPOF découvert en audit y entre avec ses options de sortie, pas comme une alerte orpheline."),
+        ("chiffrage", "beblood", "BeBlood",
+         "Un chiffre sans niveau de confiance est une promesse.",
+         "Plutôt qu'un chiffre unique sorti d'un tableur, une estimation de charge par simulation Monte-Carlo au P80 — une fourchette défendable — et le registre des risques qui va avec."),
+        ("adoption", "ubsi", "UBSI",
+         "Un standard s'adopte quand c'est le chemin le plus rapide.",
+         "Socle commun pour 50 participants : conventions d'API, CI/CD, observabilité. Même logique sur CNP : une équipe passe du dépôt vide au premier déploiement sans écrire une ligne de pipeline."),
+        ("alignement", "danone", "Danone",
+         "Le produit se défend devant ceux qui le paient.",
+         "Quatre clients hébergés sur SIOPS, une architecture cible SAP S/4HANA défendue devant un jury : traduire un choix technique en coût, en risque et en délai pour des interlocuteurs métier."),
+    ],
     "inc_eyebrow": "Post-mortems", "inc_title": "Quand ça <em>casse</em> pour de vrai.",
     "inc_lede": "Trois incidents vécus sur le cluster SIOPS. Symptôme, diagnostic, correctif, leçon — sans filtre.",
     "inc_keys": ["Symptôme", "Diagnostic", "Correctif", "Leçon"],
@@ -200,10 +221,10 @@ T["en"] = {
     "ld": "Product Owner of the SIOPS SRE team, running a production RKE2 cluster on OpenStack. Looking for a 6-month pre-hire internship from February 2027.",
     "school": "EPITA — SIGL major",
     "skip": "Skip to content", "home_aria": "Tom Giles — home",
-    "nav": [("projets", "Projects"), ("incidents", "Incidents"), ("parcours", "Career"), ("stack", "Stack"), ("contact", "Contact")],
+    "nav": [("projets", "Projects"), ("produit", "Product"), ("incidents", "Incidents"), ("parcours", "Career"), ("stack", "Stack"), ("contact", "Contact")],
     "boot": ["[ ok ] etcd quorum 3/3", "[ ok ] kube-apiserver ready", "[ ok ] argocd sync 60/60", "[ ok ] tom.giles.fr — online"],
     "status": "Available · 6-month internship, Feb 2027",
-    "roles": "Platform Engineer|Site Reliability Engineer|Product Owner SRE|Cloud &amp; DevOps",
+    "roles": "Platform Engineer|Site Reliability Engineer|Product Owner SRE|Technical Product Manager|Cloud &amp; DevOps",
     "hero_sub": "Platform · Cloud · SRE",
     "cta1": "See the projects", "cta2": "Download CV",
     "scroll": "Scroll",
@@ -215,7 +236,7 @@ T["en"] = {
         ("4", "", "customers", "hosted in production and staging."),
         ("90", "%", "less storage", "486 → 48 GiB of backups after one post-mortem."),
     ],
-    "band": "PLATFORM — SRE — CLOUD — DEVOPS — GITOPS — ",
+    "band": "PLATFORM — SRE — PRODUCT — CLOUD — DEVOPS — GITOPS — ",
     "proj_eyebrow": "Selected work", "proj_title": "What I've <em>built</em>.",
     "proj_lede": "From infrastructure to production, from code to consulting. Keep scrolling — each project has its own page.",
     "filter_aria": "Filter projects", "all": "All",
@@ -224,6 +245,27 @@ T["en"] = {
     "meter_aria": "Memory: 3 to 4 GB before, 100 to 200 MB after",
     "meter": [("before", "3–4 GB"), ("after", "100–200 MB")],
     "see": "View project",
+    "pm_eyebrow": "Product ownership", "pm_title": "The <em>product</em> side.",
+    "pm_lede": "Running a platform also means deciding what to build, for whom and at what cost. Five principles — each one held on a real project.",
+    "pm_run": "product-pipeline · running", "pm_done": "product-pipeline · passed ✓",
+    "pm_see": "View project",
+    "pm": [
+        ("discovery", "lendr", "Lendr",
+         "When the market won't pay, change the market.",
+         "Co-founded B2B startup: schools wanted the product but couldn't pay for it. We repositioned towards industrial field service — with the hardware BOM, the 5-year financial model and the investor pitch to back it."),
+        ("backlog", "siops", "SIOPS",
+         "A backlog is a series of decisions, not a wish list.",
+         "Product Owner of a five-person SRE team: I own the backlog and decide what ships. Even a SPOF found during an audit goes in with its exit options, not as an orphan alert."),
+        ("estimate", "beblood", "BeBlood",
+         "A number without a confidence level is a promise.",
+         "Instead of a single figure pulled from a spreadsheet, an effort estimate by Monte-Carlo simulation at P80 — a defensible range — plus the risk register that goes with it."),
+        ("adoption", "ubsi", "UBSI",
+         "A standard gets adopted when it's the fastest path.",
+         "A shared foundation for 50 participants: API conventions, CI/CD, observability. Same logic on CNP: a team goes from empty repo to first deployment without writing a line of pipeline."),
+        ("alignment", "danone", "Danone",
+         "A product is defended in front of the people paying for it.",
+         "Four customers hosted on SIOPS, a SAP S/4HANA target architecture defended before a panel: turning a technical choice into cost, risk and lead time for business stakeholders."),
+    ],
     "inc_eyebrow": "Post-mortems", "inc_title": "When it <em>breaks</em> for real.",
     "inc_lede": "Three incidents on the SIOPS cluster. Symptom, diagnosis, fix, lesson — unfiltered.",
     "inc_keys": ["Symptom", "Diagnosis", "Fix", "Lesson"],
@@ -506,6 +548,39 @@ def projects(t, lang):
 """
 
 
+def product(t):
+    stages = "".join(
+        f'<li data-stage="{i}"><i aria-hidden="true"></i><span>{esc(st)}</span></li>'
+        for i, (st, _, _, _, _) in enumerate(t["pm"]))
+    tiles = "\n".join(f"""        <article class="pm reveal" data-stage="{i}" style="--d:{i % 3}">
+          <p class="pm__stage"><span>{i + 1:02d}</span> {esc(st)}</p>
+          <h3 class="pm__title">{title}</h3>
+          <p class="pm__proof">{proof}</p>
+          <a class="pm__link" href="{t['proj']}{slug}/">{t['pm_see']} · {esc(name)} {ARROW}</a>
+        </article>""" for i, (st, slug, name, title, proof) in enumerate(t["pm"]))
+    return f"""
+  <!-- ═══════════ PRODUIT : un pipeline, chaque étape prouvée par un projet ═══════════ -->
+  <section class="section" id="produit" aria-labelledby="produit-title">
+    <div class="wrap">
+      <div class="section__head">
+        <div class="reveal">
+          <p class="eyebrow">{t['pm_eyebrow']}</p>
+          <h2 class="section__title" id="produit-title">{t['pm_title']}</h2>
+        </div>
+        <p class="section__lede reveal" style="--d:1">{t['pm_lede']}</p>
+      </div>
+      <div class="pipeline reveal" data-pipeline data-run="{attr(t['pm_run'])}" data-done="{attr(t['pm_done'])}">
+        <p class="pipeline__head mono"><b aria-hidden="true"></b><span>{t['pm_run']}</span></p>
+        <ol class="pipeline__stages" style="--n:{len(t['pm'])}">{stages}</ol>
+      </div>
+      <div class="pm-grid">
+{tiles}
+      </div>
+    </div>
+  </section>
+"""
+
+
 def incidents(t):
     items = []
     for i, (iid, sev, title, area, body) in enumerate(t["incidents"]):
@@ -649,4 +724,4 @@ def footer(t):
 def render(lang):
     t = T[lang]
     return (head(t) + topbar(t) + hero(t) + statement(t) + numbers(t) + projects(t, lang)
-            + incidents(t) + career(t) + stack(t, lang) + contact(t) + footer(t))
+            + product(t) + incidents(t) + career(t) + stack(t, lang) + contact(t) + footer(t))
