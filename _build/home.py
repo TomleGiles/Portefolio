@@ -550,9 +550,9 @@ def projects(t, lang):
 
 def product(t):
     stages = "".join(
-        f'<li data-stage="{i}"><i aria-hidden="true"></i><span>{esc(st)}</span></li>'
+        f'<li data-stage="{i}"><a href="#pm-{i + 1}"><i aria-hidden="true"></i><span>{esc(st)}</span></a></li>'
         for i, (st, _, _, _, _) in enumerate(t["pm"]))
-    tiles = "\n".join(f"""        <article class="pm reveal" data-stage="{i}" style="--d:{i % 3}">
+    tiles = "\n".join(f"""        <article class="pm reveal" id="pm-{i + 1}" data-stage="{i}" style="--d:{i % 3}">
           <p class="pm__stage"><span>{i + 1:02d}</span> {esc(st)}</p>
           <h3 class="pm__title">{title}</h3>
           <p class="pm__proof">{proof}</p>

@@ -593,6 +593,21 @@
       }
     };
     var tiles = $$(".pm[data-stage]");
+    // étape en cours : la tuile qui traverse le milieu de l'écran
+    if ("IntersectionObserver" in window) {
+      var curObs = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (!e.isIntersecting) return;
+          var k = parseInt(e.target.getAttribute("data-stage"), 10);
+          stages.forEach(function (li, i) { li.classList.toggle("cur", i === k); });
+        });
+      }, { rootMargin: "-45% 0px -45% 0px" });
+      tiles.forEach(function (el) { curObs.observe(el); });
+    }
+    // une étape touchée valide tout ce qui la précède
+    stages.forEach(function (li, i) {
+      $("a", li).addEventListener("click", function () { validate(i); });
+    });
     if (reduced || !("IntersectionObserver" in window)) validate(stages.length - 1);
     else {
       var pmObs = new IntersectionObserver(function (entries) {
@@ -928,6 +943,7 @@
   var tlItems = tl ? $$(".timeline li", tl) : [];
   var hsDist = 0;
   var lastNum = -1;
+  var lastTb = -1;
   var lastY = window.scrollY;
 
   var sectionProgress = function (el) {
@@ -950,6 +966,9 @@
       topbar.classList.toggle("scrolled", y > 20);
       topbar.classList.toggle("hide", y > vh && y > lastY + 2 && !(nav && nav.classList.contains("open")));
       if (y < lastY - 2) topbar.classList.remove("hide");
+      // hauteur visible de la barre : sert aux éléments collants (pipeline produit)
+      var tb = topbar.classList.contains("hide") ? 0 : topbar.offsetHeight;
+      if (tb !== lastTb) { root.style.setProperty("--tb", tb + "px"); lastTb = tb; }
     }
     lastY = y;
     if (progress) {

@@ -24,7 +24,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Geist:wght@400..700&family=Geist+Mono:wght@400;500&display=swap">
-<link rel="stylesheet" href="/assets/style.css">
+<link rel="stylesheet" href="/assets/style.css?v=afc28792a3">
 <script>document.documentElement.classList.remove("no-js");</script>
 <script type="application/ld+json">
 {
@@ -278,34 +278,34 @@ document.body.appendChild(b);document.documentElement.classList.add("booting")})
       </div>
       <div class="pipeline reveal" data-pipeline data-run="product-pipeline · running" data-done="product-pipeline · passed ✓">
         <p class="pipeline__head mono"><b aria-hidden="true"></b><span>product-pipeline · running</span></p>
-        <ol class="pipeline__stages" style="--n:5"><li data-stage="0"><i aria-hidden="true"></i><span>discovery</span></li><li data-stage="1"><i aria-hidden="true"></i><span>backlog</span></li><li data-stage="2"><i aria-hidden="true"></i><span>estimate</span></li><li data-stage="3"><i aria-hidden="true"></i><span>adoption</span></li><li data-stage="4"><i aria-hidden="true"></i><span>alignment</span></li></ol>
+        <ol class="pipeline__stages" style="--n:5"><li data-stage="0"><a href="#pm-1"><i aria-hidden="true"></i><span>discovery</span></a></li><li data-stage="1"><a href="#pm-2"><i aria-hidden="true"></i><span>backlog</span></a></li><li data-stage="2"><a href="#pm-3"><i aria-hidden="true"></i><span>estimate</span></a></li><li data-stage="3"><a href="#pm-4"><i aria-hidden="true"></i><span>adoption</span></a></li><li data-stage="4"><a href="#pm-5"><i aria-hidden="true"></i><span>alignment</span></a></li></ol>
       </div>
       <div class="pm-grid">
-        <article class="pm reveal" data-stage="0" style="--d:0">
+        <article class="pm reveal" id="pm-1" data-stage="0" style="--d:0">
           <p class="pm__stage"><span>01</span> discovery</p>
           <h3 class="pm__title">When the market won't pay, change the market.</h3>
           <p class="pm__proof">Co-founded B2B startup: schools wanted the product but couldn't pay for it. We repositioned towards industrial field service — with the hardware BOM, the 5-year financial model and the investor pitch to back it.</p>
           <a class="pm__link" href="/en/projects/lendr/">View project · Lendr <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
         </article>
-        <article class="pm reveal" data-stage="1" style="--d:1">
+        <article class="pm reveal" id="pm-2" data-stage="1" style="--d:1">
           <p class="pm__stage"><span>02</span> backlog</p>
           <h3 class="pm__title">A backlog is a series of decisions, not a wish list.</h3>
           <p class="pm__proof">Product Owner of a five-person SRE team: I own the backlog and decide what ships. Even a SPOF found during an audit goes in with its exit options, not as an orphan alert.</p>
           <a class="pm__link" href="/en/projects/siops/">View project · SIOPS <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
         </article>
-        <article class="pm reveal" data-stage="2" style="--d:2">
+        <article class="pm reveal" id="pm-3" data-stage="2" style="--d:2">
           <p class="pm__stage"><span>03</span> estimate</p>
           <h3 class="pm__title">A number without a confidence level is a promise.</h3>
           <p class="pm__proof">Instead of a single figure pulled from a spreadsheet, an effort estimate by Monte-Carlo simulation at P80 — a defensible range — plus the risk register that goes with it.</p>
           <a class="pm__link" href="/en/projects/beblood/">View project · BeBlood <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
         </article>
-        <article class="pm reveal" data-stage="3" style="--d:0">
+        <article class="pm reveal" id="pm-4" data-stage="3" style="--d:0">
           <p class="pm__stage"><span>04</span> adoption</p>
           <h3 class="pm__title">A standard gets adopted when it's the fastest path.</h3>
           <p class="pm__proof">A shared foundation for 50 participants: API conventions, CI/CD, observability. Same logic on CNP: a team goes from empty repo to first deployment without writing a line of pipeline.</p>
           <a class="pm__link" href="/en/projects/ubsi/">View project · UBSI <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
         </article>
-        <article class="pm reveal" data-stage="4" style="--d:1">
+        <article class="pm reveal" id="pm-5" data-stage="4" style="--d:1">
           <p class="pm__stage"><span>05</span> alignment</p>
           <h3 class="pm__title">A product is defended in front of the people paying for it.</h3>
           <p class="pm__proof">Four customers hosted on SIOPS, a SAP S/4HANA target architecture defended before a panel: turning a technical choice into cost, risk and lead time for business stakeholders.</p>
@@ -444,6 +444,6 @@ document.body.appendChild(b);document.documentElement.classList.add("booting")})
 
 <div class="toast" role="status" aria-live="polite"></div>
 
-<script src="/assets/main.js" defer></script>
+<script src="/assets/main.js?v=3554dbe696" defer></script>
 </body>
 </html>
