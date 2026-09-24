@@ -517,7 +517,10 @@ em { font-style: normal; }
 .num.on { opacity: 1; transform: none; filter: none; }
 .num.past { transform: scale(1.12) translateY(-40px); }
 .num__value {
-  margin: 0;
+  /* le tracking négatif fait déborder le dernier glyphe hors de la boîte :
+     sans ce padding, background-clip: text le coupe à droite */
+  margin: -.1em 0;
+  padding: .1em .12em;
   font-family: var(--display);
   font-weight: 800;
   font-size: clamp(8rem, 30vw, 24rem);
