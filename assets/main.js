@@ -713,15 +713,15 @@
         "void main(){vec2 v=texture2D(uVelocity,vUv).xy-vec2(texture2D(uPressure,vR).x-texture2D(uPressure,vL).x,texture2D(uPressure,vT).x-texture2D(uPressure,vB).x);gl_FragColor=vec4(v,0.,1.);}",
       clear: "uniform sampler2D uTexture;uniform float value;void main(){gl_FragColor=value*texture2D(uTexture,vUv);}",
       // relief : normale tirée du gradient d'encre, éclairage diffus + reflet spéculaire,
-      // puis courbe de tons contrastée (les creux restent noirs, les crêtes brillent)
+      // puis courbe de tons douce (relief lisible sans creux noirs ni crêtes brûlées)
       display: "uniform sampler2D uTexture;" +
         "void main(){vec3 c=texture2D(uTexture,vUv).rgb;" +
         "float dx=length(texture2D(uTexture,vR).rgb)-length(texture2D(uTexture,vL).rgb);" +
         "float dy=length(texture2D(uTexture,vT).rgb)-length(texture2D(uTexture,vB).rgb);" +
-        "vec3 n=normalize(vec3(dx,dy,.045));vec3 l=normalize(vec3(-.45,.55,1.));" +
-        "float dif=clamp(dot(n,l)+.25,.35,1.25);float sp=pow(max(dot(reflect(-l,n),vec3(0.,0.,1.)),0.),28.);" +
-        "c=c/(1.+c);c=pow(c,vec3(.8))*1.45*dif+sp*.55*vec3(.8,1.,1.);" +
-        "float m=max(c.r,max(c.g,c.b));float a=smoothstep(.02,.38,m);gl_FragColor=vec4(min(c,vec3(a)),a);}"
+        "vec3 n=normalize(vec3(dx,dy,.07));vec3 l=normalize(vec3(-.45,.55,1.));" +
+        "float dif=clamp(dot(n,l)+.4,.65,1.1);float sp=pow(max(dot(reflect(-l,n),vec3(0.,0.,1.)),0.),28.);" +
+        "c=c/(1.+c);c=pow(c,vec3(.9))*1.15*dif+sp*.28*vec3(.8,1.,1.);" +
+        "float m=max(c.r,max(c.g,c.b));float a=smoothstep(0.,.55,m)*.85;gl_FragColor=vec4(min(c,vec3(a)),a);}"
     };
 
     var compile = function (type, src) {
